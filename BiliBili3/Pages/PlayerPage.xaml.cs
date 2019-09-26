@@ -1,17 +1,21 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using BiliBili3.Controls;
+using BiliBili3.Helper;
+using BiliBili3.Modules;
+using Newtonsoft.Json.Linq;
+using NSDanmaku.Helper;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
+using Windows.Graphics.Imaging;
 using Windows.Media;
-using Windows.Media.Playback;
+using Windows.Media.Core;
+using Windows.Media.Editing;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System.Display;
@@ -22,22 +26,10 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
-using Windows.Media.Core;
-using Newtonsoft.Json.Linq;
-using Windows.Media.Editing;
-using BiliBili3.Helper;
-using NSDanmaku.Helper;
-using BiliBili3.Controls;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.Graphics.Imaging;
-using SYEngine;
-using System.Diagnostics;
-using BiliBili3.Modules;
+using Windows.UI.Xaml.Navigation;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
 
@@ -253,7 +245,8 @@ namespace BiliBili3.Pages
         DispatcherTimer timer;
         DispatcherTimer timer_Date;
         List<PlayerModel> playList;
-        List<NSDanmaku.Model.DanmakuModel> DanMuPool = null;
+        IEnumerable<NSDanmaku.Model.DanmakuModel> DanMuData = null;
+        ILookup<int, NSDanmaku.Model.DanmakuModel> DanMuPool = null;
         PlayerModel playNow;
         InteractionVideo interactionVideo;
         NodeInfo nodeInfo;
@@ -262,6 +255,13 @@ namespace BiliBili3.Pages
         bool LoadDanmu = true;
         int LastPost = 0;
         bool settingFlag = true;
+
+        private void SetDanMuPoll(IEnumerable<NSDanmaku.Model.DanmakuModel> source)
+        {
+            DanMuData = source;
+            DanMuPool = source.ToLookup(model => (int)model.time);
+        }
+
         public async void LoadPlayer(List<PlayerModel> par, int index)
         {
 
@@ -382,7 +382,7 @@ namespace BiliBili3.Pages
                 GC.Collect();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -597,7 +597,6 @@ namespace BiliBili3.Pages
         string DMZZBDS = "";
         bool hidePointerFlag = false;
         int DanmuNum = 0;
-        int i = 0;
         bool mergeDanmu = false;
         List<string> sended = new List<string>();
         private void Timer_Date_Tick(object sender, object e)
@@ -618,7 +617,7 @@ namespace BiliBili3.Pages
                     {
                         int now_num = 0;
 
-                        var pool = DanMuPool.Where(x => Convert.ToInt32(x.time) == Convert.ToInt32(mediaElement.Position.TotalSeconds));
+                        var pool = DanMuPool[Convert.ToInt32(mediaElement.Position.TotalSeconds)];
                         foreach (var item in pool)
                         {
                             if (!DanDis_Dis(item.text))
@@ -676,7 +675,7 @@ namespace BiliBili3.Pages
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -837,7 +836,6 @@ namespace BiliBili3.Pages
 
                 if (!playLocal)
                 {
-
                     cb_Quity.IsEnabled = true;
                     switch (playNow.Mode)
                     {
@@ -847,7 +845,7 @@ namespace BiliBili3.Pages
                             pr.Text = "填充弹幕中...";
                             AddLog("开始填充弹幕...");
 
-                            DanMuPool = await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid));
+                            SetDanMuPoll(await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
 
                             pr.Text = "开始读取视频...";
                             AddLog(string.Format("开始读取视频{0}-{1}-{2}...", "anime", playNow.banId, playNow.Mid));
@@ -878,7 +876,7 @@ namespace BiliBili3.Pages
 
                             pr.Text = "填充弹幕中...";
                             AddLog("开始填充弹幕...");
-                            DanMuPool = await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid));
+                            SetDanMuPoll(await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
                             pr.Text = "加载视频中...";
                             AddLog(string.Format("开始读取视频{0}-{1}-{2}...", "video", playNow.Aid, playNow.Mid));
                             var ss = await PlayurlHelper.GetVideoUrl(playNow.Aid, playNow.Mid, (cb_Quity.SelectedItem as QualityModel).qn);
@@ -905,7 +903,7 @@ namespace BiliBili3.Pages
 
                             pr.Text = "填充弹幕中...";
                             AddLog("开始填充弹幕...");
-                            DanMuPool = await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid));
+                            SetDanMuPoll(await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
                             pr.Text = "加载视频中...";
                             AddLog(string.Format("开始读取视频{0}-{1}...", "sohu", playNow.Mid));
                             mediaElement.Source = new Uri(await PlayurlHelper.GetSoHuPlayInfo(playNow.rich_vid, cb_Quity.SelectedIndex + 1));
@@ -1075,7 +1073,7 @@ namespace BiliBili3.Pages
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Utils.ShowMessageToast("加载字幕失败了");
             }
@@ -1267,7 +1265,7 @@ namespace BiliBili3.Pages
                 {
                     pr.Text = "填充弹幕中...";
                     AddLog("填充弹幕中...");
-                    DanMuPool = await danmakuParse.ParseBiliBili(item);
+                    SetDanMuPoll(await danmakuParse.ParseBiliBili(item));
                 }
 
                 if (item.FileType == ".mp4" || item.FileType == ".flv")
@@ -1942,7 +1940,7 @@ namespace BiliBili3.Pages
             sp_View.IsPaneOpen = true;
             if (playNow != null && DanMuPool != null)
             {
-                txt_Num.Text = DanMuPool.Count.ToString();
+                txt_Num.Text = DanMuData.Count().ToString();
                 txt_sId.Text = playNow.Aid;
                 txt_eId.Text = playNow.Mid;
             }
@@ -2168,7 +2166,7 @@ namespace BiliBili3.Pages
         {
             try
             {
-                DanMuPool = await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid));
+                SetDanMuPoll(await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
                 Utils.ShowMessageToast("已经更新弹幕池", 3000);
             }
             catch (Exception)
@@ -2486,7 +2484,7 @@ namespace BiliBili3.Pages
                 if (file != null)
                 {
                     var ls = await danmakuParse.ParseBiliBili(file);
-                    DanMuPool.AddRange(ls);
+                    SetDanMuPoll(DanMuData.Concat(ls));
                 }
             }
             catch (Exception)
@@ -2509,7 +2507,7 @@ namespace BiliBili3.Pages
 
         private void TantanDialog_ReturnDanmakus(object sender, List<NSDanmaku.Model.DanmakuModel> e)
         {
-            DanMuPool.AddRange(e);
+            SetDanMuPoll(DanMuData.Concat(e));
         }
 
         private void Gridview_node_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -2540,7 +2538,7 @@ namespace BiliBili3.Pages
             playNow.node_id = node_id;
             playNow.VideoTitle = data.title;
             gridview_node.Visibility = Visibility.Collapsed;
-            DanMuPool = await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid));
+            SetDanMuPoll(await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
             danmu.ClearAll();
             ChangeQuality();
         }
