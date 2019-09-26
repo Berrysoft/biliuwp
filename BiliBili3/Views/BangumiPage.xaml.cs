@@ -43,13 +43,13 @@ namespace BiliBili3.Views
                 b_btn_Refresh.Visibility = Visibility.Collapsed;
 
             }
-            if (e.NavigationMode == NavigationMode.New )
+            if (e.NavigationMode == NavigationMode.New)
             {
                 await Task.Delay(200);
-                
+
                 if (ApiHelper.IsLogin())
                 {
-                    
+
                     myban.Visibility = Visibility.Visible;
                     LoadMy();
                 }
@@ -62,10 +62,10 @@ namespace BiliBili3.Views
                 {
                     LoadHome();
                 }
-                
+
             }
             // await Task.Delay(200);
-          
+
 
         }
         private async void LoadMy()
@@ -108,11 +108,11 @@ namespace BiliBili3.Views
             try
             {
                 pr_Load.Visibility = Visibility.Visible;
-                string url = string.Format("https://bangumi.bilibili.com/appindex/follow_index_page?appkey={0}&build=5250000&mobi_app=android&platform=wp&ts={1}000",ApiHelper.AndroidKey.Appkey,ApiHelper.GetTimeSpan);
+                string url = string.Format("https://bangumi.bilibili.com/appindex/follow_index_page?appkey={0}&build=5250000&mobi_app=android&platform=wp&ts={1}000", ApiHelper.AndroidKey.Appkey, ApiHelper.GetTimeSpan);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResultsUTF8Encode(new Uri(url));
                 BangumiHomeModel m = JsonConvert.DeserializeObject<BangumiHomeModel>(results);
-                if (m.code==0)
+                if (m.code == 0)
                 {
                     this.DataContext = m;
                 }
@@ -164,7 +164,7 @@ namespace BiliBili3.Views
             string tag = Regex.Match((e.ClickedItem as BangumiHomeModel).link, @"^http://bangumi.bilibili.com/anime/category/(.*?)$").Groups[1].Value;
             if (tag.Length != 0)
             {
-               // MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(BanInfoPage), (e.ClickedItem as BangumiHomeModel).season_id.ToString());
+                // MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(BanInfoPage), (e.ClickedItem as BangumiHomeModel).season_id.ToString());
                 //NavigatedTo(typeof(BanByTagPage), new string[] { tag, (e.ClickedItem as BanTJModel).title });
                 return;
             }
@@ -178,7 +178,7 @@ namespace BiliBili3.Views
             string aid = Regex.Match((e.ClickedItem as BangumiHomeModel).link, @"^http://www.bilibili.com/video/av(.*?)/$").Groups[1].Value;
             if (aid.Length != 0)
             {
-                MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage),aid);
+                MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), aid);
                 return;
             }
             MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(WebPage), (e.ClickedItem as BangumiHomeModel).link);
@@ -221,20 +221,28 @@ namespace BiliBili3.Views
             }
         }
 
-        private void PullToRefreshBox_RefreshInvoked(DependencyObject sender, object args)
+        private void PullToRefreshBox_RefreshInvoked(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
-            if (ApiHelper.IsLogin())
+            var deferral = args.GetDeferral();
+            try
             {
-                myban.Visibility = Visibility.Visible;
-                LoadMy();
+                if (ApiHelper.IsLogin())
+                {
+                    myban.Visibility = Visibility.Visible;
+                    LoadMy();
+                }
+                else
+                {
+                    myban.Visibility = Visibility.Collapsed;
+                }
+                if (list_ban_jp.ItemsSource == null)
+                {
+                    LoadHome();
+                }
             }
-            else
+            finally
             {
-                myban.Visibility = Visibility.Collapsed;
-            }
-            if (list_ban_jp.ItemsSource == null)
-            {
-                LoadHome();
+                deferral.Complete();
             }
         }
     }

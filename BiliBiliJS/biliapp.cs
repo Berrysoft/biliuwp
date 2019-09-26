@@ -14,37 +14,23 @@ namespace BiliBiliJS
     [AllowForWeb]
     public sealed class biliapp
     {
-        public void Alert(string message)
+        public async void Alert(string message)
         {
             MessageDialog md;
 
             md = new MessageDialog(message);
 
-            md.ShowAsync();
+            await md.ShowAsync();
         }
         public event EventHandler<string> ValidateLoginEvent;
         public void ValidateLogin(string data)
         {
-            if (ValidateLoginEvent != null)
-            {
-                ValidateLoginEvent(this, data);
-            }
-
-
+            ValidateLoginEvent?.Invoke(this, data);
         }
         public event EventHandler<string> CloseBrowserEvent;
         public void CloseBrowser()
         {
-            if (CloseBrowserEvent != null)
-            {
-                CloseBrowserEvent(this,"");
-            }
-
-
+            CloseBrowserEvent?.Invoke(this, "");
         }
-
-       
     }
-
-
 }

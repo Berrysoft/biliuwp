@@ -246,16 +246,7 @@ namespace BiliBili3.Pages
       
         private void AdControl_AdRefreshed(object sender, RoutedEventArgs e)
         {
-            btnCloseAd.Visibility = Visibility.Visible;
-            try
-            {
-                var ADWebView = MyFindListBoxChildOfType<WebView>(adControl);
-                ADWebView.NewWindowRequested += ADWebView_NewWindowRequested;
-            }
-            catch (Exception)
-            {
-            }
-           
+            btnCloseAd.Visibility = Visibility.Visible;           
         }
         bool clickAd = false;
         private void ADWebView_NewWindowRequested(WebView sender, WebViewNewWindowRequestedEventArgs args)

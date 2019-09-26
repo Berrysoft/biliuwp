@@ -89,9 +89,17 @@ namespace BiliBili3.Pages.Music
             MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(WebPage), data.schema);
         }
 
-        private void PullToRefreshBox_RefreshInvoked(DependencyObject sender, object args)
+        private void PullToRefreshBox_RefreshInvoked(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
-            LoadMusicHome();
+            var deferral = args.GetDeferral();
+            try
+            {
+                LoadMusicHome();
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
 
         protected override Size MeasureOverride(Size availableSize)
@@ -203,7 +211,7 @@ namespace BiliBili3.Pages.Music
         }
 
 
-        private async Task<ObservableCollection<MusicHomeSongModel>> RefreshSongs(string data, int time, int pageSize=6)
+        private async Task<ObservableCollection<MusicHomeSongModel>> RefreshSongs(string data, int time, int pageSize = 6)
         {
 
             try
@@ -211,7 +219,7 @@ namespace BiliBili3.Pages.Music
                 pr_load.Visibility = Visibility.Visible;
 
                 var url = "";
-                if (data== "sharkHitSongs")
+                if (data == "sharkHitSongs")
                 {
                     url = string.Format("https://api.bilibili.com/audio/music-service-c/firstpage/{2}?appkey={0}&build=5250000&mobi_app=android&platform=android&size={3}&time={4}&ts={1}", ApiHelper.AndroidKey.Appkey, ApiHelper.GetTimeSpan, data, pageSize, time);
                 }
@@ -265,7 +273,7 @@ namespace BiliBili3.Pages.Music
                 Utils.ShowMessageToast("请先登录");
                 return;
             }
-            MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(MusicCollectMenuPage),1);
+            MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(MusicCollectMenuPage), 1);
         }
         private async void menu_CollectPMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -278,12 +286,12 @@ namespace BiliBili3.Pages.Music
         }
         private async void btn_OpenVideo_Click(object sender, RoutedEventArgs e)
         {
-            if (ApiHelper.regions==null)
+            if (ApiHelper.regions == null)
             {
                 await ApiHelper.SetRegions();
             }
 
-            MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(PartsPage),ApiHelper.regions.Find(x=>x.name.Contains("音乐")));
+            MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(PartsPage), ApiHelper.regions.Find(x => x.name.Contains("音乐")));
 
         }
 
@@ -319,7 +327,7 @@ namespace BiliBili3.Pages.Music
 
         private void HyperlinkButton_Click_1(object sender, RoutedEventArgs e)
         {
-            var item= (sender as HyperlinkButton).DataContext as MusicHomeSongTypeModel;
+            var item = (sender as HyperlinkButton).DataContext as MusicHomeSongTypeModel;
             MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(MusicAllSongPage), item);
         }
     }
@@ -434,8 +442,8 @@ namespace BiliBili3.Pages.Music
             }
         }
 
-   
-        public string collectNumStr 
+
+        public string collectNumStr
         {
             get
             {
@@ -486,7 +494,7 @@ namespace BiliBili3.Pages.Music
 
         public string intro { get; set; }
 
-    
+
         public string uploader_name { get; set; }
 
         public int play_num { get; set; }

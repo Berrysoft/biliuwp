@@ -13,19 +13,13 @@ namespace BiliBiliJS
         public event EventHandler<string> CaptchaEvent;
         public void Captcha()
         {
-            if (CaptchaEvent != null)
-            {
-                CaptchaEvent(this, "");
-            }
+            CaptchaEvent?.Invoke(this, "");
         }
 
         public event EventHandler<string> CloseCaptchaEvent;
         public void CloseCaptcha() 
         {
-            if (CloseCaptchaEvent != null)
-            {
-                CloseCaptchaEvent(this, "");
-            }
+            CloseCaptchaEvent?.Invoke(this, "");
         }
     }
 }

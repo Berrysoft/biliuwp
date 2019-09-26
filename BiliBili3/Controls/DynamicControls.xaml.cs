@@ -99,9 +99,17 @@ namespace BiliBili3.Controls
             }
         }
 
-        private void PullToRefreshBox_RefreshInvoked(DependencyObject sender, object args)
+        private void PullToRefreshBox_RefreshInvoked(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
-            DoRefresh();
+            var deferral = args.GetDeferral();
+            try
+            {
+                DoRefresh();
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
         private void sv_dynamic_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
@@ -198,7 +206,7 @@ namespace BiliBili3.Controls
             if (item.desc.type == 512)
             {
                 var seasonid = 0;
-                if (item.bangumi.apiSeasonInfo==null)
+                if (item.bangumi.apiSeasonInfo == null)
                 {
                     seasonid = item.bangumi.season.season_id;
                 }
@@ -481,7 +489,7 @@ namespace BiliBili3.Views
                 case 512:
                 case 4099:
                     card.bangumi = JsonConvert.DeserializeObject<DynamicBangumiModel>(card.card);
-                   
+
                     return resource["FeedBangumi"] as DataTemplate;
                 case 2048:
                     card.web = JsonConvert.DeserializeObject<DynamicWebModel>(card.card);

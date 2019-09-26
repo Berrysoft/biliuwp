@@ -220,10 +220,17 @@ namespace BiliBili3.Views
             GetLiveInfo();
         }
 
-        private void PullToRefreshBox_RefreshInvoked(DependencyObject sender, object args)
+        private void PullToRefreshBox_RefreshInvoked(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
-            GetLiveInfo();
+            var deferral = args.GetDeferral();
+            try
+            {
+                GetLiveInfo();
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
     }
-
 }

@@ -34,7 +34,7 @@ namespace BiliBili3.Pages.FindMore
         public DynamicTopicPage()
         {
             this.InitializeComponent();
-          
+
             channel = new Channel();
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
@@ -45,7 +45,7 @@ namespace BiliBili3.Pages.FindMore
         }
         string tag = "";
         bool _loadDynamic = false;
-    
+
         int page = 1;
         int channel_id = 0;
         string channel_name;
@@ -53,11 +53,11 @@ namespace BiliBili3.Pages.FindMore
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (e.NavigationMode== NavigationMode.New)
+            if (e.NavigationMode == NavigationMode.New)
             {
                 base.OnNavigatedTo(e);
                 var par = (e.Parameter as object[])[0].ToString();
-                if ((e.Parameter as object[]).Length>=2)
+                if ((e.Parameter as object[]).Length >= 2)
                 {
                     channel_id = (e.Parameter as object[])[1].ToInt32();
                 }
@@ -76,9 +76,9 @@ namespace BiliBili3.Pages.FindMore
                 GetDynamic();
                 pr_Load.Visibility = Visibility.Collapsed;
             }
-         
+
         }
-       
+
         private async void GetDynamic()
         {
             try
@@ -86,14 +86,14 @@ namespace BiliBili3.Pages.FindMore
 
                 pr_Load.Visibility = Visibility.Visible;
                 _loadDynamic = true;
-             
+
                 string url = string.Format("https://api.vc.bilibili.com/topic_svr/v1/topic_svr/topic_new?topic_name={0}&_device=android&access_key={1}&appkey={2}&build=5250000&mobi_app=android&platform=android&qn=32&src=bilih5&ts={3}",
-                tag,ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, ApiHelper.GetTimeSpan_2);
+                tag, ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, ApiHelper.GetTimeSpan_2);
 
                 if (ls_dynamic.Count() != 0)
                 {
                     url = string.Format("https://api.vc.bilibili.com/topic_svr/v1/topic_svr/topic_history?topic_name={0}&offset_dynamic_id={4}&_device=android&access_key={1}&appkey={2}&build=5250000&mobi_app=android&platform=android&qn=32&src=bilih5&ts={3}",
-               tag, ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, ApiHelper.GetTimeSpan_2,ls_dynamic.GetLastDynamicId());
+               tag, ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, ApiHelper.GetTimeSpan_2, ls_dynamic.GetLastDynamicId());
                 }
 
                 url += "&sign=" + ApiHelper.GetSign(url);
@@ -134,7 +134,7 @@ namespace BiliBili3.Pages.FindMore
             {
                 _loadDynamic = false;
                 pr_Load.Visibility = Visibility.Collapsed;
-               
+
             }
 
         }
@@ -144,7 +144,7 @@ namespace BiliBili3.Pages.FindMore
             if (data.success)
             {
                 channel_id = data.data.id;
-                if (data.data.is_atten==1)
+                if (data.data.is_atten == 1)
                 {
                     btn_Follow.Visibility = Visibility.Collapsed;
                     btn_UnFollow.Visibility = Visibility.Visible;
@@ -158,18 +158,18 @@ namespace BiliBili3.Pages.FindMore
 
 
         }
-      
+
         private async void GetFeed()
         {
-            var data = await channel.GetChannelFeeds(channel_id, channel_name,page);
+            var data = await channel.GetChannelFeeds(channel_id, channel_name, page);
             if (data.success)
             {
-                if (data.data.Count==0)
+                if (data.data.Count == 0)
                 {
                     Utils.ShowMessageToast("没有更多了");
                     return;
                 }
-                if (ls_videos.ItemsSource==null)
+                if (ls_videos.ItemsSource == null)
                 {
                     ls_videos.ItemsSource = data.data;
                 }
@@ -191,7 +191,7 @@ namespace BiliBili3.Pages.FindMore
         protected override Size MeasureOverride(Size availableSize)
         {
             int num = 2;
-            if (availableSize.Width>500)
+            if (availableSize.Width > 500)
             {
                 num = (int)availableSize.Width / 160;
             }
@@ -200,10 +200,18 @@ namespace BiliBili3.Pages.FindMore
             return base.MeasureOverride(availableSize);
         }
 
-        private void PullToRefreshBox_RefreshInvoked_1(DependencyObject sender, object args)
+        private void PullToRefreshBox_RefreshInvoked_1(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
-            ls_dynamic.ClearData();
-            GetDynamic();
+            var deferral = args.GetDeferral();
+            try
+            {
+                ls_dynamic.ClearData();
+                GetDynamic();
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
 
         private async void btn_Add_Click(object sender, RoutedEventArgs e)
@@ -214,7 +222,7 @@ namespace BiliBili3.Pages.FindMore
 
         private void ls_videos_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var item= e.ClickedItem as ChannelFeedModel;
+            var item = e.ClickedItem as ChannelFeedModel;
             MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), item.param);
         }
 

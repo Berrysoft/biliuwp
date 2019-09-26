@@ -209,7 +209,7 @@ namespace BiliBili3.Pages
 
         private void btn_NewBan_Click(object sender, RoutedEventArgs e)
         {
-            MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(TimelinePage),3);
+            MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(TimelinePage), 3);
         }
 
         private void btn_10Ban_Click(object sender, RoutedEventArgs e)
@@ -268,10 +268,18 @@ namespace BiliBili3.Pages
             LoadHome();
         }
 
-        private void PullToRefreshBox_RefreshInvoked(DependencyObject sender, object args)
+        private void PullToRefreshBox_RefreshInvoked(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
-            cursor = "-1";
-            LoadHome();
+            var deferral = args.GetDeferral();
+            try
+            {
+                cursor = "-1";
+                LoadHome();
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
     }
 }

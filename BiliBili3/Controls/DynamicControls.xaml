@@ -1001,7 +1001,7 @@
     <Grid>
         <Border Margin="4 0" VerticalAlignment="Top" Width="100" x:Name="bor_width" Height="0"></Border>
         <Border Margin="4 0" VerticalAlignment="Top" Width="100" x:Name="bor_Width1" Height="0"></Border>
-        <pr:PullToRefreshBox RefreshInvoked="PullToRefreshBox_RefreshInvoked">
+        <RefreshContainer RefreshRequested="PullToRefreshBox_RefreshInvoked">
             <ScrollViewer x:Name="sv_dynamic"  VerticalScrollBarVisibility="Auto" ViewChanged="sv_dynamic_ViewChanged" >
                 <StackPanel>
                     <ListView x:Name="list_dynamic" ItemTemplateSelector="{StaticResource ResourceKey=DynamicItemDataTemplateSelector}" ItemClick="list_dynamic_ItemClick"  SelectionMode="None" IsItemClickEnabled="True" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
@@ -1020,7 +1020,7 @@
                 </StackPanel>
              
             </ScrollViewer>
-        </pr:PullToRefreshBox>
+        </RefreshContainer>
     </Grid>
    
 

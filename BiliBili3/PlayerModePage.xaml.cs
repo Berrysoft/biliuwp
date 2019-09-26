@@ -45,29 +45,18 @@ namespace BiliBili3
             DisplayInformation.GetForCurrentView().OrientationChanged += MainPage_OrientationChanged;
         }
 
-        private async void MainPage_OrientationChanged(DisplayInformation sender, object args)
+        private void MainPage_OrientationChanged(DisplayInformation sender, object args)
         {
 
             if (sender.CurrentOrientation == DisplayOrientations.Landscape || sender.CurrentOrientation == DisplayOrientations.LandscapeFlipped || sender.CurrentOrientation == (DisplayOrientations)5)
             {
                 if (SettingHelper.Get_HideStatus())
                 {
-                    if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent(typeof(StatusBar).ToString()))
-                    {
-                        StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
-                        await statusBar.HideAsync();
-                    }
                 }
 
             }
             else
             {
-                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent(typeof(StatusBar).ToString()))
-                {
-                    StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
-                    await statusBar.ShowAsync();
-
-                }
             }
         }
         bool IsClicks = false;
@@ -291,14 +280,6 @@ namespace BiliBili3
         }
         private void ChangeTitbarColor()
         {
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-            {
-                // StatusBar.GetForCurrentView().HideAsync();
-                StatusBar statusBar = StatusBar.GetForCurrentView();
-                statusBar.ForegroundColor = Color.FromArgb(255, 254, 254, 254);
-                statusBar.BackgroundColor = ((SolidColorBrush)btn_OpenFilePlay.Background).Color;
-                statusBar.BackgroundOpacity = 100;
-            }
             var titleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = ((SolidColorBrush)btn_OpenFilePlay.Background).Color;
             titleBar.ForegroundColor = Color.FromArgb(255, 254, 254, 254);//Colors.White纯白用不了。。。

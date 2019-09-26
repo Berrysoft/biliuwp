@@ -71,7 +71,7 @@ namespace BiliBili3.Pages
             {
                 this.Frame.GoBack();
             }
-           
+
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
@@ -101,7 +101,7 @@ namespace BiliBili3.Pages
         string defu_Order = "senddate";
         private async Task LoadPart(Parts parts)
         {
-           
+
             com_bar.Visibility = Visibility.Collapsed;
             List<PartModel> l = new List<PartModel>();
             // defu_Order = "default";
@@ -267,7 +267,7 @@ namespace BiliBili3.Pages
                         {
                             p2.SelectTag = p2.TagsList[0];
                         }
-                        
+
                         PartModel p4 = new PartModel()
                         {
                             fontWeight = FontWeights.Normal,
@@ -303,7 +303,7 @@ namespace BiliBili3.Pages
                         l.Add(p0);
                         l.Add(p1);
                         l.Add(p2);
-                      
+
                         l.Add(p4);
                         l.Add(p5);
                     }
@@ -1258,7 +1258,7 @@ namespace BiliBili3.Pages
                             catch (Exception)
                             {
                             }
-                          
+
 
                         }
                         PartModel p1 = new PartModel()
@@ -1510,7 +1510,7 @@ namespace BiliBili3.Pages
                         {
                             p1.SelectTag = p1.TagsList[0];
                         }
-                      
+
                         l.Add(p0);
                         l.Add(p1);
                     }
@@ -1638,7 +1638,7 @@ namespace BiliBili3.Pages
 
             pivot.ItemsSource = l;
             UpdateBannerState();
-          
+
         }
 
         private async Task LoadPart(RegionModel parts)
@@ -1689,7 +1689,7 @@ namespace BiliBili3.Pages
                     TagsList = await GetTags(item.tid),
                     VideoList = await GetVideos(item.tid, defu_Order, 1, "")
                 };
-                if (p1.TagsList!=null&&p1.TagsList.Count != 0)
+                if (p1.TagsList != null && p1.TagsList.Count != 0)
                 {
                     p1.SelectTag = p1.TagsList[0];
                 }
@@ -1723,15 +1723,15 @@ namespace BiliBili3.Pages
             ObservableCollection<DHModel> list = new ObservableCollection<DHModel>();
             try
             {
-                if (Num!=1)
+                if (Num != 1)
                 {
                     pr_Laod.Visibility = Visibility.Visible;
                 }
-              
+
                 #region
                 string uri = "";
                 uri = string.Format("https://app.bilibili.com/x/v2/region/show/child/list?appkey={0}&build={1}&channel=bili&order={4}&platform=android&pn={2}&ps=20&rid={3}",
-                    ApiHelper.AndroidKey.Appkey,ApiHelper.build, Num, id, orderBy);
+                    ApiHelper.AndroidKey.Appkey, ApiHelper.build, Num, id, orderBy);
                 if (tag.Length != 0 && tag != "全部")
                 {
                     uri += "&tag_name=" + Uri.EscapeDataString(tag);
@@ -1740,7 +1740,7 @@ namespace BiliBili3.Pages
                 #endregion
                 string results = await WebClientClass.GetResults(new Uri(uri));
                 JObject jObject = JObject.Parse(results);
-               
+
 
                 //DHModel model = JsonConvert.DeserializeObject<DHModel>(results);
                 //JObject json = JObject.Parse(model.list.ToString());
@@ -1758,7 +1758,7 @@ namespace BiliBili3.Pages
                         video_review = (string)item["danmaku"],
                     });
                 }
-               
+
                 return list;
             }
             catch (Exception)
@@ -1823,7 +1823,7 @@ namespace BiliBili3.Pages
                 ViewBox_num.Width = ActualWidth / 2 - 18;
                 ViewBox2_num.Width = ActualWidth / 2 - 18;
                 Grid.SetRow(com_bar, 2);
-               
+
                 com_bar.HorizontalAlignment = HorizontalAlignment.Stretch;
                 com_bar.VerticalAlignment = VerticalAlignment.Bottom;
 
@@ -1840,7 +1840,7 @@ namespace BiliBili3.Pages
                 com_bar.VerticalAlignment = VerticalAlignment.Top;
             }
 
-           
+
 
 
             if (pivot.Items.Count == 0)
@@ -1899,7 +1899,7 @@ namespace BiliBili3.Pages
         private async void LZ_List_ItemClick(object sender, ItemClickEventArgs e)
         {
             await MessageCenter.HandelUrl(((DHModel)e.ClickedItem).aid);
-           // MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), ((DHModel)e.ClickedItem).aid);
+            // MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), ((DHModel)e.ClickedItem).aid);
         }
         bool isLoading = false;
         private async void sv_LZ_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
@@ -1927,11 +1927,11 @@ namespace BiliBili3.Pages
         {
 
             (pivot.SelectedItem as PartModel).PageNum = 1;
-            if ((pivot.SelectedItem as PartModel).VideoList!=null)
+            if ((pivot.SelectedItem as PartModel).VideoList != null)
             {
                 (pivot.SelectedItem as PartModel).VideoList.Clear();
             }
-           
+
             var m = pivot.SelectedItem as PartModel;
             m.SelectTag = (sender as GridView).SelectedItem as TagsModel;
             m.VideoList = await GetVideos(m.PartId, m.orderBy.ToString(), m.PageNum, ((sender as GridView).SelectedItem as TagsModel).tag_name);
@@ -1954,7 +1954,7 @@ namespace BiliBili3.Pages
                 com_bar.Visibility = Visibility.Visible;
             }
             btn_Type.IsChecked = false;
-            
+
             foreach (ToggleMenuFlyoutItem item in menu.Items)
             {
                 item.IsChecked = false;
@@ -2082,20 +2082,27 @@ namespace BiliBili3.Pages
             string aid = Regex.Match(m.link, @"^http://www.bilibili.com/video/av(.*?)/$").Groups[1].Value;
             if (aid.Length != 0)
             {
-                MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage),aid);
-               // this.Frame.Navigate(typeof(VideoInfoPage), aid);
+                MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), aid);
+                // this.Frame.Navigate(typeof(VideoInfoPage), aid);
                 return;
             }
             MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(WebPage), m.link);
             //this.Frame.Navigate(typeof(WebViewPage), m.link);
         }
 
-        private async void PullToRefreshBox_RefreshInvoked(DependencyObject sender, object args)
+        private async void PullToRefreshBox_RefreshInvoked(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
-            var m = (pivot.ItemsSource as List<PartModel>)[0];
-            m.Banner = await GetBanner(Part_Id);
-            m.DTs = await GetTuiJianDT(Part_Id);
-
+            var deferral = args.GetDeferral();
+            try
+            {
+                var m = (pivot.ItemsSource as List<PartModel>)[0];
+                m.Banner = await GetBanner(Part_Id);
+                m.DTs = await GetTuiJianDT(Part_Id);
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
 
         private async void btn_Refresh_DT_Click(object sender, RoutedEventArgs e)
@@ -2170,7 +2177,7 @@ namespace BiliBili3.Pages
         public List<DHModel> Banner
         {
             get { return _Banner; }
-            set { _Banner = value;RaisePropertyChanged("Banner"); }
+            set { _Banner = value; RaisePropertyChanged("Banner"); }
         }
         private List<DHModel> _DTs;
         public List<DHModel> DTs
@@ -2232,7 +2239,7 @@ namespace BiliBili3.Pages
                 catch (Exception)
                 {
                 }
-                
+
 
             }
         }

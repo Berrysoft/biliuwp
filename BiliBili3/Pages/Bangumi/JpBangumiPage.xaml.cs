@@ -268,10 +268,18 @@ namespace BiliBili3.Pages
             LoadHome();
         }
 
-        private void PullToRefreshBox_RefreshInvoked(DependencyObject sender, object args)
+        private void PullToRefreshBox_RefreshInvoked(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
-            cursor = "-1";
-            LoadHome();
+            var deferral = args.GetDeferral();
+            try
+            {
+                cursor = "-1";
+                LoadHome();
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
     }
 }

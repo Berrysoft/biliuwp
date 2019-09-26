@@ -124,7 +124,7 @@ namespace BiliBili3
             catch (Exception)
             {
             }
-            
+
         }
 
         private void MessageCenter_NetworkError(object sender, string e)
@@ -236,28 +236,12 @@ namespace BiliBili3
 
 
 
-        private async void MainPage_OrientationChanged(DisplayInformation sender, object args)
+        private void MainPage_OrientationChanged(DisplayInformation sender, object args)
         {
-
             if (sender.CurrentOrientation == DisplayOrientations.Landscape || sender.CurrentOrientation == DisplayOrientations.LandscapeFlipped || sender.CurrentOrientation == (DisplayOrientations)5)
             {
                 if (SettingHelper.Get_HideStatus())
                 {
-                    if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent(typeof(StatusBar).ToString()))
-                    {
-                        StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
-                        await statusBar.HideAsync();
-                    }
-                    bor_Width.Width = (this.ActualWidth / 6) - 2;
-                }
-
-            }
-            else
-            {
-                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent(typeof(StatusBar).ToString()))
-                {
-                    StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
-                    await statusBar.ShowAsync();
                     bor_Width.Width = (this.ActualWidth / 6) - 2;
                 }
             }
@@ -307,7 +291,7 @@ namespace BiliBili3
                 }
             }
         }
-       
+
         DispatcherTimer timer;
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -411,7 +395,7 @@ namespace BiliBili3
                                 IsTextSelectionEnabled = true
                             };
                             contentDialog.Content = textBlock;
-                            contentDialog.ShowAsync();
+                            await contentDialog.ShowAsync();
                         }
                         break;
                     default:
@@ -471,7 +455,7 @@ namespace BiliBili3
 
             //await  new Account().SSO();
 
-            if (SettingHelper.Get_UseDASH()&&SystemHelper.GetSystemBuild()< 17763)
+            if (SettingHelper.Get_UseDASH() && SystemHelper.GetSystemBuild() < 17763)
             {
                 SettingHelper.Set_UseDASH(false);
             }
@@ -791,18 +775,6 @@ namespace BiliBili3
         }
         private void ChangeTitbarColor()
         {
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-            {
-                var applicationView = ApplicationView.GetForCurrentView();
-                applicationView.SetDesiredBoundsMode(ApplicationViewBoundsMode.UseVisible);
-                //StatusBar.GetForCurrentView().HideAsync();
-                StatusBar statusBar = StatusBar.GetForCurrentView();
-
-                statusBar.ForegroundColor = Color.FromArgb(255, 254, 254, 254);
-                statusBar.BackgroundColor = ((SolidColorBrush)grid_Top.Background).Color;
-                statusBar.BackgroundOpacity = 100;
-            }
-
             var titleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = ((SolidColorBrush)grid_Top.Background).Color;
             titleBar.ForegroundColor = Color.FromArgb(255, 254, 254, 254);//Colors.White纯白用不了。。。
@@ -1459,13 +1431,13 @@ namespace BiliBili3
                         {
                             var key = match.Groups[1].Value.Replace("HttpOnly, ", "");
                             var value = match.Groups[2].Value;
-                            if (key != "expires"&&key!= "Max-Age"&&key!= "path" && key != "domain")
+                            if (key != "expires" && key != "Max-Age" && key != "path" && key != "domain")
                             {
-                                stringBuilder.Append(match.Groups[0].Value.Replace("HttpOnly, ",""));
+                                stringBuilder.Append(match.Groups[0].Value.Replace("HttpOnly, ", ""));
                             }
                         }
                     }
-                    
+
                 }
                 catch (Exception ex)
                 {

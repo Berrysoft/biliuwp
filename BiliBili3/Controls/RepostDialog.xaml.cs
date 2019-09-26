@@ -1,8 +1,6 @@
 ﻿using BiliBili3.Views;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RestSharp.Portable;
-using RestSharp.Portable.HttpClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +8,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -135,7 +134,7 @@ namespace BiliBili3.Controls
             repostData.Visibility = Visibility.Collapsed;
             xtitle.Text = "发表动态";
             gv_Pics.ItemsSource = imgs;
-          
+
             GetFaces();
             LoadAtList();
         }
@@ -332,7 +331,7 @@ namespace BiliBili3.Controls
 
         private void txt_searchAt_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (txt_searchAt.Text.Trim()!="")
+            if (txt_searchAt.Text.Trim() != "")
             {
                 SearchAtList(txt_searchAt.Text.Trim());
             }
@@ -380,7 +379,7 @@ namespace BiliBili3.Controls
             var txt = txt_Comment.Text;
             if (atDisplaylist.Count != 0)
             {
-             
+
                 foreach (var item in atDisplaylist)
                 {
                     if (txt.Contains(item.text))
@@ -411,11 +410,11 @@ namespace BiliBili3.Controls
                 url = string.Format(url, ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, ApiHelper.GetTimeSpan_2);
                 url += "&sign" + ApiHelper.GetSign(url);
                 string content = "uid={0}&dynamic_id={1}&content={2}&at_uids={3}&ctrl={4}";
-                content = string.Format(content,ApiHelper.GetUserId(),_dynamicCardsModel.desc.dynamic_id,Uri.EscapeDataString(txt),at_uids, Uri.EscapeDataString( ctrl));
-               
+                content = string.Format(content, ApiHelper.GetUserId(), _dynamicCardsModel.desc.dynamic_id, Uri.EscapeDataString(txt), at_uids, Uri.EscapeDataString(ctrl));
+
                 var re = await WebClientClass.PostResultsUtf8(new Uri(url), content);
                 Newtonsoft.Json.Linq.JObject obj = JObject.Parse(re);
-                if (obj["code"].ToInt32()==0)
+                if (obj["code"].ToInt32() == 0)
                 {
                     _dynamicCardsModel.desc.repost += 1;
                     Utils.ShowMessageToast("转发成功");
@@ -423,7 +422,7 @@ namespace BiliBili3.Controls
                 }
                 else
                 {
-                    Utils.ShowMessageToast("转发失败"+obj["message"].ToString());
+                    Utils.ShowMessageToast("转发失败" + obj["message"].ToString());
                 }
             }
             catch (Exception)
@@ -435,7 +434,7 @@ namespace BiliBili3.Controls
 
         private async void SendDynamic()
         {
-            if (txt_Comment.Text.Trim().Length==0)
+            if (txt_Comment.Text.Trim().Length == 0)
             {
                 Utils.ShowMessageToast("不能发送空白动态");
             }
@@ -470,26 +469,27 @@ namespace BiliBili3.Controls
             List<SendImagesModel> send_pics = new List<SendImagesModel>();
             foreach (var item in imgs)
             {
-                send_pics.Add(new SendImagesModel() {
-                     img_height=item.image_height,
-                     img_size=item.image_size,
-                     img_src=item.image_url,
-                     img_width=item.image_width
+                send_pics.Add(new SendImagesModel()
+                {
+                    img_height = item.image_height,
+                    img_size = item.image_size,
+                    img_src = item.image_url,
+                    img_width = item.image_width
                 });
             }
             var imgStr = JsonConvert.SerializeObject(send_pics);
-            string setting= "{\"copy_forbidden\":0}";
+            string setting = "{\"copy_forbidden\":0}";
 
             try
             {
-                string url =string.Format( "http://api.vc.bilibili.com/link_draw/v1/doc/create?access_key={0}&appkey={1}&build=5250000&platform=android&src=bilih5&ts={2}",ApiHelper.access_key,ApiHelper.AndroidKey.Appkey,ApiHelper.GetTimeSpan_2);
+                string url = string.Format("http://api.vc.bilibili.com/link_draw/v1/doc/create?access_key={0}&appkey={1}&build=5250000&platform=android&src=bilih5&ts={2}", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, ApiHelper.GetTimeSpan_2);
                 url += "&sign" + ApiHelper.GetSign(url);
                 string content = "category=3&pictures={0}&description={1}&setting={2}&at_uids={3}&at_control={4}&jumpfrom=110";
 
-                content = string.Format(content,Uri.EscapeDataString(imgStr),Uri.EscapeDataString(txt), Uri.EscapeDataString(setting), at_uids, Uri.EscapeDataString(ctrl));
-             
+                content = string.Format(content, Uri.EscapeDataString(imgStr), Uri.EscapeDataString(txt), Uri.EscapeDataString(setting), at_uids, Uri.EscapeDataString(ctrl));
+
                 var re = await WebClientClass.PostResultsUtf8(new Uri(url), content);
-                Newtonsoft.Json.Linq.JObject obj = JObject.Parse(re);
+                JObject obj = JObject.Parse(re);
                 if (obj["code"].ToInt32() == 0)
                 {
                     SendState = true;
@@ -522,20 +522,20 @@ namespace BiliBili3.Controls
 
         private async void btn_Image_Click(object sender, RoutedEventArgs e)
         {
-            if (imgs.Count==9)
+            if (imgs.Count == 9)
             {
                 Utils.ShowMessageToast("只能上传9张图片哦");
                 return;
             }
             var picker = new FileOpenPicker();
-            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
-            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            picker.ViewMode = PickerViewMode.Thumbnail;
             picker.FileTypeFilter.Add(".jpg");
             picker.FileTypeFilter.Add(".jpeg");
             picker.FileTypeFilter.Add(".png");
             picker.FileTypeFilter.Add(".bmp");
-            Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
-            if (file!=null)
+            StorageFile file = await picker.PickSingleFileAsync();
+            if (file != null)
             {
                 UploadImage(file);
             }
@@ -547,22 +547,17 @@ namespace BiliBili3.Controls
         {
             try
             {
-               
-
-
-
                 pr_Upload.Visibility = Visibility.Visible;
-                   var url = "http://api.vc.bilibili.com/api/v1/image/upload?access_key={0}&appkey={1}&build=5250000&platform=android&src=bilih5&ts={2}";
+                var url = "http://api.vc.bilibili.com/api/v1/image/upload?access_key={0}&appkey={1}&build=5250000&platform=android&src=bilih5&ts={2}";
                 url = string.Format(url, ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, ApiHelper.GetTimeSpan_2);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read);
-                var bytes = new byte[fileStream.Size];
-                await fileStream.ReadAsync(bytes.AsBuffer(), (uint)fileStream.Size, Windows.Storage.Streams.InputStreamOptions.None);
-                var client = new RestClient(url);
-                var request = new RestRequest(Method.POST);
-                request.AddFile("file_up", bytes, file.Name);
-                IRestResponse response = await client.Execute(request);
-                var content = response.Content;
+                var client = new HttpClient();
+                var streamContent = new StreamContent(fileStream.AsStream());
+                streamContent.Headers.ContentDisposition.Name = "file_up";
+                streamContent.Headers.ContentDisposition.FileName = file.Name;
+                var response = await client.PostAsync(url, streamContent);
+                var content = await response.Content.ReadAsStringAsync();
                 UploadImagesModel uploadImagesModel = JsonConvert.DeserializeObject<UploadImagesModel>(content);
                 if (uploadImagesModel.code == 0)
                 {
@@ -594,7 +589,7 @@ namespace BiliBili3.Controls
             }
         }
 
-     
+
 
 
 
@@ -630,9 +625,13 @@ namespace BiliBili3.Controls
 
         public double image_size { get; set; }
 
-        public string image {get{
+        public string image
+        {
+            get
+            {
                 return image_url + "@120w_120h_1e_1c.jpg";
-            } }
+            }
+        }
         public int image_width { get; set; }
 
     }
