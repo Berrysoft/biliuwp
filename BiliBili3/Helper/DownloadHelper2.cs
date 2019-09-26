@@ -96,7 +96,7 @@ namespace BiliBili3.Helper
             //    downloader.SetRequestHeader("Referer", "https://www.bilibili.com/");
             //}
             //设置下载模式
-            if (SettingHelper.Get_DownMode() == 0)
+            if (SettingHelper.DownMode == 0)
             {
                 group.TransferBehavior = BackgroundTransferBehavior.Serialized;
             }
@@ -115,7 +115,7 @@ namespace BiliBili3.Helper
 
             DownloadOperation downloadOp = downloader.CreateDownload(new Uri(url.Url), file);
             //设置下载策略
-            if (SettingHelper.Get_Use4GDown())
+            if (SettingHelper.Use4GDown)
             {
                 downloadOp.CostPolicy = BackgroundTransferCostPolicy.Always;
             }
@@ -207,12 +207,12 @@ namespace BiliBili3.Helper
 
         private static async Task<StorageFolder> GetCIDFolder(DownloadTaskModel m)
         {
-            string setting = SettingHelper.Get_DownPath();
+            string setting = SettingHelper.DownPath;
 
             StorageFolder DownFolder = null;
             try
             {
-                if (SettingHelper.Get_CustomDownPath() && setting != "系统视频库")
+                if (SettingHelper.CustomDownPath && setting != "系统视频库")
                 {
 
                     string mruFirstToken = StorageApplicationPermissions.MostRecentlyUsedList.Entries.FirstOrDefault(x => x.Metadata == setting).Token;
@@ -247,12 +247,12 @@ namespace BiliBili3.Helper
 
         public static async Task<StorageFolder> GetDownloadFolder()
         {
-            string setting = SettingHelper.Get_DownPath();
+            string setting = SettingHelper.DownPath;
 
             StorageFolder DownFolder = null;
             try
             {
-                if (SettingHelper.Get_CustomDownPath() && setting != "系统视频库")
+                if (SettingHelper.CustomDownPath && setting != "系统视频库")
                 {
 
                     string mruFirstToken = StorageApplicationPermissions.MostRecentlyUsedList.Entries.First(x => x.Metadata == setting).Token;
@@ -360,7 +360,7 @@ namespace BiliBili3.Helper
         {
             try
             {
-                bool use = SettingHelper.Get_Use4GDown();
+                bool use = SettingHelper.Use4GDown;
 
                 var downloading = await BackgroundDownloader.GetCurrentDownloadsForTransferGroupAsync(DownloadHelper2.group);
                 if (downloading.Count == 0)

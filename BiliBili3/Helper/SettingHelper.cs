@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using BiliBili3.Helper;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -14,7 +15,7 @@ namespace BiliBili3
             container = ApplicationData.Current.LocalSettings;
         }
 
-        private static T GetValue<T>(string key, T def)
+        private static T GetValue<T>(T def, [CallerMemberName] string key = null)
         {
             if (container.Values[key] != null)
             {
@@ -26,7 +27,7 @@ namespace BiliBili3
             }
         }
 
-        private static T GetOrSetDefault<T>(string key, T def)
+        private static T GetOrSetDefault<T>(T def, [CallerMemberName] string key = null)
         {
             if (container.Values[key] != null)
             {
@@ -34,12 +35,12 @@ namespace BiliBili3
             }
             else
             {
-                SetValue(key, def);
+                SetValue(def, key);
                 return def;
             }
         }
 
-        private static void SetValue<T>(string key, T value)
+        private static void SetValue<T>(T value, [CallerMemberName] string key = null)
         {
             container.Values[key] = value;
         }
@@ -47,99 +48,99 @@ namespace BiliBili3
         #region  外观和常规
         public static string Theme
         {
-            get => GetValue(nameof(Theme), "Pink");
-            set => SetValue(nameof(Theme), value);
+            get => GetValue("Pink");
+            set => SetValue(value);
         }
 
         public static int Rigth
         {
-            get => GetValue(nameof(Rigth), 1);
-            set => SetValue(nameof(Rigth), value);
+            get => GetValue(1);
+            set => SetValue(value);
         }
 
         public static bool CustomBG
         {
-            get => GetOrSetDefault(nameof(CustomBG), false);
-            set => SetValue(nameof(CustomBG), value);
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
         public static string BGPath
         {
-            get => GetOrSetDefault(nameof(BGPath), string.Empty);
-            set => SetValue(nameof(BGPath), value);
+            get => GetOrSetDefault(string.Empty);
+            set => SetValue(value);
         }
 
         public static int BGStretch
         {
-            get => GetOrSetDefault(nameof(BGStretch), 0);
-            set => SetValue(nameof(BGStretch), value);
+            get => GetOrSetDefault(0);
+            set => SetValue(value);
         }
 
         public static int BGVer
         {
-            get => GetOrSetDefault(nameof(BGVer), 1);
-            set => SetValue(nameof(BGVer), value);
+            get => GetOrSetDefault(1);
+            set => SetValue(value);
         }
 
         public static int BGOpacity
         {
-            get => GetOrSetDefault(nameof(BGOpacity), 10);
-            set => SetValue(nameof(BGOpacity), value);
+            get => GetOrSetDefault(10);
+            set => SetValue(value);
         }
 
         public static int FrostedGlass
         {
-            get => GetOrSetDefault(nameof(FrostedGlass), 0);
-            set => SetValue(nameof(FrostedGlass), value);
+            get => GetOrSetDefault(0);
+            set => SetValue(value);
         }
 
         public static int BGMaxWidth
         {
-            get => GetOrSetDefault(nameof(BGMaxWidth), 0);
-            set => SetValue(nameof(BGMaxWidth), value);
+            get => GetOrSetDefault(0);
+            set => SetValue(value);
         }
 
         public static int BGMaxHeight
         {
-            get => GetOrSetDefault(nameof(BGMaxHeight), 0);
-            set => SetValue(nameof(BGMaxHeight), value);
+            get => GetOrSetDefault(0);
+            set => SetValue(value);
         }
 
         public static int _BGHor
         {
-            get => GetOrSetDefault(nameof(_BGHor), 1);
-            set => SetValue(nameof(_BGHor), value);
+            get => GetOrSetDefault(1);
+            set => SetValue(value);
         }
 
         public static bool HideStatus
         {
-            get => GetOrSetDefault(nameof(HideStatus), true);
-            set => SetValue(nameof(HideStatus), value);
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
         public static bool LoadSplash
         {
-            get => GetOrSetDefault(nameof(LoadSplash), true);
-            set => SetValue(nameof(LoadSplash), value);
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
         public static bool MouseBack
         {
-            get => GetOrSetDefault(nameof(MouseBack), true);
-            set => SetValue(nameof(MouseBack), value);
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
         //sw_RefreshButton
         public static bool RefreshButton
         {
-            get => GetOrSetDefault(nameof(RefreshButton), true);
-            set => SetValue(nameof(RefreshButton), value);
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
         public static bool First
         {
-            get => GetOrSetDefault("First" + GetVersion(), true);
-            set => SetValue("First" + GetVersion(), value);
+            get => GetOrSetDefault(true, "First" + GetVersion());
+            set => SetValue(value, "First" + GetVersion());
         }
 
         #endregion
@@ -966,142 +967,41 @@ namespace BiliBili3
 
 
         #region 下载
-
-        public static int Get_DownQualit()
+        public static int DownQualit
         {
-
-            if (container.Values["DownQualit"] != null)
-            {
-                int p = (int)container.Values["DownQualit"];
-                return p;
-            }
-            else
-            {
-                container.Values["DownQualit"] = 3;
-                return 3;
-            }
+            get => GetOrSetDefault(3);
+            set => SetValue(value);
         }
 
-        public static void Set_DownQualit(int value)
+        public static int DownMode
         {
-
-            container.Values["DownQualit"] = value;
+            get => GetOrSetDefault(1);
+            set => SetValue(value);
         }
 
-
-
-
-
-
-        public static int Get_DownMode()
+        public static bool CustomDownPath
         {
-
-            if (container.Values["DownMode"] != null)
-            {
-                return (int)container.Values["DownMode"];
-            }
-            else
-            {
-                container.Values["DownMode"] = 1;
-                return 1;
-            }
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-        public static void Set_DownMode(int value)
+        public static string DownPath
         {
-
-            container.Values["DownMode"] = value;
+            get => GetOrSetDefault("系统视频库");
+            set => SetValue(value);
         }
 
-
-
-        public static void Set_CustomDownPath(bool value)
+        public static bool Use4GDown
         {
-
-            container.Values["CustomDownPath"] = value;
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-        public static bool Get_CustomDownPath()
+        public static bool ToMp4
         {
-
-            if (container.Values["CustomDownPath"] != null)
-            {
-                return (bool)container.Values["CustomDownPath"];
-            }
-            else
-            {
-                Set_CustomDownPath(false);
-                return false;
-            }
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
-
-        public static void Set_DownPath(string value)
-        {
-
-            container.Values["DownPath"] = value;
-        }
-
-        public static string Get_DownPath()
-        {
-
-            if (container.Values["DownPath"] != null)
-            {
-                return (string)container.Values["DownPath"];
-            }
-            else
-            {
-                Set_DownPath("系统视频库");
-                return "系统视频库";
-            }
-        }
-
-
-
-
-
-        public static bool Get_Use4GDown()
-        {
-
-            if (container.Values["Use4GDown"] != null)
-            {
-                return (bool)container.Values["Use4GDown"];
-            }
-            else
-            {
-                Set_Use4GDown(false);
-                return false;
-            }
-        }
-
-        public static void Set_Use4GDown(bool value)
-        {
-
-            container.Values["Use4GDown"] = value;
-        }
-
-
-
-        public static bool Get_ToMp4()
-        {
-
-            if (container.Values["ToMp4"] != null)
-            {
-                return (bool)container.Values["ToMp4"];
-            }
-            else
-            {
-                Set_ToMp4(false);
-                return false;
-            }
-        }
-
-        public static void Set_ToMp4(bool value)
-        {
-
-            container.Values["ToMp4"] = value;
-        }
-
-
 
         #endregion
 
@@ -1765,26 +1665,11 @@ namespace BiliBili3
 
         #endregion
 
-        public static bool Get_PriorityBiliPlus()
+        public static bool PriorityBiliPlus
         {
-
-            if (container.Values["PriorityBiliPlus"] != null)
-            {
-                return (bool)container.Values["PriorityBiliPlus"];
-            }
-            else
-            {
-                Set_PriorityBiliPlus(false);
-                return false;
-            }
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
-
-        public static void Set_PriorityBiliPlus(bool value)
-        {
-
-            container.Values["PriorityBiliPlus"] = value;
-        }
-
 
         #region 字幕设置
         public static double Get_SubtitleSize()

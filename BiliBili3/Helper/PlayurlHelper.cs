@@ -78,7 +78,7 @@ namespace BiliBili3.Helper
                 //{
                 //    return biliweb;
                 //}
-                if (SettingHelper.Get_PriorityBiliPlus())
+                if (SettingHelper.PriorityBiliPlus)
                 {
                     //biliplus API
                     var biliplus = await GetBiliPlus(model, qn);
@@ -930,7 +930,7 @@ namespace BiliBili3.Helper
                 }
                 else
                 {
-                    if (SettingHelper.Get_PriorityBiliPlus())
+                    if (SettingHelper.PriorityBiliPlus)
                     {
                         return new List<QualityModel>() {
                              new QualityModel(){description="流畅", qn=32},

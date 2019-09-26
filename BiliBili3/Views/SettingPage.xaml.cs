@@ -81,13 +81,13 @@ namespace BiliBili3.Views
                 //}
                 btnOpenInstallHEVC.Visibility = Visibility.Visible;
                 sw_DASHUseHEVC.IsOn = SettingHelper.Get_DASHUseHEVC();
-                sw_PriorityBiliPlus.IsOn = SettingHelper.Get_PriorityBiliPlus();
+                sw_PriorityBiliPlus.IsOn = SettingHelper.PriorityBiliPlus;
 
                 sw_LoadSe.IsOn = SettingHelper.LoadSplash;
                 sw_ForceAudio.IsOn = SettingHelper.Get_ForceAudio();
                 sw_ForceVideo.IsOn = SettingHelper.Get_ForceVideo();
                 sw_DanmuBorder.IsOn = SettingHelper.Get_DMBorder();
-                sw_Use4GDown.IsOn = SettingHelper.Get_Use4GDown();
+                sw_Use4GDown.IsOn = SettingHelper.Use4GDown;
                 sw_RefreshButton.IsOn = SettingHelper.RefreshButton;
 
                 sw_Play4G.IsOn = SettingHelper.Get_Use4GPlay();
@@ -104,7 +104,7 @@ namespace BiliBili3.Views
                 sw_DTCT.IsOn = SettingHelper.Get_DTCT();
                 sw_DT.IsOn = SettingHelper.Get_DT();
                 sw_FJ.IsOn = SettingHelper.Get_FJ();
-                sw_CustomPath.IsOn = SettingHelper.Get_CustomDownPath();
+                sw_CustomPath.IsOn = SettingHelper.CustomDownPath;
                 sw_FFmpeg.IsOn = SettingHelper.Get_FFmpeg();
 
                 sw_NewFeed.IsOn = SettingHelper.Get_NewFeed();
@@ -146,11 +146,11 @@ namespace BiliBili3.Views
                 }
 
                 cb_PlayQuality.SelectedIndex = SettingHelper.Get_PlayQualit() - 1;
-                cb_DownQuality.SelectedIndex = SettingHelper.Get_DownQualit() - 1;
+                cb_DownQuality.SelectedIndex = SettingHelper.DownQualit - 1;
                 cb_VideoType.SelectedIndex = SettingHelper.Get_VideoType();
                 cb_DanmuStyle.SelectedIndex = SettingHelper.Get_DMStyle();
 
-                cb_DownMode.SelectedIndex = SettingHelper.Get_DownMode();
+                cb_DownMode.SelectedIndex = SettingHelper.DownMode;
 
                 sw_Playback.SelectedIndex = SettingHelper.Get_Playback();
 
@@ -158,7 +158,7 @@ namespace BiliBili3.Views
                 sw_CustomBg.IsOn = SettingHelper.CustomBG;
 
                 txt_BGPath.Text = SettingHelper.BGPath;
-                txt_CustomDownPath.Text = SettingHelper.Get_DownPath();
+                txt_CustomDownPath.Text = SettingHelper.DownPath;
 
 
                 cb_BGStretch.SelectedIndex = SettingHelper.BGStretch;
@@ -404,17 +404,17 @@ namespace BiliBili3.Views
 
         private void cb_DownQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper.Set_DownQualit(cb_DownQuality.SelectedIndex + 1);
+            SettingHelper.DownQualit = cb_DownQuality.SelectedIndex + 1;
         }
 
         private void cb_DownMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper.Set_DownMode(cb_DownMode.SelectedIndex);
+            SettingHelper.DownMode = cb_DownMode.SelectedIndex;
         }
 
         private void sw_Use4GDown_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_Use4GDown(sw_Use4GDown.IsOn);
+            SettingHelper.Use4GDown = sw_Use4GDown.IsOn;
             DownloadHelper2.UpdateDowningStatus();
         }
 
@@ -633,7 +633,7 @@ namespace BiliBili3.Views
 
         private async void sw_CustomPath_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_CustomDownPath(sw_CustomPath.IsOn);
+            SettingHelper.CustomDownPath = sw_CustomPath.IsOn;
             await DownloadHelper.GetfolderList();
             await DownloadHelper.SetfolderList();
         }
@@ -648,7 +648,7 @@ namespace BiliBili3.Views
                 return;
             }
             string mruToken = StorageApplicationPermissions.MostRecentlyUsedList.Add(f, f.Path);
-            SettingHelper.Set_DownPath(f.Path);
+            SettingHelper.DownPath = f.Path;
             txt_CustomDownPath.Text = f.Path;
             await DownloadHelper.GetfolderList();
             await DownloadHelper.SetfolderList();
@@ -734,7 +734,7 @@ namespace BiliBili3.Views
 
         private void sw_toMp4_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_ToMp4(sw_toMp4.IsOn);
+            SettingHelper.ToMp4 = sw_toMp4.IsOn;
         }
 
         private void btn_Help_Click(object sender, RoutedEventArgs e)
@@ -863,7 +863,7 @@ namespace BiliBili3.Views
 
         private void Sw_PriorityBiliPlus_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_PriorityBiliPlus(sw_PriorityBiliPlus.IsOn);
+            SettingHelper.PriorityBiliPlus = sw_PriorityBiliPlus.IsOn;
         }
     }
 }

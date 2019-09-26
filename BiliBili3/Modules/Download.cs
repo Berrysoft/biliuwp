@@ -157,7 +157,7 @@ namespace BiliBili3.Modules
                 {
                     return andorid_api;
                 }
-                if (SettingHelper.Get_PriorityBiliPlus())
+                if (SettingHelper.PriorityBiliPlus)
                 {
                     var biliplus = await GetSeasonDownloadUrlBiliplusApi(cid, aid, quality, season_type, access_key, mid);
                     if (biliplus.success)
