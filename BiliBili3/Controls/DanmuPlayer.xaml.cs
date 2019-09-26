@@ -64,7 +64,7 @@ namespace BiliBili3.Controls
         {
             this.InitializeComponent();
 
-          
+
 
 
             MTC.DanmuLoaded += MTC_DanmuLoaded;
@@ -110,12 +110,12 @@ namespace BiliBili3.Controls
 
         private void PlayerPage_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
-            
+
             args.Handled = true;
             switch (args.VirtualKey)
             {
                 case Windows.System.VirtualKey.Space:
-                    if (mediaElement.CurrentState== MediaElementState.Playing)
+                    if (mediaElement.CurrentState == MediaElementState.Playing)
                     {
                         mediaElement.Pause();
                     }
@@ -186,14 +186,14 @@ namespace BiliBili3.Controls
         {
 
             danmu = MTC.myDanmaku;
-          
+
             UpdateSetting();
             if (SettingHelper.Get_BackPlay())
             {
                 //_mediaPlayer = new MediaPlayer();
                 // _systemMediaTransportControls = _mediaPlayer.SystemMediaTransportControls;
                 //_mediaPlayer.CommandManager.IsEnabled = true;
-              
+
                 _systemMediaTransportControls = SystemMediaTransportControls.GetForCurrentView();
                 _systemMediaTransportControls.IsPlayEnabled = true;
                 _systemMediaTransportControls.IsPauseEnabled = true;
@@ -394,7 +394,7 @@ namespace BiliBili3.Controls
 
 
         string DMZZBDS = "";
-   
+
         int DanmuNum = 0;
         int i = 0;
         bool mergeDanmu = false;
@@ -1117,7 +1117,7 @@ namespace BiliBili3.Controls
                         timer.Start();
                     }
                     mediaElement.PlaybackRate = slider_Rate.Value;
-                  
+
                     break;
                 case MediaElementState.Paused:
                     if (_systemMediaTransportControls != null)
@@ -1550,13 +1550,13 @@ namespace BiliBili3.Controls
             SettingHelper.Set_DMNumber(Convert.ToInt32(slider_Num.Value));
         }
 
-        
+
 
 
         private void menu_setting_top_Click(object sender, RoutedEventArgs e)
         {
 
-            danmu.HideDanmaku( NSDanmaku.Model.DanmakuLocation.Top);
+            danmu.HideDanmaku(NSDanmaku.Model.DanmakuLocation.Top);
             SettingHelper.Set_DMVisTop(false);
 
 
@@ -1570,19 +1570,19 @@ namespace BiliBili3.Controls
 
         private void menu_setting_gd_Checked(object sender, RoutedEventArgs e)
         {
-            danmu.HideDanmaku( NSDanmaku.Model.DanmakuLocation.Roll);
+            danmu.HideDanmaku(NSDanmaku.Model.DanmakuLocation.Roll);
             SettingHelper.Set_DMVisRoll(false);
         }
 
         private void menu_setting_gd_Unchecked(object sender, RoutedEventArgs e)
         {
-            danmu.ShowDanmaku( NSDanmaku.Model.DanmakuLocation.Roll);
+            danmu.ShowDanmaku(NSDanmaku.Model.DanmakuLocation.Roll);
             SettingHelper.Set_DMVisRoll(true);
         }
 
         private void menu_setting_top_Unchecked(object sender, RoutedEventArgs e)
         {
-            danmu.ShowDanmaku( NSDanmaku.Model.DanmakuLocation.Top);
+            danmu.ShowDanmaku(NSDanmaku.Model.DanmakuLocation.Top);
             SettingHelper.Set_DMVisTop(true);
         }
 
@@ -1823,35 +1823,21 @@ namespace BiliBili3.Controls
 
         private void MTC_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            if (!SettingHelper.IsPc())
+            if (MTC.IsFullWindow)
             {
-                if (mediaElement.CurrentState == MediaElementState.Playing)
-                {
-                    mediaElement.Pause();
-                }
-                else
-                {
-                    mediaElement.Play();
-                }
+                MTC.ExitFull();
+                //mediaElement.IsFullWindow = false;
             }
             else
             {
-                if (MTC.IsFullWindow)
-                {
-                    MTC.ExitFull();
-                    //mediaElement.IsFullWindow = false;
-                }
-                else
-                {
-                    MTC.ToFull();
-                    //mediaElement.IsFullWindow = true;
-                }
+                MTC.ToFull();
+                //mediaElement.IsFullWindow = true;
             }
         }
 
         private void MTC_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            if (SettingHelper.IsPc() && e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
                 if (mediaElement.CurrentState == MediaElementState.Playing)
                 {
@@ -1907,8 +1893,8 @@ namespace BiliBili3.Controls
 
         private async void MTC_CoinsEvent(object sender, EventArgs e)
         {
-            MessageDialog messageDialog = new MessageDialog("确定要投币吗?","投币");
-            messageDialog.Commands.Add(new UICommand("投币X1",(com)=> { TouBi(1); },"1"));
+            MessageDialog messageDialog = new MessageDialog("确定要投币吗?", "投币");
+            messageDialog.Commands.Add(new UICommand("投币X1", (com) => { TouBi(1); }, "1"));
             messageDialog.Commands.Add(new UICommand("投币X2", (com) => { TouBi(2); }, "2"));
             messageDialog.Commands.Add(new UICommand("取消", (com) => { }, "0"));
             await messageDialog.ShowAsync();
@@ -1923,7 +1909,7 @@ namespace BiliBili3.Controls
                 {
                     WebClientClass wc = new WebClientClass();
                     Uri ReUri = new Uri("https://app.bilibili.com/x/v2/view/coin/add");
-                    string QuStr = string.Format("access_key={0}&aid={1}&appkey={2}&build={6}&from=7&mid={3}&platform=android&&multiply={4}&ts={5}", ApiHelper.access_key, playNow.Aid, ApiHelper.AndroidKey.Appkey, ApiHelper.GetUserId(), num, ApiHelper.GetTimeSpan,ApiHelper.build);
+                    string QuStr = string.Format("access_key={0}&aid={1}&appkey={2}&build={6}&from=7&mid={3}&platform=android&&multiply={4}&ts={5}", ApiHelper.access_key, playNow.Aid, ApiHelper.AndroidKey.Appkey, ApiHelper.GetUserId(), num, ApiHelper.GetTimeSpan, ApiHelper.build);
                     QuStr += "&sign=" + ApiHelper.GetSign(QuStr);
                     string result = await WebClientClass.PostResults(ReUri, QuStr);
                     JObject jObject = JObject.Parse(result);
@@ -1949,7 +1935,7 @@ namespace BiliBili3.Controls
 
         private void cb_Style_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cb_Style.SelectedIndex==-1|| danmu==null)
+            if (cb_Style.SelectedIndex == -1 || danmu == null)
             {
                 return;
             }
@@ -1962,12 +1948,12 @@ namespace BiliBili3.Controls
         {
             danmu.notHideSubtitle = sw_DanmuNotSubtitle.IsOn;
             SettingHelper.Set_DanmuNotSubtitle(sw_DanmuNotSubtitle.IsOn);
-           
+
         }
 
         private void slider_Rate_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            if (mediaElement == null )
+            if (mediaElement == null)
             {
                 return;
             }

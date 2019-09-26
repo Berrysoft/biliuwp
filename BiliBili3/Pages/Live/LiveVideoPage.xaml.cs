@@ -41,7 +41,7 @@ namespace BiliBili3.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (SettingHelper.Get_RefreshButton() && SettingHelper.IsPc())
+            if (SettingHelper.Get_RefreshButton())
             {
                 b_btn_Refresh.Visibility = Visibility.Visible;
             }
@@ -73,7 +73,7 @@ namespace BiliBili3.Pages
                 _GZLoading = true;
                 pr_Load.Visibility = Visibility.Visible;
 
-                string url = string.Format("http://api.vc.bilibili.com/clip/v1/feed/followedVideoList?next_offset={0}&page_size=10",  _GZPage);
+                string url = string.Format("http://api.vc.bilibili.com/clip/v1/feed/followedVideoList?next_offset={0}&page_size=10", _GZPage);
                 //url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 LiveVideoModel m = JsonConvert.DeserializeObject<LiveVideoModel>(results.Replace("default", "_default"));
@@ -169,9 +169,9 @@ namespace BiliBili3.Pages
                 return;
             }
 
-           // MiniVideoDialog miniVideoDialog = new MiniVideoDialog();
+            // MiniVideoDialog miniVideoDialog = new MiniVideoDialog();
 
-           // miniVideoDialog.ShowAsync(info.);
+            // miniVideoDialog.ShowAsync(info.);
 
             //var x = new ContentDialog();
             //StackPanel st = new StackPanel();

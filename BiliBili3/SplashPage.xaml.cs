@@ -2,47 +2,32 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using BackTask;
+using BiliBili3.Helper;
+using BiliBili3.Modules;
+using Microsoft.Graphics.Canvas.Effects;
+using Newtonsoft.Json;
 using Windows.ApplicationModel.Background;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
-using BackTask;
-using Windows.UI;
-using Windows.UI.ViewManagement;
-using BiliBili3.Helper;
-using Windows.UI.Composition;
-using Windows.UI.Xaml.Hosting;
-using Microsoft.Graphics.Canvas.Effects;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.Storage.Streams;
-using System.Text.RegularExpressions;
-using BiliBili3.Modules;
-
-// “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
+using Windows.UI.Xaml.Navigation;
 
 namespace BiliBili3
 {
-    /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
-    /// </summary>
     public sealed partial class SplashPage : Page
     {
         public SplashPage()
         {
             this.InitializeComponent();
-            var bg = new Color() { R = 233, G = 233, B = 233 };
+            var bg = Color.FromArgb(255, 233, 233, 233);
             var titleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = bg;
             titleBar.ForegroundColor = Colors.Black;//Colors.White纯白用不了。。。
@@ -68,7 +53,6 @@ namespace BiliBili3
                 case 3:
                     txt_Load.Text = "自由、平等、公正、法治";
                     break;
-                
                 default:
                     break;
             }
@@ -86,38 +70,27 @@ namespace BiliBili3
             #endregion
 
             //await Task.Delay(2000); 
-             m = e.Parameter as StartModel;
+            m = e.Parameter as StartModel;
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Tick += Timer_Tick;
             timer.Start();
-            if (m.StartType== StartTypes.None&&SettingHelper.Get_LoadSplash())
+            if (m.StartType == StartTypes.None && SettingHelper.Get_LoadSplash())
             {
                 await GetResults();
-              
             }
-            else
-            {
-               // await Task.Delay(2000);
-               // this.Frame.Navigate(typeof(MainPage), m);
-            }
-
-         
-
-
         }
         int i = 1;
         int maxnum = 3;
         private void Timer_Tick(object sender, object e)
         {
-            if (i!= maxnum)
+            if (i != maxnum)
             {
                 i++;
             }
             else
             {
                 this.Frame.Navigate(typeof(MainPage), m);
-              
             }
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -174,86 +147,36 @@ namespace BiliBili3
             try
             {
                 string url = "http://app.bilibili.com/x/splash?plat=0&build=414000&channel=master&width=1080&height=1920";
-                bool pc = SettingHelper.IsPc();
-                if (pc)
-                {
-                   
-                    img.Stretch = Stretch.Uniform;
-                    url = "http://app.bilibili.com/x/splash?plat=0&build=414000&channel=master&width=1920&height=1080";
-                }
-               
+                img.Stretch = Stretch.Uniform;
+                url = "http://app.bilibili.com/x/splash?plat=0&build=414000&channel=master&width=1920&height=1080";
+
                 string Result = await WebClientClass.GetResults(new Uri(url));
                 LoadModel obj = JsonConvert.DeserializeObject<LoadModel>(Result);
 
-                if (obj.code== 0)
+                if (obj.code == 0)
                 {
-                    if (obj.data.Count!=0)
+                    if (obj.data.Count != 0)
                     {
-                        var buff= await WebClientClass.GetBuffer(new Uri(obj.data[0].image));
+                        var buff = await WebClientClass.GetBuffer(new Uri(obj.data[0].image));
                         BitmapImage bit = new BitmapImage();
                         await bit.SetSourceAsync(buff.AsStream().AsRandomAccessStream());
-                        if (!pc)
-                        {
-                        }
-                        else
-                        {
-                            img_bg.Source = bit;
-                            InitializedFrostedGlass(GlassHost);
-                        }
+                        img_bg.Source = bit;
+                        InitializedFrostedGlass(GlassHost);
                         img.Source = bit;
                         _url = obj.data[0].param;
                         maxnum = 5;
-                        //await Task.Delay(3000);
-                        //this.Frame.Navigate(typeof(MainPage), m);
-                    }
-                    else
-                    {
-                       // await Task.Delay(2000);
-                       
                     }
                 }
-                else
-                {
-                   // await Task.Delay(2000);
-                    //this.Frame.Navigate(typeof(MainPage), m);
-                }
-
-
             }
             catch (Exception)
             {
-               // await Task.Delay(2000);
-                //this.Frame.Navigate(typeof(MainPage), m);
             }
-            finally
-            {
-
-               
-            }
-
         }
         string _url;
         private void grid_Load_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //url=
-
-            //var anime = Regex.Match(_url, @"anime/(\d{1,9})").Groups;
-            //if (anime.Count==2)
-            //{
-            //    m.StartType = StartTypes.Bangumi;
-            //    m.Par1 = anime[1].Value;
-            //    return;
-            //}
-            //var video = Regex.Match(_url, @"av(\d{1,9})").Groups;
-            //if (video.Count == 2)
-            //{
-            //    m.StartType = StartTypes.Video;
-            //    m.Par1 = video[1].Value;
-            //    return;
-            //}
             m.StartType = StartTypes.Web;
             m.Par1 = _url;
-
         }
 
         public class LoadModel
@@ -335,6 +258,6 @@ namespace BiliBili3
 
         #endregion
 
-      
+
     }
 }

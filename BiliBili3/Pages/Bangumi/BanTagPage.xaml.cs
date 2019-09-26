@@ -54,7 +54,7 @@ namespace BiliBili3.Pages
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (SettingHelper.Get_RefreshButton() && SettingHelper.IsPc())
+            if (SettingHelper.Get_RefreshButton())
             {
                 b_btn_Refresh.Visibility = Visibility.Visible;
             }
@@ -64,7 +64,6 @@ namespace BiliBili3.Pages
             }
             if (e.NavigationMode == NavigationMode.New)
             {
-               
                 await Task.Delay(200);
                 PageNum = 1;
                 LoadLocal();

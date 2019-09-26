@@ -1,50 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Storage;
-using Newtonsoft.Json;
-using Windows.ApplicationModel;
-using Microsoft.Toolkit.Uwp;
-using Windows.UI.StartScreen;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Windows.Foundation.Metadata;
 using BiliBili3.Helper;
+using Windows.ApplicationModel;
+using Windows.Storage;
 
 namespace BiliBili3
 {
     public static class SettingHelper
     {
         static ApplicationDataContainer container;
-        public async static Task<string> Get_HomeInfo()
-        {
-            StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-            
-            if (await localFolder.FileExistsAsync("HomeInfo.json"))
-            {
-                return await StorageFileHelper.ReadTextFromLocalFileAsync("HomeInfo.json");
-            }
-            else
-            {
-                return "";
-            }
-            // Load some text from a file named appFilename.txt in the local folder 
-            
-        }
-        public async static void Set_HomeInfo(string value)
-        {
-            //StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-          
-            await StorageFileHelper.WriteTextToLocalFileAsync(value, "HomeInfo.json");
 
-           
+        static SettingHelper()
+        {
+            container = ApplicationData.Current.LocalSettings;
         }
 
         #region  外观和常规
         public static string Get_Theme()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["Theme"] != null)
             {
                 return (string)container.Values["Theme"];
@@ -57,48 +29,36 @@ namespace BiliBili3
 
         public static void Set_Theme(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["Theme"] = value;
         }
 
         public static int Get_Rigth()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["Rigth"] != null)
             {
                 return (int)container.Values["Rigth"];
             }
             else
             {
-                if (SettingHelper.IsPc())
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+                return 1;
             }
         }
 
-       
+
 
         public static void Set_Rigth(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["Rigth"] = value;
         }
 
 
         public static void Set_CustomBG(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["CustomBG"] = value;
         }
 
         public static bool Get_CustomBG()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["CustomBG"] != null)
             {
                 return (bool)container.Values["CustomBG"];
@@ -112,13 +72,11 @@ namespace BiliBili3
 
         public static void Set_BGPath(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["BGPath"] = value;
         }
 
         public static string Get_BGPath()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["BGPath"] != null)
             {
                 return container.Values["BGPath"].ToString();
@@ -133,13 +91,11 @@ namespace BiliBili3
 
         public static void Set_BGStretch(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["BGStretch"] = value;
         }
 
         public static int Get_BGStretch()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["BGStretch"] != null)
             {
                 return (int)container.Values["BGStretch"];
@@ -155,13 +111,11 @@ namespace BiliBili3
 
         public static void Set_BGVer(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["BGVer"] = value;
         }
 
         public static int Get_BGVer()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["BGVer"] != null)
             {
                 return (int)container.Values["BGVer"];
@@ -175,13 +129,11 @@ namespace BiliBili3
 
         public static void Set_BGOpacity(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["BGOpacity"] = value;
         }
 
         public static int Get_BGOpacity()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["BGOpacity"] != null)
             {
                 return (int)container.Values["BGOpacity"];
@@ -195,13 +147,11 @@ namespace BiliBili3
 
         public static void Set_FrostedGlass(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["FrostedGlass"] = value;
         }
 
         public static int Get_FrostedGlass()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["FrostedGlass"] != null)
             {
                 return (int)container.Values["FrostedGlass"];
@@ -215,13 +165,11 @@ namespace BiliBili3
 
         public static void Set_BGMaxWidth(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["BGMaxWidth"] = value;
         }
 
         public static int Get_BGMaxWidth()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["BGMaxWidth"] != null)
             {
                 return (int)container.Values["BGMaxWidth"];
@@ -235,13 +183,11 @@ namespace BiliBili3
 
         public static void Set_BGMaxHeight(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["BGMaxHeight"] = value;
         }
 
         public static int Get_BGMaxHeight()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["BGMaxHeight"] != null)
             {
                 return (int)container.Values["BGMaxHeight"];
@@ -257,13 +203,11 @@ namespace BiliBili3
 
         public static void Set_BGHor(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["_BGHor"] = value;
         }
 
         public static int Get__BGHor()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["_BGHor"] != null)
             {
                 return (int)container.Values["_BGHor"];
@@ -278,13 +222,11 @@ namespace BiliBili3
 
         public static void Set_HideStatus(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["HideStatus"] = value;
         }
 
         public static bool Get_HideStatus()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["HideStatus"] != null)
             {
                 return (bool)container.Values["HideStatus"];
@@ -299,13 +241,11 @@ namespace BiliBili3
 
         public static void Set_LoadSplash(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["LoadSplash"] = value;
         }
 
         public static bool Get_LoadSplash()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["LoadSplash"] != null)
             {
                 return (bool)container.Values["LoadSplash"];
@@ -320,13 +260,11 @@ namespace BiliBili3
 
         public static void Set_HideAD(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["HideAD"] = value;
         }
 
         public static bool Get_HideAD()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["HideAD"] != null)
             {
                 return (bool)container.Values["HideAD"];
@@ -341,13 +279,11 @@ namespace BiliBili3
 
         public static void Set_MouseBack(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["MouseBack"] = value;
         }
 
         public static bool Get_MouseBack()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["MouseBack"] != null)
             {
                 return (bool)container.Values["MouseBack"];
@@ -359,21 +295,14 @@ namespace BiliBili3
             }
         }
 
-
-
-
-
-
         //sw_RefreshButton
         public static void Set_RefreshButton(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["RefreshButton"] = value;
         }
 
         public static bool Get_RefreshButton()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["RefreshButton"] != null)
             {
                 return (bool)container.Values["RefreshButton"];
@@ -387,8 +316,7 @@ namespace BiliBili3
 
         public static bool Get_First()
         {
-            container = ApplicationData.Current.LocalSettings;
-            if (container.Values["First"+GetVersion()] != null)
+            if (container.Values["First" + GetVersion()] != null)
             {
                 return (bool)container.Values["First" + GetVersion()];
             }
@@ -401,25 +329,17 @@ namespace BiliBili3
 
         public static void Set_First(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["First" + GetVersion()] = value;
         }
 
-      
-
-
-
-
         #endregion
-
 
         #region 播放器
         public static double Get_Volume()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["Volume"] != null)
             {
-                return Convert.ToDouble( container.Values["Volume"]);
+                return Convert.ToDouble(container.Values["Volume"]);
             }
             else
             {
@@ -430,14 +350,12 @@ namespace BiliBili3
 
         public static void Set_Volume(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["Volume"] = value;
         }
 
 
         public static double Get_Light()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["Light"] != null)
             {
                 return Convert.ToDouble(container.Values["Light"]);
@@ -451,14 +369,12 @@ namespace BiliBili3
 
         public static void Set_Light(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["Light"] = value;
         }
 
 
         public static int Get_BanPlayer()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["BanPlayer"] != null)
             {
                 return Convert.ToInt32(container.Values["BanPlayer"]);
@@ -472,17 +388,15 @@ namespace BiliBili3
 
         public static void Set_BanPlayer(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["BanPlayer"] = value;
         }
 
         public static int Get_PlayQualit()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["PlayQualit"] != null)
             {
                 var p = (int)container.Values["PlayQualit"];
-              
+
                 return p;
             }
             else
@@ -494,13 +408,11 @@ namespace BiliBili3
 
         public static void Set_PlayQualit(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["PlayQualit"] = value;
         }
 
         public static int Get_VideoType()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["VideoType"] != null)
             {
                 //return (int)container.Values["VideoType"];
@@ -515,19 +427,16 @@ namespace BiliBili3
 
         public static void Set_VideoType(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["VideoType"] = value;
         }
 
         public static void Set_ForceAudio(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["ForceAudio"] = value;
         }
 
         public static bool Get_ForceAudio()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["ForceAudio"] != null)
             {
                 return (bool)container.Values["ForceAudio"];
@@ -541,13 +450,11 @@ namespace BiliBili3
 
         public static void Set_ForceVideo(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["ForceVideo"] = value;
         }
 
         public static bool Get_ForceVideo()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["ForceVideo"] != null)
             {
                 return (bool)container.Values["ForceVideo"];
@@ -562,7 +469,6 @@ namespace BiliBili3
 
         public static int Get_Playback()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["Playback"] != null)
             {
                 return (int)container.Values["Playback"];
@@ -576,14 +482,12 @@ namespace BiliBili3
 
         public static void Set_Playback(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["Playback"] = value;
         }
 
 
         public static bool Get_FFmpeg()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["FFmpeg"] != null)
             {
                 return (bool)container.Values["FFmpeg"];
@@ -597,14 +501,12 @@ namespace BiliBili3
 
         public static void Set_FFmpeg(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["FFmpeg"] = value;
         }
 
 
         public static bool Get_UseH5()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["UseH5"] != null)
             {
                 return (bool)container.Values["UseH5"];
@@ -618,7 +520,6 @@ namespace BiliBili3
 
         public static void Set_UseH5(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["UseH5"] = value;
         }
 
@@ -626,7 +527,6 @@ namespace BiliBili3
 
         public static int Get_ClearLiveComment()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["ClearLiveComment"] != null)
             {
                 return (int)container.Values["ClearLiveComment"];
@@ -640,14 +540,12 @@ namespace BiliBili3
 
         public static void Set_ClearLiveComment(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["ClearLiveComment"] = value;
         }
 
 
         public static bool Get_Use4GPlay()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["Use4GPlay"] != null)
             {
                 return (bool)container.Values["Use4GPlay"];
@@ -661,13 +559,11 @@ namespace BiliBili3
 
         public static void Set_Use4GPlay(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["Use4GPlay"] = value;
         }
 
         public static bool Get_BackPlay()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["BackPlay"] != null)
             {
                 return (bool)container.Values["BackPlay"];
@@ -681,13 +577,11 @@ namespace BiliBili3
 
         public static void Set_BackPlay(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["BackPlay"] = value;
         }
 
         public static bool Get_QZHP()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["QZHP"] != null)
             {
                 return (bool)container.Values["QZHP"];
@@ -701,43 +595,31 @@ namespace BiliBili3
 
         public static void Set_QZHP(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["QZHP"] = value;
         }
 
         public static bool Get_AutoFull()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["AutoFull"] != null)
             {
                 return (bool)container.Values["AutoFull"];
             }
             else
             {
-                if (!IsPc())
-                {
-                    Set_AutoFull(true);
-                    return true;
-                }
-                else
-                {
-                    Set_AutoFull(false);
-                    return false;
-                }
+                Set_AutoFull(false);
+                return false;
             }
         }
 
 
         public static void Set_AutoFull(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["AutoFull"] = value;
         }
 
 
         public static bool Get_HideCursor()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["HideCursor"] != null)
             {
                 return (bool)container.Values["HideCursor"];
@@ -752,14 +634,12 @@ namespace BiliBili3
 
         public static void Set_HideCursor(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["HideCursor"] = value;
         }
 
 
         public static bool Get_NewFeed()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["NewFeed"] != null)
             {
                 return (bool)container.Values["NewFeed"];
@@ -774,14 +654,12 @@ namespace BiliBili3
 
         public static void Set_NewFeed(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["NewFeed"] = value;
         }
 
 
         public static bool Get_NewWindow()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["NewWindow"] != null)
             {
                 return (bool)container.Values["NewWindow"];
@@ -796,14 +674,12 @@ namespace BiliBili3
 
         public static void Set_NewWindow(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["NewWindow"] = value;
         }
 
 
         public static int Get_NewQuality()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["NewQuality"] != null)
             {
                 return (int)container.Values["NewQuality"];
@@ -817,13 +693,11 @@ namespace BiliBili3
 
         public static void Set_NewQuality(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["NewQuality"] = value;
         }
 
         public static bool Get_UseDASH()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["UseDASH"] != null)
             {
                 return (bool)container.Values["UseDASH"];
@@ -841,14 +715,12 @@ namespace BiliBili3
 
         public static void Set_UseDASH(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["UseDASH"] = value;
         }
 
 
         public static bool Get_DASHUseHEVC()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["DASHUseHEVC"] != null)
             {
                 return (bool)container.Values["DASHUseHEVC"];
@@ -863,7 +735,6 @@ namespace BiliBili3
 
         public static void Set_DASHUseHEVC(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["DASHUseHEVC"] = value;
         }
 
@@ -875,37 +746,24 @@ namespace BiliBili3
 
         public static double Get_NewDMSize()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["NewDMSize"] != null)
             {
                 return Convert.ToDouble(container.Values["NewDMSize"]);
             }
             else
             {
-                if (!SettingHelper.IsPc())
-                {
-                    container.Values["NewDMSize"] = 0.65;
-                    return 0.65;
-                }
-                else
-                {
-                    container.Values["NewDMSize"] = 1.0;
-                    return 1.0;
-                }
-
-               
+                container.Values["NewDMSize"] = 1.0;
+                return 1.0;
             }
         }
 
         public static void Set_NewDMSize(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["NewDMSize"] = value;
         }
 
         public static double Get_NewDMTran()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["NewDMTran"] != null)
             {
                 return Convert.ToDouble(container.Values["NewDMTran"]);
@@ -919,13 +777,11 @@ namespace BiliBili3
 
         public static void Set_DMStatus(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["DMStatus"] = value;
         }
 
         public static bool Get_DMStatus()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["DMStatus"] != null)
             {
                 return Convert.ToBoolean(container.Values["DMStatus"]);
@@ -939,20 +795,17 @@ namespace BiliBili3
 
         public static void Set_NewDMTran(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["NewDMTran"] = value;
         }
 
 
         public static void Set_Guanjianzi(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["Guanjianzi"] = value;
         }
 
         public static string Get_Guanjianzi()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["Guanjianzi"] != null)
             {
                 return (string)container.Values["Guanjianzi"];
@@ -965,13 +818,11 @@ namespace BiliBili3
 
         public static void Set_Yonghu(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["Yonghu"] = value;
         }
 
         public static string Get_Yonghu()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["Yonghu"] != null)
             {
                 return (string)container.Values["Yonghu"];
@@ -987,10 +838,9 @@ namespace BiliBili3
 
         public static int Get_DMNumber()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["DMNumber"] != null)
             {
-                return Convert.ToInt32( container.Values["DMNumber"]);
+                return Convert.ToInt32(container.Values["DMNumber"]);
             }
             else
             {
@@ -1001,7 +851,6 @@ namespace BiliBili3
 
         public static void Set_DMNumber(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["DMNumber"] = value;
         }
 
@@ -1009,8 +858,6 @@ namespace BiliBili3
         //Get_DMBorder
         public static bool Get_DMBorder()
         {
-            return true;
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["DMBorder"] != null)
             {
                 return (bool)container.Values["DMBorder"];
@@ -1023,13 +870,11 @@ namespace BiliBili3
 
         public static void Set_DMBorder(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["DMBorder"] = value;
         }
 
         public static bool Get_MergeDanmu()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["MergeDanmu"] != null)
             {
                 return (bool)container.Values["MergeDanmu"];
@@ -1042,13 +887,11 @@ namespace BiliBili3
 
         public static void Set_MergeDanmu(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["MergeDanmu"] = value;
         }
 
         public static bool Get_BoldDanmu()
         {
-            container = ApplicationData.Current.LocalSettings;
             if (container.Values["BoldDanmu"] != null)
             {
                 return (bool)container.Values["BoldDanmu"];
@@ -1062,14 +905,13 @@ namespace BiliBili3
 
         public static void Set_BoldDanmu(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
             container.Values["BoldDanmu"] = value;
         }
 
 
         public static string Get_DanmuFont()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DanmuFont"] != null)
             {
                 return (string)container.Values["DanmuFont"];
@@ -1083,7 +925,7 @@ namespace BiliBili3
 
         public static void Set_DanmuFont(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DanmuFont"] = value;
         }
 
@@ -1091,7 +933,7 @@ namespace BiliBili3
         //DanmuNotSubtitle
         public static bool Get_DanmuNotSubtitle()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DanmuNotSubtitle"] != null)
             {
                 return (bool)container.Values["DanmuNotSubtitle"];
@@ -1104,45 +946,35 @@ namespace BiliBili3
 
         public static void Set_DanmuNotSubtitle(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DanmuNotSubtitle"] = value;
         }
 
 
         public static double Get_DMSize()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DMSize"] != null)
             {
                 return Convert.ToDouble(container.Values["DMSize"]);
             }
             else
             {
-                if (!SettingHelper.IsPc())
-                {
-                    container.Values["DMSize"] = 16;
-                    return 16;
-                }
-                else
-                {
-                    container.Values["DMSize"] = 22;
-                    return 22;
-                }
-
-
+                container.Values["DMSize"] = 22;
+                return 22;
             }
         }
 
         public static void Set_DMSize(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DMSize"] = value;
         }
 
 
         public static int Get_DMFont()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DMFont"] != null)
             {
                 return (int)container.Values["DMFont"];
@@ -1156,14 +988,14 @@ namespace BiliBili3
 
         public static void Set_DMFont(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DMFont"] = value;
         }
 
 
         public static int Get_DMStyle()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DMStyle"] != null)
             {
                 return (int)container.Values["DMStyle"];
@@ -1177,7 +1009,7 @@ namespace BiliBili3
 
         public static void Set_DMStyle(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DMStyle"] = value;
         }
 
@@ -1185,7 +1017,7 @@ namespace BiliBili3
 
         public static double Get_DMSpeed()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DMSpeed"] != null)
             {
 
@@ -1204,13 +1036,13 @@ namespace BiliBili3
 
         public static void Set_DMSpeed(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DMSpeed"] = value;
         }
 
         public static double Get_DMTran()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DMTran"] != null)
             {
                 return Convert.ToDouble(container.Values["DMTran"]);
@@ -1228,7 +1060,7 @@ namespace BiliBili3
 
         public static void Set_DMTran(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DMTran"] = value;
         }
 
@@ -1236,7 +1068,7 @@ namespace BiliBili3
 
         public static bool Get_DMVisTop()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DMVisTop"] != null)
             {
                 return (bool)container.Values["DMVisTop"];
@@ -1250,13 +1082,13 @@ namespace BiliBili3
 
         public static void Set_DMVisTop(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DMVisTop"] = value;
         }
 
         public static bool Get_DMVisBottom()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DMVisBottom"] != null)
             {
                 return (bool)container.Values["DMVisBottom"];
@@ -1270,13 +1102,13 @@ namespace BiliBili3
 
         public static void Set_DMVisBottom(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DMVisBottom"] = value;
         }
 
         public static bool Get_DMVisRoll()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DMVisRoll"] != null)
             {
                 return (bool)container.Values["DMVisRoll"];
@@ -1290,13 +1122,13 @@ namespace BiliBili3
 
         public static void Set_DMVisRoll(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DMVisRoll"] = value;
         }
 
         public static string Get_DMZZ()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DMZZ"] != null)
             {
                 return (string)container.Values["DMZZ"];
@@ -1310,14 +1142,14 @@ namespace BiliBili3
 
         public static void Set_DMZZ(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DMZZ"] = value;
         }
 
 
 
 
-        
+
 
 
         #endregion
@@ -1327,7 +1159,7 @@ namespace BiliBili3
 
         public static int Get_DownQualit()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DownQualit"] != null)
             {
                 int p = (int)container.Values["DownQualit"];
@@ -1342,7 +1174,7 @@ namespace BiliBili3
 
         public static void Set_DownQualit(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DownQualit"] = value;
         }
 
@@ -1353,7 +1185,7 @@ namespace BiliBili3
 
         public static int Get_DownMode()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DownMode"] != null)
             {
                 return (int)container.Values["DownMode"];
@@ -1367,7 +1199,7 @@ namespace BiliBili3
 
         public static void Set_DownMode(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DownMode"] = value;
         }
 
@@ -1375,13 +1207,13 @@ namespace BiliBili3
 
         public static void Set_CustomDownPath(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["CustomDownPath"] = value;
         }
 
         public static bool Get_CustomDownPath()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["CustomDownPath"] != null)
             {
                 return (bool)container.Values["CustomDownPath"];
@@ -1395,13 +1227,13 @@ namespace BiliBili3
 
         public static void Set_DownPath(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DownPath"] = value;
         }
 
         public static string Get_DownPath()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DownPath"] != null)
             {
                 return (string)container.Values["DownPath"];
@@ -1419,7 +1251,7 @@ namespace BiliBili3
 
         public static bool Get_Use4GDown()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["Use4GDown"] != null)
             {
                 return (bool)container.Values["Use4GDown"];
@@ -1433,7 +1265,7 @@ namespace BiliBili3
 
         public static void Set_Use4GDown(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["Use4GDown"] = value;
         }
 
@@ -1441,7 +1273,7 @@ namespace BiliBili3
 
         public static bool Get_ToMp4()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["ToMp4"] != null)
             {
                 return (bool)container.Values["ToMp4"];
@@ -1455,7 +1287,7 @@ namespace BiliBili3
 
         public static void Set_ToMp4(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["ToMp4"] = value;
         }
 
@@ -1469,7 +1301,7 @@ namespace BiliBili3
 
         public static bool Get_DTCT()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DTCT"] != null)
             {
                 return (bool)container.Values["DTCT"];
@@ -1482,15 +1314,15 @@ namespace BiliBili3
         }
         public static void Set_DTCT(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DTCT"] = value;
         }
 
-       
+
 
         public static bool Get_DT()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["DT"] != null)
             {
                 return (bool)container.Values["DT"];
@@ -1504,13 +1336,13 @@ namespace BiliBili3
 
         public static void Set_DT(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["DT"] = value;
         }
 
         public static bool Get_FJ()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["FJ"] != null)
             {
                 return (bool)container.Values["FJ"];
@@ -1524,13 +1356,13 @@ namespace BiliBili3
 
         public static void Set_FJ(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["FJ"] = value;
         }
 
         public static string Get_TsDt()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["TsDt"] != null)
             {
                 return (string)container.Values["TsDt"];
@@ -1544,7 +1376,7 @@ namespace BiliBili3
 
         public static void Set_TsDt(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["TsDt"] = value;
         }
 
@@ -1555,7 +1387,7 @@ namespace BiliBili3
 
         public static bool Get_PlayerMode()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["PlayerMode"] != null)
             {
                 return (bool)container.Values["PlayerMode"];
@@ -1569,7 +1401,7 @@ namespace BiliBili3
 
         public static void Set_PlayerMode(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["PlayerMode"] = value;
         }
 
@@ -1577,7 +1409,7 @@ namespace BiliBili3
 
         public static bool Get_UseHK()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["UseHK"] != null)
             {
                 return (bool)container.Values["UseHK"];
@@ -1591,14 +1423,14 @@ namespace BiliBili3
 
         public static void Set_UseHK(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["UseHK"] = value;
         }
 
 
         public static bool Get_UseTW()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["UseTW"] != null)
             {
                 return (bool)container.Values["UseTW"];
@@ -1612,7 +1444,7 @@ namespace BiliBili3
 
         public static void Set_UseTW(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["UseTW"] = value;
         }
 
@@ -1620,7 +1452,7 @@ namespace BiliBili3
 
         public static bool Get_UseCN()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["UseCN"] != null)
             {
                 return (bool)container.Values["UseCN"];
@@ -1634,14 +1466,14 @@ namespace BiliBili3
 
         public static void Set_UseCN(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["UseCN"] = value;
         }
 
 
         public static bool Get_UseVIP()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["UseVIP"] != null)
             {
                 return (bool)container.Values["UseVIP"];
@@ -1655,14 +1487,14 @@ namespace BiliBili3
 
         public static void Set_UseVIP(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["UseVIP"] = value;
         }
 
 
         public static bool Get_UseOtherSite()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["UseOtherSite"] != null)
             {
                 return (bool)container.Values["UseOtherSite"];
@@ -1676,7 +1508,7 @@ namespace BiliBili3
 
         public static void Set_UseOtherSite(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["UseOtherSite"] = value;
         }
         #endregion
@@ -1685,7 +1517,7 @@ namespace BiliBili3
 
         public static string Get_UserName()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["UserName"] != null)
             {
                 return (string)container.Values["UserName"];
@@ -1697,12 +1529,12 @@ namespace BiliBili3
         }
         public static void Set_UserName(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["UserName"] = value;
         }
         public static string Get_Password()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["Password"] != null)
             {
                 return (string)container.Values["Password"];
@@ -1714,13 +1546,13 @@ namespace BiliBili3
         }
         public static void Set_Password(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["Password"] = value;
         }
 
         public static string Get_Access_key()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["Access_key"] != null)
             {
                 return (string)container.Values["Access_key"];
@@ -1732,13 +1564,13 @@ namespace BiliBili3
         }
         public static void Set_Access_key(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["Access_key"] = value;
         }
 
         public static string Get_BiliplusCookie()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["BiliplusCookie"] != null)
             {
                 return (string)container.Values["BiliplusCookie"];
@@ -1750,14 +1582,14 @@ namespace BiliBili3
         }
         public static void Set_BiliplusCookie(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["BiliplusCookie"] = value;
         }
 
 
         public static string Get_Refresh_Token()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["Refresh_Token"] != null)
             {
                 return (string)container.Values["Refresh_Token"];
@@ -1769,13 +1601,13 @@ namespace BiliBili3
         }
         public static void Set_Refresh_Token(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["Refresh_Token"] = value;
         }
 
         public static DateTime Get_LoginExpires()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LoginExpires"] != null)
             {
                 return Convert.ToDateTime(container.Values["LoginExpires"]);
@@ -1787,13 +1619,13 @@ namespace BiliBili3
         }
         public static void Set_LoginExpires(DateTime value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LoginExpires"] = value.ToString();
         }
 
         public static long Get_UserID()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["UserID"] != null)
             {
                 return Convert.ToInt64(container.Values["UserID"]);
@@ -1805,7 +1637,7 @@ namespace BiliBili3
         }
         public static void Set_UserID(long value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["UserID"] = value;
         }
 
@@ -1819,56 +1651,34 @@ namespace BiliBili3
             return string.Format("{0}.{1}.{2}.{3}", pack.Version.Major, pack.Version.Minor, pack.Version.Build, pack.Version.Revision);
         }
 
-        public static bool IsPc()
-        {
-            string device = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
-            if (device != "Windows.Mobile")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
         #endregion
 
 
         #region 直播弹幕
         public static double Get_LDMSize()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LDMSize"] != null)
             {
                 return Convert.ToDouble(container.Values["LDMSize"]);
             }
             else
             {
-                if (!SettingHelper.IsPc())
-                {
-                    container.Values["LDMSize"] = 16;
-                    return 16;
-                }
-                else
-                {
-                    container.Values["LDMSize"] = 22;
-                    return 22;
-                }
-
-
+                container.Values["LDMSize"] = 22;
+                return 22;
             }
         }
 
         public static void Set_LDMSize(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LDMSize"] = value;
         }
 
 
         public static int Get_LDMFont()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LDMFont"] != null)
             {
                 return (int)container.Values["LDMFont"];
@@ -1882,13 +1692,13 @@ namespace BiliBili3
 
         public static void Set_LDMFont(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LDMFont"] = value;
         }
 
         public static double Get_LDMSpeed()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LDMSpeed"] != null)
             {
                 return Convert.ToDouble(container.Values["LDMSpeed"]);
@@ -1906,17 +1716,17 @@ namespace BiliBili3
 
         public static void Set_LDMSpeed(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LDMSpeed"] = value;
         }
 
 
         public static double Get_NewLDMSpeed()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["NewLDMSpeed"] != null)
             {
-                return Convert.ToDouble( container.Values["NewLDMSpeed"]);
+                return Convert.ToDouble(container.Values["NewLDMSpeed"]);
             }
             else
             {
@@ -1931,17 +1741,17 @@ namespace BiliBili3
 
         public static void Set_NewLDMSpeed(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["NewLDMSpeed"] = value;
         }
 
 
         public static double Get_LDMTran()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LDMTran"] != null)
             {
-                double d= Convert.ToDouble( container.Values["LDMTran"]);
+                double d = Convert.ToDouble(container.Values["LDMTran"]);
                 return d;
             }
             else
@@ -1957,14 +1767,14 @@ namespace BiliBili3
 
         public static void Set_LDMTran(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LDMTran"] = value;
         }
 
 
         public static bool Get_LDMGift()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LDMGift"] != null)
             {
                 return (bool)container.Values["LDMGift"];
@@ -1978,14 +1788,14 @@ namespace BiliBili3
 
         public static void Set_LDMGift(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LDMGift"] = value;
         }
 
 
         public static bool Get_LAutoGetAward()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LAutoGetAward"] != null)
             {
                 return (bool)container.Values["LAutoGetAward"];
@@ -1999,13 +1809,13 @@ namespace BiliBili3
 
         public static void Set_LAutoGetAward(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LAutoGetAward"] = value;
         }
 
         public static bool Get_LReceiveGiftMsg()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LReceiveGiftMsg"] != null)
             {
                 return (bool)container.Values["LReceiveGiftMsg"];
@@ -2019,13 +1829,13 @@ namespace BiliBili3
 
         public static void Set_LReceiveGiftMsg(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LReceiveGiftMsg"] = value;
         }
 
         public static bool Get_LReceiveWelcomeMsg()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LReceiveWelcomeMsg"] != null)
             {
                 return (bool)container.Values["LReceiveWelcomeMsg"];
@@ -2039,13 +1849,13 @@ namespace BiliBili3
 
         public static void Set_LReceiveWelcomeMsg(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LReceiveWelcomeMsg"] = value;
         }
 
         public static bool Get_LReceiveSysMsg()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LReceiveSysMsg"] != null)
             {
                 return (bool)container.Values["LReceiveSysMsg"];
@@ -2059,43 +1869,33 @@ namespace BiliBili3
 
         public static void Set_LReceiveSysMsg(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LReceiveSysMsg"] = value;
         }
 
         public static double Get_NewLDMSize()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["NewLDMSize"] != null)
             {
                 return Convert.ToDouble(container.Values["NewLDMSize"]);
             }
             else
             {
-                if (!SettingHelper.IsPc())
-                {
-                    container.Values["NewLDMSize"] = 0.65;
-                    return 0.65;
-                }
-                else
-                {
-                    container.Values["NewLDMSize"] = 1.0;
-                    return 1.0;
-                }
-
-
+                container.Values["NewLDMSize"] = 1.0;
+                return 1.0;
             }
         }
 
         public static void Set_NewLDMSize(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["NewLDMSize"] = value;
         }
 
         public static int Get_LVolume()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LVolume"] != null)
             {
                 return (int)container.Values["LVolume"];
@@ -2109,13 +1909,13 @@ namespace BiliBili3
 
         public static void Set_LVolume(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LVolume"] = value;
         }
 
         public static int Get_LClear()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LClear"] != null)
             {
                 return (int)container.Values["LClear"];
@@ -2129,13 +1929,13 @@ namespace BiliBili3
 
         public static void Set_LClear(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LClear"] = value;
         }
 
         public static int Get_LDelay()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["LDelay"] != null)
             {
                 return (int)container.Values["LDelay"];
@@ -2149,44 +1949,15 @@ namespace BiliBili3
 
         public static void Set_LDelay(int value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["LDelay"] = value;
         }
 
         #endregion
 
-        //public async static void PinTile(string id,string par,string name,string imgUrl)
-        //{
-
-
-        //    Uri square150x150Logo = new Uri(imgUrl, UriKind.RelativeOrAbsolute);
-        //    TileSize newTileDesiredSize = TileSize.Square150x150;
-
-        //    SecondaryTile secondaryTile = new SecondaryTile();
-
-
-        //    secondaryTile.TileId = id;
-        //    secondaryTile.DisplayName = name;
-        //    secondaryTile.Arguments = par;
-        //    //secondaryTile. = square150x150Logo;
-
-
-        //    secondaryTile.VisualElements.ShowNameOnWide310x150Logo = true;
-        //    secondaryTile.VisualElements.ShowNameOnSquare150x150Logo = true;
-        //    secondaryTile.VisualElements.ForegroundText = ForegroundText.Light;
-        //    //secondaryTile.VisualElements.Square44x44Logo = new Uri(imgUrl, UriKind.RelativeOrAbsolute);
-        //    secondaryTile.VisualElements.Wide310x150Logo = new Uri(imgUrl, UriKind.RelativeOrAbsolute);
-        //    //secondaryTile.VisualElements.BackgroundColor = co;
-        //    //Windows.Foundation.Rect rect =(FrameworkElement)sender;
-        //  //  Windows.UI.Popups.Placement placement = Windows.UI.Popups.Placement.Above;
-
-        //      await secondaryTile.RequestCreateAsync();
-        //}
-
-            
         public static bool Get_PriorityBiliPlus()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["PriorityBiliPlus"] != null)
             {
                 return (bool)container.Values["PriorityBiliPlus"];
@@ -2200,7 +1971,7 @@ namespace BiliBili3
 
         public static void Set_PriorityBiliPlus(bool value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["PriorityBiliPlus"] = value;
         }
 
@@ -2208,37 +1979,27 @@ namespace BiliBili3
         #region 字幕设置
         public static double Get_SubtitleSize()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["SubtitleSize"] != null)
             {
                 return Convert.ToDouble(container.Values["SubtitleSize"]);
             }
             else
             {
-                if (SettingHelper.IsPc())
-                {
-                    container.Values["SubtitleSize"] = 25;
-                    return 25;
-                }
-                else
-                {
-                    container.Values["SubtitleSize"] = 18;
-                    return 18;
-                }
-
-
+                container.Values["SubtitleSize"] = 25;
+                return 25;
             }
         }
 
         public static void Set_SubtitleSize(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["SubtitleSize"] = value;
         }
 
         public static string Get_SubtitleFontFamily()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["SubtitleFontFamily"] != null)
             {
                 return container.Values["SubtitleFontFamily"].ToString();
@@ -2253,13 +2014,13 @@ namespace BiliBili3
 
         public static void Set_SubtitleFontFamily(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["SubtitleFontFamily"] = value;
         }
 
         public static double Get_SubtitleBgTran()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["SubtitleBgTran"] != null)
             {
                 return Convert.ToDouble(container.Values["SubtitleBgTran"]);
@@ -2274,14 +2035,14 @@ namespace BiliBili3
 
         public static void Set_SubtitleBgTran(double value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["SubtitleBgTran"] = value;
         }
 
 
         public static string Get_SubtitleColor()
         {
-            container = ApplicationData.Current.LocalSettings;
+
             if (container.Values["SubtitleColor"] != null)
             {
                 return container.Values["SubtitleColor"].ToString();
@@ -2296,7 +2057,7 @@ namespace BiliBili3
 
         public static void Set_SubtitleColor(string value)
         {
-            container = ApplicationData.Current.LocalSettings;
+
             container.Values["SubtitleColor"] = value;
         }
         #endregion

@@ -165,7 +165,7 @@ namespace BiliBili3.Pages
             }
         }
 
-     
+
 
         SystemMediaTransportControls _systemMediaTransportControls;
         private DisplayRequest dispRequest = null;//保持屏幕常亮
@@ -264,7 +264,7 @@ namespace BiliBili3.Pages
         bool settingFlag = true;
         public async void LoadPlayer(List<PlayerModel> par, int index)
         {
-            
+
 
             await Task.Delay(200);
             danmu = MTC.myDanmaku;
@@ -316,7 +316,7 @@ namespace BiliBili3.Pages
             playNow = playList[index];
             if (playNow.isInteraction)
             {
-                interactionVideo = new InteractionVideo(playNow.Aid,playNow.graph_version);
+                interactionVideo = new InteractionVideo(playNow.Aid, playNow.graph_version);
                 nodeInfo = await interactionVideo.GetNodes(playNow.node_id);
                 gridview_node.ItemsSource = nodeInfo?.edges?.choices;
                 gv_story_list.ItemsSource = nodeInfo?.story_list;
@@ -492,7 +492,7 @@ namespace BiliBili3.Pages
 
 
 
-        public  void UpdateSetting()
+        public void UpdateSetting()
         {
             //if (!SettingHelper.IsPc())
             //{
@@ -525,7 +525,7 @@ namespace BiliBili3.Pages
             btnOpenInstallHEVC.Visibility = Visibility.Visible;
             //if (!await SystemHelper.CheckCodec())
             //{
-              
+
             //}
             //else
             //{
@@ -556,13 +556,13 @@ namespace BiliBili3.Pages
             var subColor = SettingHelper.Get_SubtitleColor();
             foreach (ComboBoxItem item in cb_SubtitleColor.Items)
             {
-                if(item.Tag.ToString() == subColor)
+                if (item.Tag.ToString() == subColor)
                 {
                     cb_SubtitleColor.SelectedItem = item;
                     break;
                 }
             }
-            slider_SubtitleTran.Value= SettingHelper.Get_SubtitleBgTran();
+            slider_SubtitleTran.Value = SettingHelper.Get_SubtitleBgTran();
             slider_SubtitleSize.Value = SettingHelper.Get_SubtitleSize();
 
             mediaElement.Volume = SettingHelper.Get_Volume();
@@ -798,9 +798,9 @@ namespace BiliBili3.Pages
                 if (gv_play.Items.Count == 0 || gv_play.Items.Count == 1)
                 {
 
-                   MTC.ShowPlayListBtn = playNow.isInteraction;
-     
-                    
+                    MTC.ShowPlayListBtn = playNow.isInteraction;
+
+
                     MTC.ShowNextButton = false;
                     MTC.ShowPreviousButton = false;
                 }
@@ -861,7 +861,8 @@ namespace BiliBili3.Pages
                             {
 
                                 mediaElement.Source = new Uri(ban.url);
-                            }else if(ban.usePlayMode== UsePlayMode.Dash)
+                            }
+                            else if (ban.usePlayMode == UsePlayMode.Dash)
                             {
                                 mediaElement.SetMediaStreamSource(ban.mediaSource);
                             }
@@ -887,10 +888,11 @@ namespace BiliBili3.Pages
                             {
                                 mediaElement.Source = new Uri(ss.url);
                             }
-                            else if (ss.usePlayMode== UsePlayMode.Dash)
+                            else if (ss.usePlayMode == UsePlayMode.Dash)
                             {
                                 mediaElement.SetMediaStreamSource(ss.mediaSource);
-                            }else
+                            }
+                            else
                             {
                                 mediaElement.Source = await ss.playlist.SaveAndGetFileUriAsync();
                             }
@@ -935,9 +937,9 @@ namespace BiliBili3.Pages
 
                     AddLog("读取是否包含字幕");
                     MTC.HideLog();
-                    var hasSub= await PlayurlHelper.GetHasSubTitle(playNow.Aid,playNow.Mid);
+                    var hasSub = await PlayurlHelper.GetHasSubTitle(playNow.Aid, playNow.Mid);
                     LaodSubTitleMenu(hasSub);
-                   
+
                 }
                 else
                 {
@@ -949,7 +951,7 @@ namespace BiliBili3.Pages
                     IRandomAccessStream readStream = await file.OpenAsync(FileAccessMode.Read);
                     // var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
                     mediaElement.SetSource(readStream, file.ContentType);
-                    
+
                 }
 
                 AddLog("准备开始播放...");
@@ -998,11 +1000,11 @@ namespace BiliBili3.Pages
             {
                 AddLog($"该视频包含了{hasSub.subtitles.Count}个字幕文件");
                 var menu = new MenuFlyout();
-              
+
 
                 foreach (var item in hasSub.subtitles)
                 {
-                    ToggleMenuFlyoutItem menuitem = new ToggleMenuFlyoutItem() { Text = item.lan_doc,Tag=item.subtitle_url };
+                    ToggleMenuFlyoutItem menuitem = new ToggleMenuFlyoutItem() { Text = item.lan_doc, Tag = item.subtitle_url };
                     menuitem.Click += Menuitem_Click;
                     menu.Items.Add(menuitem);
                 }
@@ -1020,7 +1022,7 @@ namespace BiliBili3.Pages
                 menu.Items.Add(new ToggleMenuFlyoutItem() { Text = "无", IsChecked = true });
                 MTC.CCSelectFlyout = menu;
             }
-          
+
 
         }
         /// <summary>
@@ -1038,7 +1040,7 @@ namespace BiliBili3.Pages
         /// <param name="e"></param>
         private void Menuitem_Click(object sender, RoutedEventArgs e)
         {
-          
+
             foreach (ToggleMenuFlyoutItem item in (MTC.CCSelectFlyout as MenuFlyout).Items)
             {
                 item.IsChecked = false;
@@ -1063,31 +1065,31 @@ namespace BiliBili3.Pages
             try
             {
                 subtitles = await PlayurlHelper.GetSubtitle(url);
-                if (subtitles!=null)
+                if (subtitles != null)
                 {
 
                     subtitleTimer = new DispatcherTimer();
                     subtitleTimer.Interval = TimeSpan.FromMilliseconds(100);
                     subtitleTimer.Tick += SubtitleTimer_Tick;
                     subtitleTimer.Start();
-                    
+
                 }
             }
             catch (Exception ex)
             {
                 Utils.ShowMessageToast("加载字幕失败了");
             }
-            
+
 
         }
 
         private void SubtitleTimer_Tick(object sender, object e)
         {
-            if (mediaElement.CurrentState== MediaElementState.Playing)
+            if (mediaElement.CurrentState == MediaElementState.Playing)
             {
                 var time = mediaElement.Position.TotalSeconds;
                 var first = subtitles.body.FirstOrDefault(x => x.from <= time && x.to >= time);
-                if (first!=null)
+                if (first != null)
                 {
                     if (first.content != MTC.GetSubtitle())
                     {
@@ -1104,9 +1106,9 @@ namespace BiliBili3.Pages
 
         private void ClearSubTitle()
         {
-            if (subtitles!=null)
+            if (subtitles != null)
             {
-                if (subtitleTimer!=null)
+                if (subtitleTimer != null)
                 {
                     subtitleTimer.Stop();
                     subtitleTimer = null;
@@ -1126,10 +1128,10 @@ namespace BiliBili3.Pages
                 case PlayMode.VipBangumi:
 
                     var ban = await PlayurlHelper.GetBangumiUrl(playNow, (cb_Quity.SelectedItem as QualityModel).qn);
-                    if (ban!=null)
+                    if (ban != null)
                     {
                         txt_site.Text = ban.from;
-                        
+
                         if (ban.usePlayMode == UsePlayMode.System)
                         {
 
@@ -1156,7 +1158,7 @@ namespace BiliBili3.Pages
 
 
                     var ss = await PlayurlHelper.GetVideoUrl(playNow.Aid, playNow.Mid, (cb_Quity.SelectedItem as QualityModel).qn);
-                    if (ss!=null)
+                    if (ss != null)
                     {
                         txt_site.Text = ss.from;
                         if (ss.usePlayMode == UsePlayMode.System)
@@ -1267,7 +1269,7 @@ namespace BiliBili3.Pages
                     AddLog("填充弹幕中...");
                     DanMuPool = await danmakuParse.ParseBiliBili(item);
                 }
-                
+
                 if (item.FileType == ".mp4" || item.FileType == ".flv")
                 {
                     paths.Add(item.Path);
@@ -1279,7 +1281,7 @@ namespace BiliBili3.Pages
                 }
 
             }
-            if (paths.Count==1)
+            if (paths.Count == 1)
             {
                 var file = await StorageFile.GetFileFromPathAsync(paths[0]);
                 mediaElement.SetSource(await file.OpenReadAsync(), file.ContentType);
@@ -1296,16 +1298,16 @@ namespace BiliBili3.Pages
         private async Task<MediaStreamSource> PlayLocalVideo(List<string> paths)
         {
             var playList = new SYEngine.Playlist(SYEngine.PlaylistTypes.LocalFile);
-           
+
             MediaComposition composition = new MediaComposition();
             foreach (var item in paths)
             {
-                playList.Append(item,0,0);
+                playList.Append(item, 0, 0);
                 var file = await StorageFile.GetFileFromPathAsync(item);
                 var clip = await MediaClip.CreateFromFileAsync(file);
                 composition.Clips.Add(clip);
             }
-             return composition.GenerateMediaStreamSource();
+            return composition.GenerateMediaStreamSource();
         }
 
 
@@ -1596,7 +1598,7 @@ namespace BiliBili3.Pages
             {
                 MTC.Brightness = 1;
             }
-            txt_SSPosition.Text = "亮度:" + Math.Abs(MTC.Brightness-1).ToString("P");
+            txt_SSPosition.Text = "亮度:" + Math.Abs(MTC.Brightness - 1).ToString("P");
 
         }
 
@@ -1705,9 +1707,9 @@ namespace BiliBili3.Pages
                 {
                     if (playNow.isInteraction)
                     {
-                        if (nodeInfo.edges!=null)
+                        if (nodeInfo.edges != null)
                         {
-                            if (nodeInfo.edges.choices.Count==1)
+                            if (nodeInfo.edges.choices.Count == 1)
                             {
                                 ChangeNode(nodeInfo.edges.choices[0].node_id, nodeInfo.edges.choices[0].cid.ToString());
                             }
@@ -2229,7 +2231,7 @@ namespace BiliBili3.Pages
             {
                 gv_story_list.Visibility = Visibility.Visible;
                 gv_play.Visibility = Visibility.Collapsed;
-               
+
             }
             else
             {
@@ -2248,35 +2250,21 @@ namespace BiliBili3.Pages
 
         private void MTC_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            if (!SettingHelper.IsPc())
+            if (MTC.IsFullWindow)
             {
-                if (mediaElement.CurrentState == MediaElementState.Playing)
-                {
-                    mediaElement.Pause();
-                }
-                else
-                {
-                    mediaElement.Play();
-                }
+                MTC.ExitFull();
+                //mediaElement.IsFullWindow = false;
             }
             else
             {
-                if (MTC.IsFullWindow)
-                {
-                    MTC.ExitFull();
-                    //mediaElement.IsFullWindow = false;
-                }
-                else
-                {
-                    MTC.ToFull();
-                    //mediaElement.IsFullWindow = true;
-                }
+                MTC.ToFull();
+                //mediaElement.IsFullWindow = true;
             }
         }
 
         private void MTC_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            if (SettingHelper.IsPc() && e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
                 if (mediaElement.CurrentState == MediaElementState.Playing)
                 {
@@ -2340,27 +2328,11 @@ namespace BiliBili3.Pages
 
         private async void MTC_CoinsEvent(object sender, EventArgs e)
         {
-            if (SettingHelper.IsPc())
-            {
-                MessageDialog messageDialog = new MessageDialog("确定要投币吗?", "投币");
-                messageDialog.Commands.Add(new UICommand("投币X1", (com) => { TouBi(1); }, "1"));
-                messageDialog.Commands.Add(new UICommand("投币X2", (com) => { TouBi(2); }, "2"));
-                messageDialog.Commands.Add(new UICommand("取消", (com) => { }, "0"));
-                await messageDialog.ShowAsync();
-            }
-            else
-            {
-                MenuFlyout menuFlyout = new MenuFlyout();
-                var menu1 = new MenuFlyoutItem() { Text = "投币X1" };
-                menu1.Click += new RoutedEventHandler((x, y) => { TouBi(1); });
-                var menu2 = new MenuFlyoutItem() { Text = "投币X2" };
-                menu2.Click += new RoutedEventHandler((x, y) => { TouBi(2); });
-                menuFlyout.Items.Add(menu1);
-                menuFlyout.Items.Add(menu2);
-
-                menuFlyout.ShowAt(sender as AppBarButton);
-            }
-
+            MessageDialog messageDialog = new MessageDialog("确定要投币吗?", "投币");
+            messageDialog.Commands.Add(new UICommand("投币X1", (com) => { TouBi(1); }, "1"));
+            messageDialog.Commands.Add(new UICommand("投币X2", (com) => { TouBi(2); }, "2"));
+            messageDialog.Commands.Add(new UICommand("取消", (com) => { }, "0"));
+            await messageDialog.ShowAsync();
         }
         public async void TouBi(int num)
         {
@@ -2521,7 +2493,7 @@ namespace BiliBili3.Pages
             {
                 Utils.ShowMessageToast("加载失败");
             }
-           
+
 
         }
 
@@ -2550,7 +2522,7 @@ namespace BiliBili3.Pages
             var clickItem = e.ClickedItem as Choices;
             ChangeNode(clickItem.node_id, clickItem.cid.ToString());
         }
-        public async void ChangeNode(int node_id,string cid)
+        public async void ChangeNode(int node_id, string cid)
         {
             var data = await interactionVideo.GetNodes(node_id);
             if (data == null)
@@ -2564,7 +2536,7 @@ namespace BiliBili3.Pages
             settingStorylist = true;
             gv_story_list.SelectedItem = nodeInfo.story_list.FirstOrDefault(x => x.node_id == data.node_id);
             settingStorylist = false;
-            playNow.Mid =cid;
+            playNow.Mid = cid;
             playNow.node_id = node_id;
             playNow.VideoTitle = data.title;
             gridview_node.Visibility = Visibility.Collapsed;
@@ -2578,14 +2550,14 @@ namespace BiliBili3.Pages
         bool settingStorylist = false;
         private void Gv_story_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (gv_story_list.SelectedItem==null||settingStorylist)
+            if (gv_story_list.SelectedItem == null || settingStorylist)
             {
                 return;
             }
-           
+
             var clickItem = gv_story_list.SelectedItem as StoryList;
             ChangeNode(clickItem.node_id, clickItem.cid.ToString());
-           
+
         }
 
         private void Sw_DASHUseHEVC_Toggled(object sender, RoutedEventArgs e)
@@ -2601,8 +2573,8 @@ namespace BiliBili3.Pages
             //}
             //else
             //{
-                SettingHelper.Set_DASHUseHEVC(sw_DASHUseHEVC.IsOn);
-                Utils.ShowMessageToast("更改清晰度或重新加载生效");
+            SettingHelper.Set_DASHUseHEVC(sw_DASHUseHEVC.IsOn);
+            Utils.ShowMessageToast("更改清晰度或重新加载生效");
             //}
 
         }
@@ -2626,7 +2598,7 @@ namespace BiliBili3.Pages
 
         private void Sp_View_PaneClosed(SplitView sender, object args)
         {
-           
+
         }
 
         private void Cb_SubtitleFont_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -2636,7 +2608,7 @@ namespace BiliBili3.Pages
                 return;
             }
             SettingHelper.Set_SubtitleFontFamily(cb_SubtitleFont.SelectedItem.ToString());
-            MTC.SubTitleFontFamily =new FontFamily(cb_SubtitleFont.SelectedItem.ToString());
+            MTC.SubTitleFontFamily = new FontFamily(cb_SubtitleFont.SelectedItem.ToString());
         }
 
         private void Cb_SubtitleColor_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -2677,7 +2649,7 @@ namespace BiliBili3.Pages
             {
                 return;
             }
-            MTC.SubTitleBackground = new SolidColorBrush(Color.FromArgb(Convert.ToByte(e.NewValue * 255),0,0,0));
+            MTC.SubTitleBackground = new SolidColorBrush(Color.FromArgb(Convert.ToByte(e.NewValue * 255), 0, 0, 0));
             SettingHelper.Set_SubtitleBgTran(e.NewValue);
         }
     }

@@ -39,7 +39,7 @@ namespace BiliBili3.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (SettingHelper.Get_RefreshButton() && SettingHelper.IsPc())
+            if (SettingHelper.Get_RefreshButton())
             {
                 b_btn_Refresh.Visibility = Visibility.Visible;
             }

@@ -481,15 +481,6 @@ namespace BiliBili3.Pages.Live
             receiveSysMsg = SettingHelper.Get_LReceiveSysMsg();
 
 
-            if (!SettingHelper.IsPc())
-            {
-                btn_winfull.Visibility = Visibility.Collapsed;
-                btn_exitwinfull.Visibility = Visibility.Collapsed;
-                btn_Mini.Visibility = Visibility.Collapsed;
-                btn_ExitMini.Visibility = Visibility.Collapsed;
-
-            }
-
             loadingSetting = false;
         }
 

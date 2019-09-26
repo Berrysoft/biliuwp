@@ -39,8 +39,8 @@ namespace BiliBili3.Controls
 
             SubTitleBackground = new SolidColorBrush(Color.FromArgb(120, 0, 0, 0));
             SubTitleColor = new SolidColorBrush(Colors.Red);
-            SubTitleFontFamily = new FontFamily("Segoe UI");
-            SubTitleFontSize = SettingHelper.IsPc()?25.0:18.0;
+            SubTitleFontFamily = new FontFamily("Microsoft YaHei UI");
+            SubTitleFontSize = 25.0;
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);

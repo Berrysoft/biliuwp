@@ -377,12 +377,6 @@ namespace BiliBili3.Pages
                 //设置聚焦，最好使用FocusMode.Continuous，否则影响截图会很模糊，不利于识别
                 focusControl.Configure(focusSettings);
             }
-            if (!SettingHelper.IsPc())
-            {
-                _mediaCapture.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
-
-            }
-
 
             VideoCapture.Source = _mediaCapture;
             VideoCapture.FlowDirection = FlowDirection.LeftToRight;

@@ -42,10 +42,10 @@ namespace BiliBili3
         public static event MessageHandel ChanageThemeEvent;
         public static event LoginedHandel Logined;
         public static event ChangeBgHandel ChangeBg;
-      
+
         public static void SendMessage(object par)
         {
-            if (HasMessaged!=null)
+            if (HasMessaged != null)
             {
                 HasMessaged(null, par);
             }
@@ -72,14 +72,14 @@ namespace BiliBili3
         public static event NavigateHandel BgNavigateToEvent;
         public async static void SendNavigateTo(NavigateMode mode, Type page, params object[] par)
         {
-            
+
             switch (mode)
             {
                 case NavigateMode.Main:
                     MianNavigateToEvent(page, par);
                     break;
                 case NavigateMode.Info:
-                    if (page.FullName.Contains("WebPage") &&await HandelUrl(par[0].ToString()))
+                    if (page.FullName.Contains("WebPage") && await HandelUrl(par[0].ToString()))
                     {
                         return;
                     }
@@ -91,7 +91,7 @@ namespace BiliBili3
                         MusicHelper.Pause();
                     }
                     //&&SettingHelper.IsPc()
-                    if (page==typeof(LiveRoomPage))
+                    if (page == typeof(LiveRoomPage))
                     {
                         PlayNavigateToEvent(typeof(LiveRoomPC), par);
                         return;
@@ -133,8 +133,8 @@ namespace BiliBili3
              * bilibili://?av=4284663
              */
 
-            var video = Utils.RegexMatch(url.Replace("aid", "av").Replace("/","").Replace("=",""), @"av(\d+)");
-            if (video!="")
+            var video = Utils.RegexMatch(url.Replace("aid", "av").Replace("/", "").Replace("=", ""), @"av(\d+)");
+            if (video != "")
             {
                 InfoNavigateToEvent(typeof(VideoViewPage), video);
                 return true;
@@ -157,7 +157,7 @@ namespace BiliBili3
              * https://bangumi.bilibili.com/movie/12364
              */
 
-            var bangumi = Utils.RegexMatch(url.Replace("movie","ss").Replace("anime", "ss").Replace("season", "ss").Replace("/",""), @"ss(\d+)");
+            var bangumi = Utils.RegexMatch(url.Replace("movie", "ss").Replace("anime", "ss").Replace("season", "ss").Replace("/", ""), @"ss(\d+)");
             if (bangumi != "")
             {
                 InfoNavigateToEvent(typeof(BanInfoPage), bangumi);
@@ -166,7 +166,7 @@ namespace BiliBili3
             bangumi = Utils.RegexMatch(url, @"ep(\d+)");
             if (bangumi != "")
             {
-                InfoNavigateToEvent(typeof(BanInfoPage),await Utils.BangumiEpidToSid(bangumi));
+                InfoNavigateToEvent(typeof(BanInfoPage), await Utils.BangumiEpidToSid(bangumi));
                 return true;
             }
 
@@ -182,7 +182,7 @@ namespace BiliBili3
             if (review != "")
             {
                 //InfoNavigateToEvent(typeof(BanInfoPage), review);
-                await new Windows.UI.Popups.MessageDialog("请求打开点评"+ review).ShowAsync();
+                await new Windows.UI.Popups.MessageDialog("请求打开点评" + review).ShowAsync();
                 return true;
             }
 
@@ -199,14 +199,7 @@ namespace BiliBili3
             var live = Utils.RegexMatch(url.Replace("h5", "live").Replace("live.bilibili.com", "live").Replace("/", ""), @"live(\d+)");
             if (live != "")
             {
-                if (!SettingHelper.IsPc())
-                {
-                    PlayNavigateToEvent(typeof(LiveRoomPage), live);
-                }
-                else
-                {
-                    PlayNavigateToEvent(typeof(LiveRoomPC), live);
-                }
+                PlayNavigateToEvent(typeof(LiveRoomPC), live);
                 return true;
             }
 
@@ -265,7 +258,7 @@ namespace BiliBili3
                 InfoNavigateToEvent(typeof(MusicMenuPage), musicmenu);
                 return true;
             }
-         
+
 
             /*
              * 相簿及动态
@@ -277,7 +270,7 @@ namespace BiliBili3
             var album = Utils.RegexMatch(url.Replace("h.bilibili.com/ywh/h5/", "album").Replace("h.bilibili.com", "album").Replace("t.bilibili.com", "album").Replace("/", ""), @"album(\d+)");
             if (album != "")
             {
-                InfoNavigateToEvent(typeof(DynamicInfoPage),  album);
+                InfoNavigateToEvent(typeof(DynamicInfoPage), album);
                 return true;
             }
 
@@ -306,7 +299,7 @@ namespace BiliBili3
                 InfoNavigateToEvent(typeof(DynamicTopicPage), new object[] { "", topic });
                 return true;
             }
-            var topic1 = Utils.RegexMatch(url+"/", @"tag/.*?/\?name=(.*?)/");
+            var topic1 = Utils.RegexMatch(url + "/", @"tag/.*?/\?name=(.*?)/");
             if (topic1 != "")
             {
                 var data = Uri.UnescapeDataString(topic1);
@@ -352,13 +345,13 @@ namespace BiliBili3
             int newViewId = 0;
             await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-               
+
                 Frame frame = new Frame();
                 frame.Navigate(page, par);
                 Window.Current.Content = frame;
-          
+
                 Window.Current.Activate();
-               
+
                 newViewId = ApplicationView.GetForCurrentView().Id;
                 ChangeTheme(frame);
                 ChangeTitbarColor(ApplicationView.GetForCurrentView());
@@ -366,7 +359,7 @@ namespace BiliBili3
                 var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
                 ApplicationView.PreferredLaunchViewSize = new Size(bounds.Width, bounds.Height);
                 ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-               
+
                 ApplicationView.GetForCurrentView().Consolidated += (sender, args) =>
                 {
                     frame.Navigate(typeof(BlankPage));//跳转到空白页

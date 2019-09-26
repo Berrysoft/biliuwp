@@ -296,14 +296,7 @@ namespace BiliBili3
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
 
-            if (SettingHelper.IsPc())
-            {
-                sp_View.DisplayMode = SplitViewDisplayMode.CompactOverlay;
-            }
-            else
-            {
-                sp_View.DisplayMode = SplitViewDisplayMode.Overlay;
-            }
+            sp_View.DisplayMode = SplitViewDisplayMode.CompactOverlay;
             ChangeTheme();
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 5);

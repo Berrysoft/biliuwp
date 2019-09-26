@@ -325,11 +325,6 @@ namespace BiliBili3.Pages
                     dispRequest = new DisplayRequest();
                     dispRequest.RequestActive(); // 激活显示请求
                 }
-                if (!SettingHelper.IsPc())
-                {
-                    btn_winfull.Visibility = Visibility.Collapsed;
-                    btn_exitwinfull.Visibility = Visibility.Collapsed;
-                }
                 cb_Source.ItemsSource = null;
                 pivot.SelectedIndex = 0;
                 slider_V.Value = 1;
@@ -503,7 +498,7 @@ namespace BiliBili3.Pages
             }
         }
 
-      
+
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
@@ -1659,14 +1654,7 @@ namespace BiliBili3.Pages
             grid_top.Height = 48;
             grid_Info.Visibility = Visibility.Visible;
             Video_UP.Visibility = Visibility.Visible;
-            bool phone = false;
-            if (!SettingHelper.IsPc() && (DisplayInformation.GetForCurrentView().CurrentOrientation == DisplayOrientations.Portrait || DisplayInformation.GetForCurrentView().CurrentOrientation == DisplayOrientations.PortraitFlipped))
-            {
-                phone = true;
-            }
-
-
-            if (this.ActualWidth >= 600 && !phone)
+            if (this.ActualWidth >= 600)
             {
                 Grid.SetColumn(grid_Info, 1);
                 Grid.SetColumn(grid_NotFull, 0);
@@ -1840,14 +1828,7 @@ namespace BiliBili3.Pages
             grid_top.Height = 48;
             grid_Info.Visibility = Visibility.Visible;
             Video_UP.Visibility = Visibility.Visible;
-            bool phone = false;
-            if (!SettingHelper.IsPc() && (DisplayInformation.GetForCurrentView().CurrentOrientation == DisplayOrientations.Portrait || DisplayInformation.GetForCurrentView().CurrentOrientation == DisplayOrientations.PortraitFlipped))
-            {
-                phone = true;
-            }
-
-
-            if (this.ActualWidth >= 600 && !phone)
+            if (this.ActualWidth >= 600)
             {
                 Grid.SetColumn(grid_Info, 1);
                 Grid.SetColumn(grid_NotFull, 0);
