@@ -1408,7 +1408,7 @@ namespace BiliBili3
         #region 字幕设置
         public static double SubtitleSize
         {
-            get => GetOrSetDefault(25);
+            get => GetOrSetDefault(25.0);
             set => SetValue(value);
         }
 
