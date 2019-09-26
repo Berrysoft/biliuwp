@@ -75,7 +75,7 @@ namespace BiliBili3
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Tick += Timer_Tick;
             timer.Start();
-            if (m.StartType == StartTypes.None && SettingHelper.Get_LoadSplash())
+            if (m.StartType == StartTypes.None && SettingHelper.LoadSplash)
             {
                 await GetResults();
             }

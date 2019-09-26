@@ -1238,7 +1238,7 @@ namespace BiliBili3.Controls
                 }
                 else
                 {
-                    if (SettingHelper.Get_Theme() == "Dark")
+                    if (SettingHelper.Theme == "Dark")
                     {
                         return new SolidColorBrush(Colors.White);
                     }

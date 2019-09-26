@@ -378,7 +378,7 @@ namespace BiliBili3
 
         private static void ChangeTheme(Frame f)
         {
-            string ThemeName = SettingHelper.Get_Theme();
+            string ThemeName = SettingHelper.Theme;
             ResourceDictionary newDictionary = new ResourceDictionary();
             switch (ThemeName)
             {

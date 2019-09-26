@@ -66,7 +66,6 @@ namespace BiliBili3.Views
                 loadsetting = true;
                 pr_Load.Visibility = Visibility.Visible;
                 CustomBg.Visibility = Visibility.Visible;
-                sw_HideStatus.IsOn = SettingHelper.Get_HideStatus();
 
 
                 sw_NewWidnows.IsOn = SettingHelper.Get_NewWindow();
@@ -84,19 +83,18 @@ namespace BiliBili3.Views
                 sw_DASHUseHEVC.IsOn = SettingHelper.Get_DASHUseHEVC();
                 sw_PriorityBiliPlus.IsOn = SettingHelper.Get_PriorityBiliPlus();
 
-                sw_LoadSe.IsOn = SettingHelper.Get_LoadSplash();
-                sw_CloseAD.IsOn = SettingHelper.Get_HideAD();
+                sw_LoadSe.IsOn = SettingHelper.LoadSplash;
                 sw_ForceAudio.IsOn = SettingHelper.Get_ForceAudio();
                 sw_ForceVideo.IsOn = SettingHelper.Get_ForceVideo();
                 sw_DanmuBorder.IsOn = SettingHelper.Get_DMBorder();
                 sw_Use4GDown.IsOn = SettingHelper.Get_Use4GDown();
-                sw_RefreshButton.IsOn = SettingHelper.Get_RefreshButton();
+                sw_RefreshButton.IsOn = SettingHelper.RefreshButton;
 
                 sw_Play4G.IsOn = SettingHelper.Get_Use4GPlay();
                 sw_BackgroundPlay.IsOn = SettingHelper.Get_BackPlay();
                 sw_HideCursor.IsOn = SettingHelper.Get_HideCursor();
 
-                sw_MouseBack.IsOn = SettingHelper.Get_MouseBack();
+                sw_MouseBack.IsOn = SettingHelper.MouseBack;
                 sw_MergeDanmu.IsOn = SettingHelper.Get_MergeDanmu();
 
                 sw_NotSubtitle.IsOn = SettingHelper.Get_DanmuNotSubtitle();
@@ -157,22 +155,22 @@ namespace BiliBili3.Views
                 sw_Playback.SelectedIndex = SettingHelper.Get_Playback();
 
 
-                sw_CustomBg.IsOn = SettingHelper.Get_CustomBG();
+                sw_CustomBg.IsOn = SettingHelper.CustomBG;
 
-                txt_BGPath.Text = SettingHelper.Get_BGPath();
+                txt_BGPath.Text = SettingHelper.BGPath;
                 txt_CustomDownPath.Text = SettingHelper.Get_DownPath();
 
 
-                cb_BGStretch.SelectedIndex = SettingHelper.Get_BGStretch();
-                cb_Ver.SelectedIndex = SettingHelper.Get_BGVer();
-                cbHor.SelectedIndex = SettingHelper.Get__BGHor();
-                cb_BGOpacity.SelectedIndex = SettingHelper.Get_BGOpacity() - 1;
-                cb_FrostedGlass.SelectedIndex = SettingHelper.Get_FrostedGlass();
+                cb_BGStretch.SelectedIndex = SettingHelper.BGStretch;
+                cb_Ver.SelectedIndex = SettingHelper.BGVer;
+                cbHor.SelectedIndex = SettingHelper._BGHor;
+                cb_BGOpacity.SelectedIndex = SettingHelper.BGOpacity - 1;
+                cb_FrostedGlass.SelectedIndex = SettingHelper.FrostedGlass;
                 cb_ClaerLiveComment.SelectedIndex = SettingHelper.Get_ClearLiveComment();
                 sw_H5.IsOn = SettingHelper.Get_UseH5();
 
-                txt_BGMaxHeight.Text = SettingHelper.Get_BGMaxHeight().ToString();
-                txt_BGMaxWidth.Text = SettingHelper.Get_BGMaxWidth().ToString();
+                txt_BGMaxHeight.Text = SettingHelper.BGMaxHeight.ToString();
+                txt_BGMaxWidth.Text = SettingHelper.BGMaxWidth.ToString();
 
                 cb_BanPlayer.SelectedIndex = SettingHelper.Get_BanPlayer();
                 if (sw_CustomBg.IsOn)
@@ -203,7 +201,7 @@ namespace BiliBili3.Views
 
 
                 get_ing = true;
-                switch (SettingHelper.Get_Theme())
+                switch (SettingHelper.Theme)
                 {
                     case "Red":
                         cb_Theme.SelectedIndex = 2;
@@ -234,12 +232,12 @@ namespace BiliBili3.Views
                 }
                 get_ing = false;
 
-                cb_Rigth.SelectedIndex = SettingHelper.Get_Rigth();
+                cb_Rigth.SelectedIndex = SettingHelper.Rigth;
 
 
-                if (SettingHelper.Get_BGPath().Length != 0)
+                if (SettingHelper.BGPath.Length != 0)
                 {
-                    StorageFile file = await StorageFile.GetFileFromPathAsync(SettingHelper.Get_BGPath());
+                    StorageFile file = await StorageFile.GetFileFromPathAsync(SettingHelper.BGPath);
                     if (file == null)
                     {
                         txt_BGPath.Text = "没有背景啊，右侧自定义-->";
@@ -276,28 +274,28 @@ namespace BiliBili3.Views
                 switch (cb_Theme.SelectedIndex)
                 {
                     case 0:
-                        SettingHelper.Set_Theme("Pink");
+                        SettingHelper.Theme = "Pink";
                         break;
                     case 1:
-                        SettingHelper.Set_Theme("Dark");
+                        SettingHelper.Theme = "Dark";
                         break;
                     case 2:
-                        SettingHelper.Set_Theme("Red");
+                        SettingHelper.Theme = "Red";
                         break;
                     case 3:
-                        SettingHelper.Set_Theme("Yellow");
+                        SettingHelper.Theme = "Yellow";
                         break;
                     case 4:
-                        SettingHelper.Set_Theme("Green");
+                        SettingHelper.Theme = "Green";
                         break;
                     case 5:
-                        SettingHelper.Set_Theme("Blue");
+                        SettingHelper.Theme = "Blue";
                         break;
                     case 6:
-                        SettingHelper.Set_Theme("Purple");
+                        SettingHelper.Theme = "Purple";
                         break;
                     case 7:
-                        SettingHelper.Set_Theme("EMT");
+                        SettingHelper.Theme = "EMT";
                         break;
                     default:
                         break;
@@ -329,23 +327,12 @@ namespace BiliBili3.Views
 
         private void cb_Rigth_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper.Set_Rigth(cb_Rigth.SelectedIndex);
+            SettingHelper.Rigth = cb_Rigth.SelectedIndex;
 
         }
-
-        private void sw_HideStatus_Toggled(object sender, RoutedEventArgs e)
-        {
-            SettingHelper.Set_HideStatus(sw_HideStatus.IsOn);
-        }
-
         private void sw_LoadSe_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_LoadSplash(sw_LoadSe.IsOn);
-        }
-
-        private void sw_CloseAD_Toggled(object sender, RoutedEventArgs e)
-        {
-            SettingHelper.Set_HideAD(sw_CloseAD.IsOn);
+            SettingHelper.LoadSplash = sw_LoadSe.IsOn;
         }
 
         private void cb_PlayQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -518,7 +505,7 @@ namespace BiliBili3.Views
 
         private void sw_RefreshButton_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_RefreshButton(sw_RefreshButton.IsOn);
+            SettingHelper.RefreshButton = sw_RefreshButton.IsOn;
         }
 
         private void sw_CustomBg_Toggled(object sender, RoutedEventArgs e)
@@ -543,7 +530,7 @@ namespace BiliBili3.Views
                 grid_Ver.Visibility = Visibility.Collapsed;
                 grid_Opacity.Visibility = Visibility.Collapsed;
             }
-            SettingHelper.Set_CustomBG(sw_CustomBg.IsOn);
+            SettingHelper.CustomBG = sw_CustomBg.IsOn;
             MessageCenter.SendChangedBg();
         }
 
@@ -574,12 +561,8 @@ namespace BiliBili3.Views
                 if (ex == null)
                 {
                     var cp = await file.CopyAsync(localFolder);
-                    SettingHelper.Set_BGPath(cp.Path);
                 }
-                else
-                {
-                    SettingHelper.Set_BGPath(ex.Path);
-                }
+                SettingHelper.BGPath = ex.Path;
 
                 txt_BGPath.Text = file.Name;
 
@@ -594,26 +577,26 @@ namespace BiliBili3.Views
 
         private void cb_BGStretch_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper.Set_BGStretch(cb_BGStretch.SelectedIndex);
+            SettingHelper.BGStretch = cb_BGStretch.SelectedIndex;
             MessageCenter.SendChangedBg();
         }
 
         private void cbHor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper.Set_BGHor(cbHor.SelectedIndex);
+            SettingHelper._BGHor = cbHor.SelectedIndex;
             MessageCenter.SendChangedBg();
         }
 
         private void cb_Ver_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            SettingHelper.Set_BGVer(cb_Ver.SelectedIndex);
+            SettingHelper.BGVer = cb_Ver.SelectedIndex;
             MessageCenter.SendChangedBg();
         }
 
         private void cb_BGOpacity_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper.Set_BGOpacity(cb_BGOpacity.SelectedIndex + 1);
+            SettingHelper.BGOpacity = cb_BGOpacity.SelectedIndex + 1;
             MessageCenter.SendChangedBg();
         }
 
@@ -627,22 +610,21 @@ namespace BiliBili3.Views
                 return;
             }
 
-            SettingHelper.Set_BGMaxWidth(w);
+            SettingHelper.BGMaxWidth = w;
             MessageCenter.SendChangedBg();
 
         }
 
         private void txt_BGMaxHeight_TextChanged(object sender, TextChangedEventArgs e)
         {
-            int h = 0;
-            if (!int.TryParse(txt_BGMaxHeight.Text, out h) || h < 0)
+            if (!int.TryParse(txt_BGMaxHeight.Text, out int h) || h < 0)
             {
                 txt_BGMaxHeight.Text = "0";
                 Utils.ShowMessageToast("请输入正整数！", 2000);
                 return;
             }
 
-            SettingHelper.Set_BGMaxHeight(h);
+            SettingHelper.BGMaxHeight = h;
 
             MessageCenter.SendChangedBg();
 
@@ -680,7 +662,7 @@ namespace BiliBili3.Views
 
         private void cb_FrostedGlass_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper.Set_FrostedGlass(cb_FrostedGlass.SelectedIndex);
+            SettingHelper.FrostedGlass = cb_FrostedGlass.SelectedIndex;
             MessageCenter.SendChangedBg();
         }
 
@@ -762,7 +744,7 @@ namespace BiliBili3.Views
 
         private void sw_MouseBack_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_MouseBack(sw_MouseBack.IsOn);
+            SettingHelper.MouseBack = sw_MouseBack.IsOn;
         }
 
         private void sw_MergeDanmu_Toggled(object sender, RoutedEventArgs e)
@@ -854,7 +836,7 @@ namespace BiliBili3.Views
 
         private void Sw_UseDASH_Toggled(object sender, RoutedEventArgs e)
         {
-            
+
             if (sw_UseDASH.IsOn && SystemHelper.GetSystemBuild() < 17763)
             {
                 Utils.ShowMessageToast("系统版本1809以上才可以开启");

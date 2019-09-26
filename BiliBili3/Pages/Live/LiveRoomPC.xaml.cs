@@ -647,7 +647,7 @@ namespace BiliBili3.Pages.Live
                             {
                                 m.medal_color = new SolidColorBrush(Utils.ToColor(m.medalColor));
                             }
-                            m.content_color = (SettingHelper.Get_Theme() == "Dark") ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
+                            m.content_color = (SettingHelper.Theme == "Dark") ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
                             list.Items.Add(m);
 
                         });
@@ -702,7 +702,7 @@ namespace BiliBili3.Pages.Live
                                 isBigVip = ((info.svip) ? Visibility.Visible : Visibility.Collapsed),
                                 hasUL = Visibility.Collapsed,
                                 username = info.uname,
-                                content_color = (SettingHelper.Get_Theme() == "Dark") ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black),
+                                content_color = (SettingHelper.Theme == "Dark") ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black),
                                 uname_color = new SolidColorBrush(Colors.HotPink),
                                 text = " 进入直播间"
                             });

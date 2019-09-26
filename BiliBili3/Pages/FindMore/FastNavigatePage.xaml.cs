@@ -38,14 +38,7 @@ namespace BiliBili3.Pages
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (SettingHelper.Get_HideAD())
-            {
-                gridAd.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                gridAd.Visibility = Visibility.Visible;
-            }
+            gridAd.Visibility = Visibility.Collapsed;
         }
         private void autoSug_Box_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
@@ -222,31 +215,12 @@ namespace BiliBili3.Pages
 
         private async void BtnCloseAd_Click(object sender, RoutedEventArgs e)
         {
-            var msg = new MessageDialog("开发不易，整个APP就这一条广告，如果不影响你使用的话，求求你不要关啊(ಥ _ ಥ)", "确定要关闭广告吗？");
-            msg.Commands.Add(new UICommand("关这一次", (i) => {
-                gridAd.Visibility = Visibility.Collapsed;
-            }));
-            msg.Commands.Add(new UICommand("永久关闭", (i) => {
-                if (clickAd)
-                {
-                    gridAd.Visibility = Visibility.Collapsed;
-                    SettingHelper.Set_HideAD(true);
-                }
-                else
-                {
-                    Utils.ShowMessageToast("点一次广告就可以永久关闭了");
-                }
-            }));
-            msg.Commands.Add(new UICommand("不关了", (i) => {
-                Utils.ShowMessageToast("感谢您的支持");
-            }));
-            var results= await msg.ShowAsync();
 
         }
-      
+
         private void AdControl_AdRefreshed(object sender, RoutedEventArgs e)
         {
-            btnCloseAd.Visibility = Visibility.Visible;           
+            btnCloseAd.Visibility = Visibility.Visible;
         }
         bool clickAd = false;
         private void ADWebView_NewWindowRequested(WebView sender, WebViewNewWindowRequestedEventArgs args)

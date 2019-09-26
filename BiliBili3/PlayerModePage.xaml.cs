@@ -47,17 +47,6 @@ namespace BiliBili3
 
         private void MainPage_OrientationChanged(DisplayInformation sender, object args)
         {
-
-            if (sender.CurrentOrientation == DisplayOrientations.Landscape || sender.CurrentOrientation == DisplayOrientations.LandscapeFlipped || sender.CurrentOrientation == (DisplayOrientations)5)
-            {
-                if (SettingHelper.Get_HideStatus())
-                {
-                }
-
-            }
-            else
-            {
-            }
         }
         bool IsClicks = false;
         private async void PlayerModePage_BackRequested(object sender, BackRequestedEventArgs e)
@@ -101,28 +90,28 @@ namespace BiliBili3
 
         private async void MessageCenter_ChangeBg()
         {
-            if (SettingHelper.Get_CustomBG() && SettingHelper.Get_BGPath().Length != 0)
+            if (SettingHelper.CustomBG && SettingHelper.BGPath.Length != 0)
             {
-                StorageFile file = await StorageFile.GetFileFromPathAsync(SettingHelper.Get_BGPath());
+                StorageFile file = await StorageFile.GetFileFromPathAsync(SettingHelper.BGPath);
                 if (file != null)
                 {
-                    img_bg.Stretch = (Stretch)SettingHelper.Get_BGStretch();
-                    img_bg.HorizontalAlignment = (HorizontalAlignment)SettingHelper.Get__BGHor();
-                    img_bg.VerticalAlignment = (VerticalAlignment)SettingHelper.Get_BGVer();
-                    img_bg.Opacity = Convert.ToDouble(SettingHelper.Get_BGOpacity()) / 10;
+                    img_bg.Stretch = (Stretch)SettingHelper.BGStretch;
+                    img_bg.HorizontalAlignment = (HorizontalAlignment)SettingHelper._BGHor;
+                    img_bg.VerticalAlignment = (VerticalAlignment)SettingHelper.BGVer;
+                    img_bg.Opacity = Convert.ToDouble(SettingHelper.BGOpacity) / 10;
 
-                    if (SettingHelper.Get_BGMaxWidth() != 0)
+                    if (SettingHelper.BGMaxWidth != 0)
                     {
-                        img_bg.MaxWidth = SettingHelper.Get_BGMaxWidth();
+                        img_bg.MaxWidth = SettingHelper.BGMaxWidth;
                     }
                     else
                     {
 
                         img_bg.MaxWidth = double.PositiveInfinity;
                     }
-                    if (SettingHelper.Get_BGMaxHeight() != 0)
+                    if (SettingHelper.BGMaxHeight != 0)
                     {
-                        img_bg.MaxHeight = SettingHelper.Get_BGMaxHeight();
+                        img_bg.MaxHeight = SettingHelper.BGMaxHeight;
                     }
                     else
                     {
@@ -134,10 +123,10 @@ namespace BiliBili3
                     BitmapImage bit = new BitmapImage();
                     await bit.SetSourceAsync(st);
                     img_bg.Source = bit;
-                    if (SettingHelper.Get_FrostedGlass() != 0)
+                    if (SettingHelper.FrostedGlass != 0)
                     {
                         GlassHost.Visibility = Visibility.Visible;
-                        InitializedFrostedGlass(GlassHost, SettingHelper.Get_FrostedGlass());
+                        InitializedFrostedGlass(GlassHost, SettingHelper.FrostedGlass);
                     }
                     else
                     {
@@ -212,7 +201,7 @@ namespace BiliBili3
         private void ChangeTheme()
         {
 
-            string ThemeName = SettingHelper.Get_Theme();
+            string ThemeName = SettingHelper.Theme;
             ResourceDictionary newDictionary = new ResourceDictionary();
             switch (ThemeName)
             {
@@ -312,7 +301,7 @@ namespace BiliBili3
             openPicker.FileTypeFilter.Add(".rmvb");
             // 弹出文件选择窗口
             var files = await openPicker.PickMultipleFilesAsync(); // 用户在“文件选择窗口”中完成操作后，会返回对应的 StorageFile 对象
-            if (files==null|| files.Count==0)
+            if (files == null || files.Count == 0)
             {
                 return;
             }
@@ -322,7 +311,7 @@ namespace BiliBili3
 
                 ls.Add(new PlayerModel() { Mode = PlayMode.FormLocal, No = "1", VideoTitle = "", Title = file.DisplayName, Parameter = file, Aid = file.DisplayName, Mid = file.Path });
             }
-            play_frame.Navigate( typeof(PlayerPage), new object[] { ls, 0 });
+            play_frame.Navigate(typeof(PlayerPage), new object[] { ls, 0 });
 
 
         }

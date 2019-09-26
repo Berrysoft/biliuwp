@@ -38,7 +38,7 @@ namespace BiliBili3.Views
             {
                 await liveHome.LoadHome();
             }
-            if (SettingHelper.Get_RefreshButton())
+            if (SettingHelper.RefreshButton)
             {
                 b_btn_Refresh.Visibility = Visibility.Visible;
             }

@@ -33,7 +33,7 @@ namespace BiliBili3.Pages
         DispatcherTimer time;
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (SettingHelper.Get_RefreshButton())
+            if (SettingHelper.RefreshButton)
             {
                 b_btn_Refresh.Visibility = Visibility.Visible;
             }

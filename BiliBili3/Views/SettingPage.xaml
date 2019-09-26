@@ -254,21 +254,11 @@
                             </Grid>
                          
                             <Grid Margin="0 10 0 0">
-                                <TextBlock Foreground="Gray" VerticalAlignment="Center">手机横屏隐藏状态栏</TextBlock>
-                                <ToggleSwitch x:Name="sw_HideStatus" Toggled="sw_HideStatus_Toggled"  HorizontalAlignment="Right" Style="{StaticResource ToggleSwitchStyle1}" Margin="10 0"></ToggleSwitch>
-
-                            </Grid>
-                            <Grid Margin="0 10 0 0">
                                 <TextBlock Foreground="Gray" VerticalAlignment="Center">加载启动首屏壁纸/广告</TextBlock>
                                 <ToggleSwitch x:Name="sw_LoadSe" Toggled="sw_LoadSe_Toggled" HorizontalAlignment="Right" Style="{StaticResource ToggleSwitchStyle1}" Margin="10 0"></ToggleSwitch>
 
                             </Grid>
                            
-                            <Grid Margin="0 10 0 0" Visibility="Collapsed">
-                                <TextBlock Foreground="Gray" VerticalAlignment="Center">关闭应用全部广告(重启生效)</TextBlock>
-                                <ToggleSwitch  x:Name="sw_CloseAD" Toggled="sw_CloseAD_Toggled" HorizontalAlignment="Right" Style="{StaticResource ToggleSwitchStyle1}" Margin="10 0"></ToggleSwitch>
-
-                            </Grid>
                             <Grid Margin="0 10 0 0">
                                 <TextBlock Foreground="Gray" VerticalAlignment="Center">鼠标侧键及中键返回</TextBlock>
                                 <ToggleSwitch  x:Name="sw_MouseBack" Toggled="sw_MouseBack_Toggled" HorizontalAlignment="Right" Style="{StaticResource ToggleSwitchStyle1}" Margin="10 0"></ToggleSwitch>

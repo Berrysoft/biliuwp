@@ -180,7 +180,7 @@ namespace BiliBili3
             var par = e.GetCurrentPoint(sender as Frame).Properties.PointerUpdateKind;
             if (par == Windows.UI.Input.PointerUpdateKind.XButton1Pressed || par == Windows.UI.Input.PointerUpdateKind.MiddleButtonPressed)
             {
-                if (!SettingHelper.Get_MouseBack())
+                if (!SettingHelper.MouseBack)
                 {
                     return;
                 }
@@ -238,13 +238,6 @@ namespace BiliBili3
 
         private void MainPage_OrientationChanged(DisplayInformation sender, object args)
         {
-            if (sender.CurrentOrientation == DisplayOrientations.Landscape || sender.CurrentOrientation == DisplayOrientations.LandscapeFlipped || sender.CurrentOrientation == (DisplayOrientations)5)
-            {
-                if (SettingHelper.Get_HideStatus())
-                {
-                    bor_Width.Width = (this.ActualWidth / 6) - 2;
-                }
-            }
         }
         Account account;
         bool IsClicks = false;
@@ -398,7 +391,7 @@ namespace BiliBili3
             }
 
 
-            if (SettingHelper.Get_First())
+            if (SettingHelper.First)
             {
                 TextBlock tx = new TextBlock()
                 {
@@ -409,7 +402,7 @@ namespace BiliBili3
                 await new ContentDialog() { Content = tx, PrimaryButtonText = "知道了" }.ShowAsync();
 
 
-                SettingHelper.Set_First(false);
+                SettingHelper.First = false;
 
 
 
@@ -467,28 +460,28 @@ namespace BiliBili3
         }
         private async void MessageCenter_ChangeBg()
         {
-            if (SettingHelper.Get_CustomBG() && SettingHelper.Get_BGPath().Length != 0)
+            if (SettingHelper.CustomBG && SettingHelper.BGPath.Length != 0)
             {
-                StorageFile file = await StorageFile.GetFileFromPathAsync(SettingHelper.Get_BGPath());
+                StorageFile file = await StorageFile.GetFileFromPathAsync(SettingHelper.BGPath);
                 if (file != null)
                 {
-                    img_bg.Stretch = (Stretch)SettingHelper.Get_BGStretch();
-                    img_bg.HorizontalAlignment = (HorizontalAlignment)SettingHelper.Get__BGHor();
-                    img_bg.VerticalAlignment = (VerticalAlignment)SettingHelper.Get_BGVer();
-                    img_bg.Opacity = Convert.ToDouble(SettingHelper.Get_BGOpacity()) / 10;
+                    img_bg.Stretch = (Stretch)SettingHelper.BGStretch;
+                    img_bg.HorizontalAlignment = (HorizontalAlignment)SettingHelper._BGHor;
+                    img_bg.VerticalAlignment = (VerticalAlignment)SettingHelper.BGVer;
+                    img_bg.Opacity = Convert.ToDouble(SettingHelper.BGOpacity) / 10;
 
-                    if (SettingHelper.Get_BGMaxWidth() != 0)
+                    if (SettingHelper.BGMaxWidth != 0)
                     {
-                        img_bg.MaxWidth = SettingHelper.Get_BGMaxWidth();
+                        img_bg.MaxWidth = SettingHelper.BGMaxWidth;
                     }
                     else
                     {
 
                         img_bg.MaxWidth = double.PositiveInfinity;
                     }
-                    if (SettingHelper.Get_BGMaxHeight() != 0)
+                    if (SettingHelper.BGMaxHeight != 0)
                     {
-                        img_bg.MaxHeight = SettingHelper.Get_BGMaxHeight();
+                        img_bg.MaxHeight = SettingHelper.BGMaxHeight;
                     }
                     else
                     {
@@ -500,10 +493,10 @@ namespace BiliBili3
                     BitmapImage bit = new BitmapImage();
                     await bit.SetSourceAsync(st);
                     img_bg.Source = bit;
-                    if (SettingHelper.Get_FrostedGlass() != 0)
+                    if (SettingHelper.FrostedGlass != 0)
                     {
                         GlassHost.Visibility = Visibility.Visible;
-                        InitializedFrostedGlass(GlassHost, SettingHelper.Get_FrostedGlass());
+                        InitializedFrostedGlass(GlassHost, SettingHelper.FrostedGlass);
                     }
                     else
                     {
@@ -675,7 +668,7 @@ namespace BiliBili3
         private void ChangeTheme()
         {
 
-            switch (SettingHelper.Get_Rigth())
+            switch (SettingHelper.Rigth)
             {
                 case 1:
                     bg_Frame.Navigate(typeof(FastNavigatePage));
@@ -700,7 +693,7 @@ namespace BiliBili3
 
 
 
-            string ThemeName = SettingHelper.Get_Theme();
+            string ThemeName = SettingHelper.Theme;
             ResourceDictionary newDictionary = new ResourceDictionary();
             switch (ThemeName)
             {
@@ -713,7 +706,6 @@ namespace BiliBili3
                     newDictionary.Source = new Uri("ms-appx:///Theme/RedTheme.xaml", UriKind.RelativeOrAbsolute);
                     Application.Current.Resources.MergedDictionaries.Clear();
                     Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Dark;
                     RequestedTheme = ElementTheme.Light;
                     break;
                 case "Blue":
@@ -721,35 +713,30 @@ namespace BiliBili3
                     newDictionary.Source = new Uri("ms-appx:///Theme/BlueTheme.xaml", UriKind.RelativeOrAbsolute);
                     Application.Current.Resources.MergedDictionaries.Clear();
                     Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Dark;
                     RequestedTheme = ElementTheme.Light;
                     break;
                 case "Green":
                     newDictionary.Source = new Uri("ms-appx:///Theme/GreenTheme.xaml", UriKind.RelativeOrAbsolute);
                     Application.Current.Resources.MergedDictionaries.Clear();
                     Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Dark;
                     RequestedTheme = ElementTheme.Light;
                     break;
                 case "Pink":
                     newDictionary.Source = new Uri("ms-appx:///Theme/PinkTheme.xaml", UriKind.RelativeOrAbsolute);
                     Application.Current.Resources.MergedDictionaries.Clear();
                     Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Dark;
                     RequestedTheme = ElementTheme.Light;
                     break;
                 case "Purple":
                     newDictionary.Source = new Uri("ms-appx:///Theme/PurpleTheme.xaml", UriKind.RelativeOrAbsolute);
                     Application.Current.Resources.MergedDictionaries.Clear();
                     Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Dark;
                     RequestedTheme = ElementTheme.Light;
                     break;
                 case "Yellow":
                     newDictionary.Source = new Uri("ms-appx:///Theme/YellowTheme.xaml", UriKind.RelativeOrAbsolute);
                     Application.Current.Resources.MergedDictionaries.Clear();
                     Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Dark;
                     RequestedTheme = ElementTheme.Light;
                     break;
                 case "EMT":
@@ -758,7 +745,6 @@ namespace BiliBili3
                     Application.Current.Resources.MergedDictionaries.Clear();
                     Application.Current.Resources.MergedDictionaries.Add(newDictionary);
                     // img_Hello.Source = new BitmapImage(new Uri("ms-appx:///Assets/Logo/EMT.png"));
-                    RequestedTheme = ElementTheme.Dark;
                     RequestedTheme = ElementTheme.Light;
                     break;
             }
@@ -768,7 +754,7 @@ namespace BiliBili3
         }
         private void ChangeTitbarColor()
         {
-            var titleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = ((SolidColorBrush)grid_Top.Background).Color;
             titleBar.ForegroundColor = Color.FromArgb(255, 254, 254, 254);//Colors.White纯白用不了。。。
             titleBar.ButtonHoverBackgroundColor = ((SolidColorBrush)sp_View.PaneBackground).Color;

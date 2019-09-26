@@ -14,322 +14,132 @@ namespace BiliBili3
             container = ApplicationData.Current.LocalSettings;
         }
 
+        private static T GetValue<T>(string key, T def)
+        {
+            if (container.Values[key] != null)
+            {
+                return (T)container.Values[key];
+            }
+            else
+            {
+                return def;
+            }
+        }
+
+        private static T GetOrSetDefault<T>(string key, T def)
+        {
+            if (container.Values[key] != null)
+            {
+                return (T)container.Values[key];
+            }
+            else
+            {
+                SetValue(key, def);
+                return def;
+            }
+        }
+
+        private static void SetValue<T>(string key, T value)
+        {
+            container.Values[key] = value;
+        }
+
         #region  外观和常规
-        public static string Get_Theme()
+        public static string Theme
         {
-            if (container.Values["Theme"] != null)
-            {
-                return (string)container.Values["Theme"];
-            }
-            else
-            {
-                return "Pink";
-            }
+            get => GetValue(nameof(Theme), "Pink");
+            set => SetValue(nameof(Theme), value);
         }
 
-        public static void Set_Theme(string value)
+        public static int Rigth
         {
-            container.Values["Theme"] = value;
+            get => GetValue(nameof(Rigth), 1);
+            set => SetValue(nameof(Rigth), value);
         }
 
-        public static int Get_Rigth()
+        public static bool CustomBG
         {
-            if (container.Values["Rigth"] != null)
-            {
-                return (int)container.Values["Rigth"];
-            }
-            else
-            {
-                return 1;
-            }
+            get => GetOrSetDefault(nameof(CustomBG), false);
+            set => SetValue(nameof(CustomBG), value);
         }
 
-
-
-        public static void Set_Rigth(int value)
+        public static string BGPath
         {
-            container.Values["Rigth"] = value;
+            get => GetOrSetDefault(nameof(BGPath), string.Empty);
+            set => SetValue(nameof(BGPath), value);
         }
 
-
-        public static void Set_CustomBG(bool value)
+        public static int BGStretch
         {
-            container.Values["CustomBG"] = value;
+            get => GetOrSetDefault(nameof(BGStretch), 0);
+            set => SetValue(nameof(BGStretch), value);
         }
 
-        public static bool Get_CustomBG()
+        public static int BGVer
         {
-            if (container.Values["CustomBG"] != null)
-            {
-                return (bool)container.Values["CustomBG"];
-            }
-            else
-            {
-                Set_CustomBG(false);
-                return false;
-            }
+            get => GetOrSetDefault(nameof(BGVer), 1);
+            set => SetValue(nameof(BGVer), value);
         }
 
-        public static void Set_BGPath(string value)
+        public static int BGOpacity
         {
-            container.Values["BGPath"] = value;
+            get => GetOrSetDefault(nameof(BGOpacity), 10);
+            set => SetValue(nameof(BGOpacity), value);
         }
 
-        public static string Get_BGPath()
+        public static int FrostedGlass
         {
-            if (container.Values["BGPath"] != null)
-            {
-                return container.Values["BGPath"].ToString();
-            }
-            else
-            {
-                Set_BGPath("");
-                return "";
-            }
+            get => GetOrSetDefault(nameof(FrostedGlass), 0);
+            set => SetValue(nameof(FrostedGlass), value);
         }
 
-
-        public static void Set_BGStretch(int value)
+        public static int BGMaxWidth
         {
-            container.Values["BGStretch"] = value;
+            get => GetOrSetDefault(nameof(BGMaxWidth), 0);
+            set => SetValue(nameof(BGMaxWidth), value);
         }
 
-        public static int Get_BGStretch()
+        public static int BGMaxHeight
         {
-            if (container.Values["BGStretch"] != null)
-            {
-                return (int)container.Values["BGStretch"];
-            }
-            else
-            {
-                Set_BGStretch(0);
-                return 0;
-            }
+            get => GetOrSetDefault(nameof(BGMaxHeight), 0);
+            set => SetValue(nameof(BGMaxHeight), value);
         }
 
-
-
-        public static void Set_BGVer(int value)
+        public static int _BGHor
         {
-            container.Values["BGVer"] = value;
+            get => GetOrSetDefault(nameof(_BGHor), 1);
+            set => SetValue(nameof(_BGHor), value);
         }
 
-        public static int Get_BGVer()
+        public static bool HideStatus
         {
-            if (container.Values["BGVer"] != null)
-            {
-                return (int)container.Values["BGVer"];
-            }
-            else
-            {
-                Set_BGVer(1);
-                return 1;
-            }
+            get => GetOrSetDefault(nameof(HideStatus), true);
+            set => SetValue(nameof(HideStatus), value);
         }
 
-        public static void Set_BGOpacity(int value)
+        public static bool LoadSplash
         {
-            container.Values["BGOpacity"] = value;
+            get => GetOrSetDefault(nameof(LoadSplash), true);
+            set => SetValue(nameof(LoadSplash), value);
         }
 
-        public static int Get_BGOpacity()
+        public static bool MouseBack
         {
-            if (container.Values["BGOpacity"] != null)
-            {
-                return (int)container.Values["BGOpacity"];
-            }
-            else
-            {
-                Set_BGOpacity(10);
-                return 10;
-            }
-        }
-
-        public static void Set_FrostedGlass(int value)
-        {
-            container.Values["FrostedGlass"] = value;
-        }
-
-        public static int Get_FrostedGlass()
-        {
-            if (container.Values["FrostedGlass"] != null)
-            {
-                return (int)container.Values["FrostedGlass"];
-            }
-            else
-            {
-                Set_FrostedGlass(0);
-                return 0;
-            }
-        }
-
-        public static void Set_BGMaxWidth(int value)
-        {
-            container.Values["BGMaxWidth"] = value;
-        }
-
-        public static int Get_BGMaxWidth()
-        {
-            if (container.Values["BGMaxWidth"] != null)
-            {
-                return (int)container.Values["BGMaxWidth"];
-            }
-            else
-            {
-                Set_BGMaxWidth(0);
-                return 0;
-            }
-        }
-
-        public static void Set_BGMaxHeight(int value)
-        {
-            container.Values["BGMaxHeight"] = value;
-        }
-
-        public static int Get_BGMaxHeight()
-        {
-            if (container.Values["BGMaxHeight"] != null)
-            {
-                return (int)container.Values["BGMaxHeight"];
-            }
-            else
-            {
-                Set_BGMaxHeight(0);
-                return 0;
-            }
-        }
-
-
-
-        public static void Set_BGHor(int value)
-        {
-            container.Values["_BGHor"] = value;
-        }
-
-        public static int Get__BGHor()
-        {
-            if (container.Values["_BGHor"] != null)
-            {
-                return (int)container.Values["_BGHor"];
-            }
-            else
-            {
-                Set_BGHor(1);
-                return 1;
-            }
-        }
-
-
-        public static void Set_HideStatus(bool value)
-        {
-            container.Values["HideStatus"] = value;
-        }
-
-        public static bool Get_HideStatus()
-        {
-            if (container.Values["HideStatus"] != null)
-            {
-                return (bool)container.Values["HideStatus"];
-            }
-            else
-            {
-                Set_HideStatus(true);
-                return true;
-            }
-        }
-
-
-        public static void Set_LoadSplash(bool value)
-        {
-            container.Values["LoadSplash"] = value;
-        }
-
-        public static bool Get_LoadSplash()
-        {
-            if (container.Values["LoadSplash"] != null)
-            {
-                return (bool)container.Values["LoadSplash"];
-            }
-            else
-            {
-                Set_LoadSplash(true);
-                return true;
-            }
-        }
-
-
-        public static void Set_HideAD(bool value)
-        {
-            container.Values["HideAD"] = value;
-        }
-
-        public static bool Get_HideAD()
-        {
-            if (container.Values["HideAD"] != null)
-            {
-                return (bool)container.Values["HideAD"];
-            }
-            else
-            {
-                Set_HideAD(false);
-                return false;
-            }
-        }
-
-
-        public static void Set_MouseBack(bool value)
-        {
-            container.Values["MouseBack"] = value;
-        }
-
-        public static bool Get_MouseBack()
-        {
-            if (container.Values["MouseBack"] != null)
-            {
-                return (bool)container.Values["MouseBack"];
-            }
-            else
-            {
-                Set_HideAD(true);
-                return true;
-            }
+            get => GetOrSetDefault(nameof(MouseBack), true);
+            set => SetValue(nameof(MouseBack), value);
         }
 
         //sw_RefreshButton
-        public static void Set_RefreshButton(bool value)
+        public static bool RefreshButton
         {
-            container.Values["RefreshButton"] = value;
+            get => GetOrSetDefault(nameof(RefreshButton), true);
+            set => SetValue(nameof(RefreshButton), value);
         }
 
-        public static bool Get_RefreshButton()
+        public static bool First
         {
-            if (container.Values["RefreshButton"] != null)
-            {
-                return (bool)container.Values["RefreshButton"];
-            }
-            else
-            {
-                Set_RefreshButton(true);
-                return true;
-            }
-        }
-
-        public static bool Get_First()
-        {
-            if (container.Values["First" + GetVersion()] != null)
-            {
-                return (bool)container.Values["First" + GetVersion()];
-            }
-            else
-            {
-                Set_First(true);
-                return true;
-            }
-        }
-
-        public static void Set_First(bool value)
-        {
-            container.Values["First" + GetVersion()] = value;
+            get => GetOrSetDefault("First" + GetVersion(), true);
+            set => SetValue("First" + GetVersion(), value);
         }
 
         #endregion

@@ -40,13 +40,13 @@ namespace BiliBili3.Views
                  new HomeModel(){
                      header="推荐",
                      mode= HomeDisplayMode.Home,
-                      showRefresh=(SettingHelper.Get_RefreshButton())? Visibility.Visible:Visibility.Collapsed
+                      showRefresh=(SettingHelper.RefreshButton)? Visibility.Visible:Visibility.Collapsed
                  },
                  new HomeModel()
                  {
                      header="热门",
                      mode= HomeDisplayMode.Hot,
-                     showRefresh=(SettingHelper.Get_RefreshButton())? Visibility.Visible:Visibility.Collapsed
+                     showRefresh=(SettingHelper.RefreshButton)? Visibility.Visible:Visibility.Collapsed
                  }
             };
             pivot_home.ItemsSource = homePages;
@@ -82,7 +82,7 @@ namespace BiliBili3.Views
                         header = item.name,
                         mode = HomeDisplayMode.Topic,
                         tab = item,
-                        showRefresh = (SettingHelper.Get_RefreshButton()) ? Visibility.Visible : Visibility.Collapsed
+                        showRefresh = (SettingHelper.RefreshButton) ? Visibility.Visible : Visibility.Collapsed
                     });
                 }
             }

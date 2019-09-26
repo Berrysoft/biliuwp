@@ -33,7 +33,7 @@ namespace BiliBili3.Controls
         public CommentControl()
         {
             this.InitializeComponent();
-          
+
         }
         public void InitializeComment(int _pageNum, int _pageNum_Reply, string aid)
         {
@@ -43,7 +43,7 @@ namespace BiliBili3.Controls
             pageNum_Reply = _pageNum_Reply;
             _aid = aid;
             LoadComment();
-            
+
         }
         public void DisposableComment()
         {
@@ -104,7 +104,7 @@ namespace BiliBili3.Controls
         {
             try
             {
-              
+
                 GetEmojis();
                 _Loading = true;
                 pr_load.Visibility = Visibility.Visible;
@@ -112,7 +112,7 @@ namespace BiliBili3.Controls
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 NewCommentModel model = JsonConvert.DeserializeObject<NewCommentModel>(results);
-                if (model.code==0)
+                if (model.code == 0)
                 {
                     if (pageNum == 1)
                     {
@@ -133,7 +133,7 @@ namespace BiliBili3.Controls
                 {
                     Utils.ShowMessageToast(model.message, 3000);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -157,16 +157,16 @@ namespace BiliBili3.Controls
         {
             try
             {
-              
+
                 _Loading_Reply = true;
                 pr_load.Visibility = Visibility.Visible;
 
-            
+
                 string url = "http://api.bilibili.com/x/reply/reply?oid=" + aid + "&pn=" + pageNum_Reply + "&ps=20&root=" + rpid + "&type=1&access_key=" + ApiHelper.access_key + "&appkey=" + ApiHelper.AndroidKey.Appkey + "&rnd" + new Random().Next(1, 9999); ;
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 NewCommentModel model = JsonConvert.DeserializeObject<NewCommentModel>(results);
-                if (model.code==0)
+                if (model.code == 0)
                 {
                     if (pageNum_Reply == 1)
                     {
@@ -316,12 +316,12 @@ namespace BiliBili3.Controls
 
         private async void btn_Send_Click(object sender, RoutedEventArgs e)
         {
-           
+
             if (UserManage.IsLogin())
             {
                 try
                 {
-                    string uri = string.Format("http://api.bilibili.com/x/reply/add?_device=wp&build={2}&platform=wp&appkey={0}&access_key={1}", ApiHelper.AndroidKey.Appkey, ApiHelper.access_key,ApiHelper.build);
+                    string uri = string.Format("http://api.bilibili.com/x/reply/add?_device=wp&build={2}&platform=wp&appkey={0}&access_key={1}", ApiHelper.AndroidKey.Appkey, ApiHelper.access_key, ApiHelper.build);
                     uri += "&sign=" + ApiHelper.GetSign(uri);
                     Uri ReUri = new Uri(uri);
                     HttpClient hc = new HttpClient();
@@ -359,7 +359,7 @@ namespace BiliBili3.Controls
         private async void menu_Zan_Click(object sender, RoutedEventArgs e)
         {
             //string rpid = ((sender as HyperlinkButton).DataContext as CommentModel).rpid;
-           
+
             if (UserManage.IsLogin())
             {
                 try
@@ -479,7 +479,7 @@ namespace BiliBili3.Controls
         private async void menu_Zan_Reply_Click(object sender, RoutedEventArgs e)
         {
             //string rpid = ((sender as HyperlinkButton).DataContext as CommentModel).rpid;
-          
+
             if (UserManage.IsLogin())
             {
                 try
@@ -541,12 +541,12 @@ namespace BiliBili3.Controls
         string reply_id = "";
         private async void btn_Send_Reply_Click(object sender, RoutedEventArgs e)
         {
-           
+
             if (UserManage.IsLogin())
             {
                 try
                 {
-                    string uri = string.Format("http://api.bilibili.com/x/reply/add?_device=wp&build={2}&platform=wp&appkey={0}&access_key={1}", ApiHelper.AndroidKey.Appkey, ApiHelper.access_key,ApiHelper.build);
+                    string uri = string.Format("http://api.bilibili.com/x/reply/add?_device=wp&build={2}&platform=wp&appkey={0}&access_key={1}", ApiHelper.AndroidKey.Appkey, ApiHelper.access_key, ApiHelper.build);
                     uri += "&sign=" + ApiHelper.GetSign(uri);
                     Uri ReUri = new Uri(uri);
                     HttpClient hc = new HttpClient();
@@ -647,7 +647,7 @@ namespace BiliBili3.Controls
                 }
                 else
                 {
-                    if (SettingHelper.Get_Theme()=="Dark")
+                    if (SettingHelper.Theme == "Dark")
                     {
                         return new SolidColorBrush(Colors.White);
                     }

@@ -46,7 +46,7 @@ namespace BiliBili3.Views
         {
             base.OnNavigatedTo(e);
 
-            if (SettingHelper.Get_RefreshButton())
+            if (SettingHelper.RefreshButton)
             {
                 b_btn_Refresh.Visibility = Visibility.Visible;
             }
