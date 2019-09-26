@@ -1,18 +1,8 @@
-﻿using Microsoft.Toolkit.Uwp.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Devices.Input;
-using Windows.Foundation;
-using Windows.Graphics.Display;
-using Windows.Media.Core;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Networking.Connectivity;
-using Windows.Security.Cryptography;
-using Windows.Security.Cryptography.Core;
-using Windows.Security.ExchangeActiveSyncProvisioning;
-using Windows.Storage.Streams;
 using Windows.System.Profile;
 
 namespace BiliBili3.Helper
@@ -29,7 +19,7 @@ namespace BiliBili3.Helper
         public static List<string> GetSystemFontFamilies()
         {
             string[] fonts = Microsoft.Graphics.Canvas.Text.CanvasTextFormat.GetSystemFontFamilies();
-            return fonts.OrderBy(x=>x).ToList();
+            return fonts.OrderBy(x => x).ToList();
         }
         /// <summary>
         /// 网络是否可用
@@ -87,37 +77,14 @@ namespace BiliBili3.Helper
                     {
                         return "其他";
                     }
-                    //也可以用下面的方法，已验证移动和联通
-                    //var name = profile.GetNetworkNames().FirstOrDefault();
-                    //if (name != null)
-                    //{
-                    //    name = name.ToUpper();
-                    //    if (name == "CMCC")
-                    //    {
-                    //        return "中国移动";
-                    //    }
-                    //    else if (name == "UNICOM")
-                    //    {
-                    //        return "中国联通";
-                    //    }
-                    //    else if (name == "TELECOM")
-                    //    {
-                    //        return "中国电信";
-                    //    }
-                    //}
-                    //return "其他";
                 }
-
                 return "其他";
             }
             catch (Exception)
             {
-
                 return "其他";
             }
-
         }
-
 
         /// <summary>
         /// 获取网络连接类型
@@ -179,30 +146,9 @@ namespace BiliBili3.Helper
             }
 
         }
-        ////此代码非常不稳定，会出现Win32错误引起闪退
-        //public static async Task<bool> CheckCodec()
-        //{
-        //    try
-        //    {             
-        //        if (GetSystemBuild()>= 17763)
-        //        {   
-        //            var codecQuery = new CodecQuery();
-        //            IReadOnlyList<CodecInfo> result = await codecQuery.FindAllAsync(CodecKind.Video, CodecCategory.Decoder, "");
-        //            return result.Any(x => x.DisplayName == "HEVCVideoExtension");
-        //        }
-        //        else
-        //        {
-        //            return false;
-        //        }  
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
         public static ulong GetSystemBuild()
         {
-            var version = (ulong.Parse(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion) & 0x00000000FFFF0000L) >> 16;
+            var version = (ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion) & 0x00000000FFFF0000L) >> 16;
             return version;
         }
         public static string SystemVersion()

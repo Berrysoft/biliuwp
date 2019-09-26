@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace BiliBili3.Helper
 {
@@ -13,7 +8,7 @@ namespace BiliBili3.Helper
     /// </summary>
     public static class LogHelper
     {
-        public  static void WriteLog(Exception exception)
+        public static void WriteLog(Exception exception)
         {
             try
             {
@@ -21,25 +16,25 @@ namespace BiliBili3.Helper
                 {
                     return;
                 }
-               
+                Debug.WriteLine(exception);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
-
         }
 
-        public  static bool IsNetworkError(Exception ex)
+        public static bool IsNetworkError(Exception ex)
         {
             if (ex.HResult == -2147012867 || ex.HResult == -2147012889)
             {
                 MessageCenter.SendNetworkError(ex.Message);
                 return true;
             }
+            else
             {
                 return false;
             }
         }
-
     }
 }

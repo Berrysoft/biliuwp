@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
 namespace BiliBili3.Helper
@@ -20,11 +16,7 @@ namespace BiliBili3.Helper
             if (syncContext == null)
                 throw new InvalidOperationException("Ensure a synchronization context exists before calling this method.");
 
-
-            var customSynchronizationContext = syncContext as ExceptionHandlingSynchronizationContext;
-
-
-            if (customSynchronizationContext == null)
+            if (!(syncContext is ExceptionHandlingSynchronizationContext customSynchronizationContext))
             {
                 customSynchronizationContext = new ExceptionHandlingSynchronizationContext(syncContext);
                 SetSynchronizationContext(customSynchronizationContext);
@@ -42,7 +34,7 @@ namespace BiliBili3.Helper
         public static ExceptionHandlingSynchronizationContext RegisterForFrame(Frame rootFrame)
         {
             if (rootFrame == null)
-                throw new ArgumentNullException("rootFrame");
+                throw new ArgumentNullException(nameof(rootFrame));
 
             var synchronizationContext = Register();
 

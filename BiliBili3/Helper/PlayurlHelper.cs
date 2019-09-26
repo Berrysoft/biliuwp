@@ -56,7 +56,7 @@ namespace BiliBili3.Helper
                     }
                 }
 
-                if (SettingHelper.Get_UseDASH())
+                if (SettingHelper.UseDASH)
                 {
                     var bilidash = await GetBilibiliBangumiUrlDash(model, qn);
                     if (bilidash != null)
@@ -119,7 +119,7 @@ namespace BiliBili3.Helper
         }
         public static async Task<ReturnPlayModel> GetBiliPlus(PlayerModel model, int qn)
         {
-            if (SettingHelper.Get_UseDASH())
+            if (SettingHelper.UseDASH)
             {
                 var biliplusdash = await GetBiliPlusDashUrl(model.Mid, qn, "https://www.bilibili.com/bangumi/play/ep" + model.episode_id, model.season_type);
                 if (biliplusdash != null)
@@ -197,7 +197,7 @@ namespace BiliBili3.Helper
                     if (obj["dash"] != null)
                     {
                         int codecid = 7;
-                        if (SettingHelper.Get_DASHUseHEVC())
+                        if (SettingHelper.DASHUseHEVC)
                         {
                             codecid = 12;
                         }
@@ -446,12 +446,12 @@ namespace BiliBili3.Helper
                     if (obj["dash"] != null)
                     {
                         int codecid = 7;
-                        if (SettingHelper.Get_DASHUseHEVC())
+                        if (SettingHelper.DASHUseHEVC)
                         {
                             codecid = 12;
                         }
-                        var videos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<DashItem>>(obj["dash"]["video"].ToString());
-                        var audios = Newtonsoft.Json.JsonConvert.DeserializeObject<List<DashItem>>(obj["dash"]["audio"].ToString());
+                        var videos = JsonConvert.DeserializeObject<List<DashItem>>(obj["dash"]["video"].ToString());
+                        var audios = JsonConvert.DeserializeObject<List<DashItem>>(obj["dash"]["audio"].ToString());
                         var video = videos.FirstOrDefault(x => x.id == qn && x.codecid == codecid);
                         if (video == null && codecid == 12)
                         {
@@ -617,7 +617,7 @@ namespace BiliBili3.Helper
                     }
                 }
 
-                if (SettingHelper.Get_UseDASH())
+                if (SettingHelper.UseDASH)
                 {
                     var bilidash = await GetVideoUrlDASH(aid, cid, qn);
                     if (bilidash != null)
@@ -650,7 +650,7 @@ namespace BiliBili3.Helper
             try
             {
                 List<string> urls = new List<string>();
-                string url = $"https://api.bilibili.com/x/player/playurl?avid={ aid}&cid={cid}&qn=&type=&otype=json&fnver=0&fnval=16";
+                string url = $"https://api.bilibili.com/x/player/playurl?avid={aid}&cid={cid}&qn=&type=&otype=json&fnver=0&fnval=16";
                 string re = await WebClientClass.GetResults(new Uri(url));
                 JObject obj = JObject.Parse(re);
                 if (obj["code"].ToInt32() == 0)
@@ -658,12 +658,12 @@ namespace BiliBili3.Helper
                     if (obj["data"]["dash"] != null)
                     {
                         int codecid = 7;
-                        if (SettingHelper.Get_DASHUseHEVC())
+                        if (SettingHelper.DASHUseHEVC)
                         {
                             codecid = 12;
                         }
-                        var videos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<DashItem>>(obj["data"]["dash"]["video"].ToString());
-                        var audios = Newtonsoft.Json.JsonConvert.DeserializeObject<List<DashItem>>(obj["data"]["dash"]["audio"].ToString());
+                        var videos = JsonConvert.DeserializeObject<List<DashItem>>(obj["data"]["dash"]["video"].ToString());
+                        var audios = JsonConvert.DeserializeObject<List<DashItem>>(obj["data"]["dash"]["audio"].ToString());
                         var video = videos.FirstOrDefault(x => x.id == qn && x.codecid == codecid);
                         if (video == null && codecid == 12)
                         {
@@ -706,7 +706,7 @@ namespace BiliBili3.Helper
                 FlvPlyaerUrlModel m = JsonConvert.DeserializeObject<FlvPlyaerUrlModel>(re);
                 if (m.code == 0)
                 {
-                    var playList = new SYEngine.Playlist(SYEngine.PlaylistTypes.NetworkHttp);
+                    var playList = new Playlist(PlaylistTypes.NetworkHttp);
                     foreach (var item in m.data.durl)
                     {
                         urls.Add(item.url);
@@ -731,8 +731,6 @@ namespace BiliBili3.Helper
             {
                 return null;
             }
-
-
         }
 
 

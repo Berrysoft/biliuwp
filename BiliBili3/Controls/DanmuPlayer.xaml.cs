@@ -69,7 +69,7 @@ namespace BiliBili3.Controls
 
             MTC.DanmuLoaded += MTC_DanmuLoaded;
             CoreWindow.GetForCurrentThread().KeyDown += PlayerPage_KeyDown;
-            if (SettingHelper.Get_BackPlay())
+            if (SettingHelper.BackPlay)
             {
                 //_mediaPlayer = new MediaPlayer();
                 //_systemMediaTransportControls = _mediaPlayer.SystemMediaTransportControls;
@@ -188,7 +188,7 @@ namespace BiliBili3.Controls
             danmu = MTC.myDanmaku;
 
             UpdateSetting();
-            if (SettingHelper.Get_BackPlay())
+            if (SettingHelper.BackPlay)
             {
                 //_mediaPlayer = new MediaPlayer();
                 // _systemMediaTransportControls = _mediaPlayer.SystemMediaTransportControls;
@@ -219,12 +219,12 @@ namespace BiliBili3.Controls
                 dispRequest = new DisplayRequest();
                 dispRequest.RequestActive(); // 激活显示请求
             }
-            if (SettingHelper.Get_QZHP())
+            if (SettingHelper.QZHP)
             {
                 DisplayInformation.AutoRotationPreferences = (DisplayOrientations)5;
             }
 
-            if (SettingHelper.Get_AutoFull())
+            if (SettingHelper.AutoFull)
             {
                 MTC.ToFull();
                 //mediaElement.IsFullWindow = true;
@@ -358,7 +358,7 @@ namespace BiliBili3.Controls
             //}
 
 
-            SYEngine.Core.ForceSoftwareDecode = SettingHelper.Get_ForceVideo();
+            SYEngine.Core.ForceSoftwareDecode = SettingHelper.ForceVideo;
 
 
 
@@ -378,7 +378,7 @@ namespace BiliBili3.Controls
             //danmu.notHideSubtitle = sw_DanmuNotSubtitle.IsOn;
 
 
-            mediaElement.Volume = SettingHelper.Get_Volume();
+            mediaElement.Volume = SettingHelper.Volume;
             DanmuNum = SettingHelper.Get_DMNumber();
             rb_defu.IsChecked = true;
             btn_ViewPost.Visibility = Visibility.Collapsed;
@@ -617,7 +617,7 @@ namespace BiliBili3.Controls
                 pr.Text = "正在初始化播放器...";
                 AddLog("正在初始化播放器...");
                 await LoadQualities();
-                txt_fvideo.Text = SettingHelper.Get_ForceVideo().ToString();
+                txt_fvideo.Text = SettingHelper.ForceVideo.ToString();
                 AddLog("强制软解视频：" + txt_fvideo.Text);
 
 
@@ -839,7 +839,7 @@ namespace BiliBili3.Controls
                     break;
             }
 
-            var settingq = SettingHelper.Get_NewQuality();
+            var settingq = SettingHelper.NewQuality;
             var ls = (cb_Quity.ItemsSource as List<QualityModel>).Where(x => x.qn == settingq).ToList();
             if (ls != null && ls.Count != 0)
             {
@@ -1276,7 +1276,7 @@ namespace BiliBili3.Controls
 
             if (!QuityLoading && cb_Quity.SelectedItem != null)
             {
-                SettingHelper.Set_NewQuality((cb_Quity.SelectedItem as QualityModel).qn);
+                SettingHelper.NewQuality = (cb_Quity.SelectedItem as QualityModel).qn;
                 mediaElement.Stop();
                 ChangeQuality();
             }

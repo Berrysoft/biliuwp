@@ -114,7 +114,7 @@ namespace BiliBili3.Pages.Live
         /// 是否处于画中画
         /// </summary>
         bool isMini = false;
-        bool winfull=false;
+        bool winfull = false;
         bool isFull = false;
         bool receiveGiftMsg = true;
         bool receiveWelcomeMsg = true;
@@ -126,12 +126,12 @@ namespace BiliBili3.Pages.Live
             base.OnNavigatedTo(e);
             //if (e.NavigationMode == NavigationMode.New)
             //{
-                roomId = Convert.ToInt32((e.Parameter as object[])[0]);
-                _biliLiveDanmu = new BiliLiveDanmu();
-                _biliLiveDanmu.HasDanmu += _biliLiveDanmu_HasDanmu;
-                liveRoom = new LiveRoom();
-                await Task.Delay(200);
-                LoadRoomInfo();
+            roomId = Convert.ToInt32((e.Parameter as object[])[0]);
+            _biliLiveDanmu = new BiliLiveDanmu();
+            _biliLiveDanmu.HasDanmu += _biliLiveDanmu_HasDanmu;
+            liveRoom = new LiveRoom();
+            await Task.Delay(200);
+            LoadRoomInfo();
             //}
             if (dispRequest == null)
             {
@@ -144,7 +144,7 @@ namespace BiliBili3.Pages.Live
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            if (e.NavigationMode== NavigationMode.Back)
+            if (e.NavigationMode == NavigationMode.Back)
             {
                 Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().ExitFullScreenMode();
                 if (freeSilverTimer != null && freeSilverTimer.IsEnabled)
@@ -311,7 +311,7 @@ namespace BiliBili3.Pages.Live
             }
             loadPlayurling = false;
         }
-       private async void ChangeQuality(int quality)
+        private async void ChangeQuality(int quality)
         {
             //加载播放地址
             loadPlayurling = true;
@@ -447,7 +447,7 @@ namespace BiliBili3.Pages.Live
             danmu.speed = Convert.ToInt32(SettingHelper.Get_NewLDMSpeed());
 
             danmu.bold = SettingHelper.Get_BoldDanmu();
-            sw_BoldDanmu.IsOn= SettingHelper.Get_BoldDanmu();
+            sw_BoldDanmu.IsOn = SettingHelper.Get_BoldDanmu();
 
             slider_DanmuSpeed.Value = SettingHelper.Get_NewLDMSpeed();
 
@@ -461,8 +461,8 @@ namespace BiliBili3.Pages.Live
             sw_AutoGetAward.IsOn = SettingHelper.Get_LAutoGetAward();
 
             //硬件加速
-            media.HardwareAcceleration = SettingHelper.Get_ForceVideo();
-            sw_HardwareAcceleration.IsOn = SettingHelper.Get_ForceVideo();
+            media.HardwareAcceleration = SettingHelper.ForceVideo;
+            sw_HardwareAcceleration.IsOn = SettingHelper.ForceVideo;
 
             //自动清理弹幕
             slider_Clear.Value = SettingHelper.Get_LClear();
@@ -486,7 +486,7 @@ namespace BiliBili3.Pages.Live
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            if (isMini||winfull)
+            if (isMini || winfull)
             {
                 return base.MeasureOverride(availableSize);
             }
@@ -502,7 +502,7 @@ namespace BiliBili3.Pages.Live
                 return base.MeasureOverride(availableSize);
 
             }
-            if (availableSize.Width < 600 )
+            if (availableSize.Width < 600)
             {
                 wide.Width = GridLength.Auto;
 
@@ -759,7 +759,7 @@ namespace BiliBili3.Pages.Live
             btn_exitwinfull.Visibility = Visibility.Visible;
             wide.Width = new GridLength(0, GridUnitType.Pixel);
             info.Visibility = Visibility.Collapsed;
-            
+
 
         }
         /// <summary>
@@ -772,7 +772,7 @@ namespace BiliBili3.Pages.Live
             winfull = false;
             btn_winfull.Visibility = Visibility.Visible;
             btn_exitwinfull.Visibility = Visibility.Collapsed;
-          
+
             wide.Width = new GridLength(0.3, GridUnitType.Star);
             info.Visibility = Visibility.Visible;
         }
@@ -864,7 +864,7 @@ namespace BiliBili3.Pages.Live
             btn_exitfull.Visibility = Visibility.Visible;
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
             DisplayInformation.AutoRotationPreferences = (DisplayOrientations)5;
-           
+
         }
         /// <summary>
         /// 退出全屏
@@ -1235,7 +1235,7 @@ namespace BiliBili3.Pages.Live
                 return;
             }
             media.HardwareAcceleration = sw_HardwareAcceleration.IsOn;
-            SettingHelper.Set_ForceVideo(sw_HardwareAcceleration.IsOn);
+            SettingHelper.ForceVideo = sw_HardwareAcceleration.IsOn;
         }
         /// <summary>
         /// 设置弹幕大小

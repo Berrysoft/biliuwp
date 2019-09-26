@@ -68,8 +68,8 @@ namespace BiliBili3.Views
                 CustomBg.Visibility = Visibility.Visible;
 
 
-                sw_NewWidnows.IsOn = SettingHelper.Get_NewWindow();
-                sw_UseDASH.IsOn = SettingHelper.Get_UseDASH();
+                sw_NewWidnows.IsOn = SettingHelper.NewWindow;
+                sw_UseDASH.IsOn = SettingHelper.UseDASH;
 
                 //if (!await SystemHelper.CheckCodec())
                 //{
@@ -80,19 +80,19 @@ namespace BiliBili3.Views
                 //    btnOpenInstallHEVC.Visibility = Visibility.Collapsed;
                 //}
                 btnOpenInstallHEVC.Visibility = Visibility.Visible;
-                sw_DASHUseHEVC.IsOn = SettingHelper.Get_DASHUseHEVC();
+                sw_DASHUseHEVC.IsOn = SettingHelper.DASHUseHEVC;
                 sw_PriorityBiliPlus.IsOn = SettingHelper.PriorityBiliPlus;
 
                 sw_LoadSe.IsOn = SettingHelper.LoadSplash;
-                sw_ForceAudio.IsOn = SettingHelper.Get_ForceAudio();
-                sw_ForceVideo.IsOn = SettingHelper.Get_ForceVideo();
+                sw_ForceAudio.IsOn = SettingHelper.ForceAudio;
+                sw_ForceVideo.IsOn = SettingHelper.ForceVideo;
                 sw_DanmuBorder.IsOn = SettingHelper.Get_DMBorder();
                 sw_Use4GDown.IsOn = SettingHelper.Use4GDown;
                 sw_RefreshButton.IsOn = SettingHelper.RefreshButton;
 
-                sw_Play4G.IsOn = SettingHelper.Get_Use4GPlay();
-                sw_BackgroundPlay.IsOn = SettingHelper.Get_BackPlay();
-                sw_HideCursor.IsOn = SettingHelper.Get_HideCursor();
+                sw_Play4G.IsOn = SettingHelper.Use4GPlay;
+                sw_BackgroundPlay.IsOn = SettingHelper.BackPlay;
+                sw_HideCursor.IsOn = SettingHelper.HideCursor;
 
                 sw_MouseBack.IsOn = SettingHelper.MouseBack;
                 sw_MergeDanmu.IsOn = SettingHelper.Get_MergeDanmu();
@@ -105,9 +105,9 @@ namespace BiliBili3.Views
                 sw_DT.IsOn = SettingHelper.Get_DT();
                 sw_FJ.IsOn = SettingHelper.Get_FJ();
                 sw_CustomPath.IsOn = SettingHelper.CustomDownPath;
-                sw_FFmpeg.IsOn = SettingHelper.Get_FFmpeg();
+                sw_FFmpeg.IsOn = SettingHelper.FFmpeg;
 
-                sw_NewFeed.IsOn = SettingHelper.Get_NewFeed();
+                sw_NewFeed.IsOn = SettingHelper.NewFeed;
 
                 tw_MNGA.IsOn = SettingHelper.Get_UseHK();
                 tw_MNTW.IsOn = SettingHelper.Get_UseTW();
@@ -116,8 +116,8 @@ namespace BiliBili3.Views
                 tw_VipMode.IsOn = SettingHelper.Get_UseVIP();
                 tw_OtherSiteMode.IsOn = SettingHelper.Get_UseOtherSite();
 
-                sw_QZHP.IsOn = SettingHelper.Get_QZHP();
-                sw_AutoFull.IsOn = SettingHelper.Get_AutoFull();
+                sw_QZHP.IsOn = SettingHelper.QZHP;
+                sw_AutoFull.IsOn = SettingHelper.AutoFull;
 
                 slider_DanmuSize.Value = SettingHelper.Get_NewDMSize();
                 slider_Num.Value = SettingHelper.Get_DMNumber();
@@ -145,14 +145,14 @@ namespace BiliBili3.Views
                     txtBPState.Text = "";
                 }
 
-                cb_PlayQuality.SelectedIndex = SettingHelper.Get_PlayQualit() - 1;
+                cb_PlayQuality.SelectedIndex = SettingHelper.PlayQualit - 1;
                 cb_DownQuality.SelectedIndex = SettingHelper.DownQualit - 1;
-                cb_VideoType.SelectedIndex = SettingHelper.Get_VideoType();
+                cb_VideoType.SelectedIndex = SettingHelper.VideoType;
                 cb_DanmuStyle.SelectedIndex = SettingHelper.Get_DMStyle();
 
                 cb_DownMode.SelectedIndex = SettingHelper.DownMode;
 
-                sw_Playback.SelectedIndex = SettingHelper.Get_Playback();
+                sw_Playback.SelectedIndex = SettingHelper.Playback;
 
 
                 sw_CustomBg.IsOn = SettingHelper.CustomBG;
@@ -166,13 +166,13 @@ namespace BiliBili3.Views
                 cbHor.SelectedIndex = SettingHelper._BGHor;
                 cb_BGOpacity.SelectedIndex = SettingHelper.BGOpacity - 1;
                 cb_FrostedGlass.SelectedIndex = SettingHelper.FrostedGlass;
-                cb_ClaerLiveComment.SelectedIndex = SettingHelper.Get_ClearLiveComment();
-                sw_H5.IsOn = SettingHelper.Get_UseH5();
+                cb_ClaerLiveComment.SelectedIndex = SettingHelper.ClearLiveComment;
+                sw_H5.IsOn = SettingHelper.UseH5;
 
                 txt_BGMaxHeight.Text = SettingHelper.BGMaxHeight.ToString();
                 txt_BGMaxWidth.Text = SettingHelper.BGMaxWidth.ToString();
 
-                cb_BanPlayer.SelectedIndex = SettingHelper.Get_BanPlayer();
+                cb_BanPlayer.SelectedIndex = SettingHelper.BanPlayer;
                 if (sw_CustomBg.IsOn)
                 {
                     grid_CustomBg.Visibility = Visibility.Visible;
@@ -337,27 +337,27 @@ namespace BiliBili3.Views
 
         private void cb_PlayQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper.Set_PlayQualit(cb_PlayQuality.SelectedIndex + 1);
+            SettingHelper.PlayQualit = cb_PlayQuality.SelectedIndex + 1;
         }
 
         private void cb_VideoType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper.Set_VideoType(cb_VideoType.SelectedIndex);
+            SettingHelper.VideoType = cb_VideoType.SelectedIndex;
         }
 
         private void sw_ForceVideo_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_ForceVideo(sw_ForceVideo.IsOn);
+            SettingHelper.ForceVideo = sw_ForceVideo.IsOn;
         }
 
         private void sw_ForceAudio_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_ForceAudio(sw_ForceAudio.IsOn);
+            SettingHelper.ForceAudio = sw_ForceAudio.IsOn;
         }
 
         private void sw_Playback_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper.Set_Playback(sw_Playback.SelectedIndex);
+            SettingHelper.Playback = sw_Playback.SelectedIndex;
         }
 
         private void sw_DanmuBorder_Toggled(object sender, RoutedEventArgs e)
@@ -673,57 +673,57 @@ namespace BiliBili3.Views
 
         private void sw_FFmpeg_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_FFmpeg(sw_FFmpeg.IsOn);
+            SettingHelper.FFmpeg = sw_FFmpeg.IsOn;
         }
 
         private void sw_H5_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_UseH5(sw_H5.IsOn);
+            SettingHelper.UseH5 = sw_H5.IsOn;
         }
 
         private void cb_ClaerLiveComment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper.Set_ClearLiveComment(cb_ClaerLiveComment.SelectedIndex);
+            SettingHelper.ClearLiveComment = cb_ClaerLiveComment.SelectedIndex;
         }
 
         private void sw_BackgroundPlay_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_BackPlay(sw_BackgroundPlay.IsOn);
+            SettingHelper.BackPlay = sw_BackgroundPlay.IsOn;
         }
 
         private void sw_Play4G_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_Use4GPlay(sw_Play4G.IsOn);
+            SettingHelper.Use4GPlay = sw_Play4G.IsOn;
         }
 
         private void sw_QZHP_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_QZHP(sw_QZHP.IsOn);
+            SettingHelper.QZHP = sw_QZHP.IsOn;
         }
 
         private void sw_AutoFull_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_AutoFull(sw_AutoFull.IsOn);
+            SettingHelper.AutoFull = sw_AutoFull.IsOn;
         }
 
         private void sw_HideCursor_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_HideCursor(sw_HideCursor.IsOn);
+            SettingHelper.HideCursor = sw_HideCursor.IsOn;
         }
 
         private void sw_NewFeed_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_NewFeed(sw_NewFeed.IsOn);
+            SettingHelper.NewFeed = sw_NewFeed.IsOn;
         }
 
         private void sw_NewWidnows_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_NewWindow(sw_NewWidnows.IsOn);
+            SettingHelper.NewWindow = sw_NewWidnows.IsOn;
         }
 
         private void cb_BanPlayer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper.Set_BanPlayer(cb_BanPlayer.SelectedIndex);
+            SettingHelper.BanPlayer = cb_BanPlayer.SelectedIndex;
         }
 
         private async void btn_Clear_Click(object sender, RoutedEventArgs e)
@@ -843,22 +843,12 @@ namespace BiliBili3.Views
                 sw_UseDASH.IsOn = false;
                 return;
             }
-            SettingHelper.Set_UseDASH(sw_UseDASH.IsOn);
+            SettingHelper.UseDASH = sw_UseDASH.IsOn;
         }
 
         private void Sw_DASHUseHEVC_Toggled(object sender, RoutedEventArgs e)
         {
-
-            //if (sw_DASHUseHEVC.IsOn&& !await SystemHelper.CheckCodec())
-            //{
-            //    sw_DASHUseHEVC.IsOn = false;
-            //    Utils.ShowMessageToast("请先安装HEVC扩展");
-            //}
-            //else
-            //{
-
-            //}
-            SettingHelper.Set_DASHUseHEVC(sw_DASHUseHEVC.IsOn);
+            SettingHelper.DASHUseHEVC = sw_DASHUseHEVC.IsOn;
         }
 
         private void Sw_PriorityBiliPlus_Toggled(object sender, RoutedEventArgs e)

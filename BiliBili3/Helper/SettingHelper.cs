@@ -40,6 +40,20 @@ namespace BiliBili3
             }
         }
 
+        private static T GetOrSetDefault<T>(Func<T> getDefault, [CallerMemberName] string key = null)
+        {
+            if (container.Values[key] != null)
+            {
+                return (T)container.Values[key];
+            }
+            else
+            {
+                var def = getDefault();
+                SetValue(def, key);
+                return def;
+            }
+        }
+
         private static void SetValue<T>(T value, [CallerMemberName] string key = null)
         {
             container.Values[key] = value;
@@ -146,412 +160,132 @@ namespace BiliBili3
         #endregion
 
         #region 播放器
-        public static double Get_Volume()
+        public static double Volume
         {
-            if (container.Values["Volume"] != null)
-            {
-                return Convert.ToDouble(container.Values["Volume"]);
-            }
-            else
-            {
-                container.Values["Volume"] = 1;
-                return 1;
-            }
+            get => GetOrSetDefault(1.0);
+            set => SetValue(value);
         }
 
-        public static void Set_Volume(double value)
+        public static double Light
         {
-            container.Values["Volume"] = value;
+            get => GetOrSetDefault(0.0);
+            set => SetValue(value);
         }
 
-
-        public static double Get_Light()
+        public static int BanPlayer
         {
-            if (container.Values["Light"] != null)
-            {
-                return Convert.ToDouble(container.Values["Light"]);
-            }
-            else
-            {
-                container.Values["Light"] = 0;
-                return 0;
-            }
+            get => GetOrSetDefault(2);
+            set => SetValue(value);
         }
 
-        public static void Set_Light(double value)
+        public static int PlayQualit
         {
-            container.Values["Light"] = value;
+            get => GetOrSetDefault(3);
+            set => SetValue(value);
         }
 
-
-        public static int Get_BanPlayer()
+        public static int VideoType
         {
-            if (container.Values["BanPlayer"] != null)
-            {
-                return Convert.ToInt32(container.Values["BanPlayer"]);
-            }
-            else
-            {
-                container.Values["BanPlayer"] = 2;
-                return 2;
-            }
+            get => GetOrSetDefault(0);
+            set => SetValue(value);
         }
 
-        public static void Set_BanPlayer(int value)
+        public static bool ForceAudio
         {
-            container.Values["BanPlayer"] = value;
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-        public static int Get_PlayQualit()
+        public static bool ForceVideo
         {
-            if (container.Values["PlayQualit"] != null)
-            {
-                var p = (int)container.Values["PlayQualit"];
-
-                return p;
-            }
-            else
-            {
-                container.Values["PlayQualit"] = 3;
-                return 3;
-            }
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-        public static void Set_PlayQualit(int value)
+        public static int Playback
         {
-            container.Values["PlayQualit"] = value;
+            get => GetOrSetDefault(0);
+            set => SetValue(value);
         }
 
-        public static int Get_VideoType()
+        public static bool FFmpeg
         {
-            if (container.Values["VideoType"] != null)
-            {
-                //return (int)container.Values["VideoType"];
-                return 0;
-            }
-            else
-            {
-                container.Values["VideoType"] = 0;
-                return 0;
-            }
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-        public static void Set_VideoType(int value)
+        public static bool UseH5
         {
-            container.Values["VideoType"] = value;
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-        public static void Set_ForceAudio(bool value)
+        public static int ClearLiveComment
         {
-            container.Values["ForceAudio"] = value;
+            get => GetOrSetDefault(1);
+            set => SetValue(value);
         }
 
-        public static bool Get_ForceAudio()
+        public static bool Use4GPlay
         {
-            if (container.Values["ForceAudio"] != null)
-            {
-                return (bool)container.Values["ForceAudio"];
-            }
-            else
-            {
-                Set_ForceAudio(true);
-                return true;
-            }
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-        public static void Set_ForceVideo(bool value)
+        public static bool BackPlay
         {
-            container.Values["ForceVideo"] = value;
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-        public static bool Get_ForceVideo()
+        public static bool QZHP
         {
-            if (container.Values["ForceVideo"] != null)
-            {
-                return (bool)container.Values["ForceVideo"];
-            }
-            else
-            {
-                Set_ForceVideo(true);
-                return true;
-            }
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-
-        public static int Get_Playback()
+        public static bool AutoFull
         {
-            if (container.Values["Playback"] != null)
-            {
-                return (int)container.Values["Playback"];
-            }
-            else
-            {
-                container.Values["Playback"] = 0;
-                return 0;
-            }
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-        public static void Set_Playback(int value)
+        public static bool HideCursor
         {
-            container.Values["Playback"] = value;
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-
-        public static bool Get_FFmpeg()
+        public static bool NewFeed
         {
-            if (container.Values["FFmpeg"] != null)
-            {
-                return (bool)container.Values["FFmpeg"];
-            }
-            else
-            {
-                Set_FFmpeg(false);
-                return false;
-            }
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-        public static void Set_FFmpeg(bool value)
+        public static bool NewWindow
         {
-            container.Values["FFmpeg"] = value;
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-
-        public static bool Get_UseH5()
+        public static int NewQuality
         {
-            if (container.Values["UseH5"] != null)
-            {
-                return (bool)container.Values["UseH5"];
-            }
-            else
-            {
-                Set_UseH5(false);
-                return false;
-            }
+            get => GetOrSetDefault(64);
+            set => SetValue(value);
         }
 
-        public static void Set_UseH5(bool value)
+        public static bool UseDASH
         {
-            container.Values["UseH5"] = value;
+            get => GetOrSetDefault(() => SystemHelper.GetSystemBuild() >= 17763);
+            set => SetValue(value);
         }
 
-
-
-        public static int Get_ClearLiveComment()
+        public static bool DASHUseHEVC
         {
-            if (container.Values["ClearLiveComment"] != null)
-            {
-                return (int)container.Values["ClearLiveComment"];
-            }
-            else
-            {
-                container.Values["ClearLiveComment"] = 1;
-                return 1;
-            }
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
-
-        public static void Set_ClearLiveComment(int value)
-        {
-            container.Values["ClearLiveComment"] = value;
-        }
-
-
-        public static bool Get_Use4GPlay()
-        {
-            if (container.Values["Use4GPlay"] != null)
-            {
-                return (bool)container.Values["Use4GPlay"];
-            }
-            else
-            {
-                Set_Use4GPlay(true);
-                return true;
-            }
-        }
-
-        public static void Set_Use4GPlay(bool value)
-        {
-            container.Values["Use4GPlay"] = value;
-        }
-
-        public static bool Get_BackPlay()
-        {
-            if (container.Values["BackPlay"] != null)
-            {
-                return (bool)container.Values["BackPlay"];
-            }
-            else
-            {
-                Set_BackPlay(true);
-                return true;
-            }
-        }
-
-        public static void Set_BackPlay(bool value)
-        {
-            container.Values["BackPlay"] = value;
-        }
-
-        public static bool Get_QZHP()
-        {
-            if (container.Values["QZHP"] != null)
-            {
-                return (bool)container.Values["QZHP"];
-            }
-            else
-            {
-                Set_QZHP(true);
-                return true;
-            }
-        }
-
-        public static void Set_QZHP(bool value)
-        {
-            container.Values["QZHP"] = value;
-        }
-
-        public static bool Get_AutoFull()
-        {
-            if (container.Values["AutoFull"] != null)
-            {
-                return (bool)container.Values["AutoFull"];
-            }
-            else
-            {
-                Set_AutoFull(false);
-                return false;
-            }
-        }
-
-
-        public static void Set_AutoFull(bool value)
-        {
-            container.Values["AutoFull"] = value;
-        }
-
-
-        public static bool Get_HideCursor()
-        {
-            if (container.Values["HideCursor"] != null)
-            {
-                return (bool)container.Values["HideCursor"];
-            }
-            else
-            {
-                Set_HideCursor(true);
-                return true;
-            }
-        }
-
-
-        public static void Set_HideCursor(bool value)
-        {
-            container.Values["HideCursor"] = value;
-        }
-
-
-        public static bool Get_NewFeed()
-        {
-            if (container.Values["NewFeed"] != null)
-            {
-                return (bool)container.Values["NewFeed"];
-            }
-            else
-            {
-                Set_NewFeed(false);
-                return false;
-            }
-        }
-
-
-        public static void Set_NewFeed(bool value)
-        {
-            container.Values["NewFeed"] = value;
-        }
-
-
-        public static bool Get_NewWindow()
-        {
-            if (container.Values["NewWindow"] != null)
-            {
-                return (bool)container.Values["NewWindow"];
-            }
-            else
-            {
-                Set_NewWindow(false);
-                return false;
-            }
-        }
-
-
-        public static void Set_NewWindow(bool value)
-        {
-            container.Values["NewWindow"] = value;
-        }
-
-
-        public static int Get_NewQuality()
-        {
-            if (container.Values["NewQuality"] != null)
-            {
-                return (int)container.Values["NewQuality"];
-            }
-            else
-            {
-                container.Values["NewQuality"] = 64;
-                return 64;
-            }
-        }
-
-        public static void Set_NewQuality(int value)
-        {
-            container.Values["NewQuality"] = value;
-        }
-
-        public static bool Get_UseDASH()
-        {
-            if (container.Values["UseDASH"] != null)
-            {
-                return (bool)container.Values["UseDASH"];
-            }
-            else
-            {
-
-                //系统版本大于1809启用
-                var version = SystemHelper.GetSystemBuild();
-                Set_UseDASH(version >= 17763);
-                return version >= 17763;
-            }
-        }
-
-
-        public static void Set_UseDASH(bool value)
-        {
-            container.Values["UseDASH"] = value;
-        }
-
-
-        public static bool Get_DASHUseHEVC()
-        {
-            if (container.Values["DASHUseHEVC"] != null)
-            {
-                return (bool)container.Values["DASHUseHEVC"];
-            }
-            else
-            {
-                Set_DASHUseHEVC(false);
-                return false;
-            }
-        }
-
-
-        public static void Set_DASHUseHEVC(bool value)
-        {
-            container.Values["DASHUseHEVC"] = value;
-        }
-
-
         #endregion
-
 
         #region 弹幕设置
 
@@ -1355,7 +1089,7 @@ namespace BiliBili3
 
         #region 系统方法
 
-        static PackageId pack = (Package.Current).Id;
+        static readonly PackageId pack = (Package.Current).Id;
         public static string GetVersion()
         {
             return string.Format("{0}.{1}.{2}.{3}", pack.Version.Major, pack.Version.Minor, pack.Version.Build, pack.Version.Revision);
@@ -1672,90 +1406,29 @@ namespace BiliBili3
         }
 
         #region 字幕设置
-        public static double Get_SubtitleSize()
+        public static double SubtitleSize
         {
-
-            if (container.Values["SubtitleSize"] != null)
-            {
-                return Convert.ToDouble(container.Values["SubtitleSize"]);
-            }
-            else
-            {
-                container.Values["SubtitleSize"] = 25;
-                return 25;
-            }
+            get => GetOrSetDefault(25);
+            set => SetValue(value);
         }
 
-        public static void Set_SubtitleSize(double value)
+        public static string SubtitleFontFamily
         {
-
-            container.Values["SubtitleSize"] = value;
+            get => GetOrSetDefault("Microsoft YaHei UI");
+            set => SetValue(value);
         }
 
-        public static string Get_SubtitleFontFamily()
+        public static double SubtitleBgTran
         {
-
-            if (container.Values["SubtitleFontFamily"] != null)
-            {
-                return container.Values["SubtitleFontFamily"].ToString();
-            }
-            else
-            {
-                container.Values["SubtitleFontFamily"] = "Segoe UI";
-                return "Segoe UI";
-
-            }
+            get => GetOrSetDefault(0.5);
+            set => SetValue(value);
         }
 
-        public static void Set_SubtitleFontFamily(string value)
+        public static string SubtitleColor
         {
-
-            container.Values["SubtitleFontFamily"] = value;
-        }
-
-        public static double Get_SubtitleBgTran()
-        {
-
-            if (container.Values["SubtitleBgTran"] != null)
-            {
-                return Convert.ToDouble(container.Values["SubtitleBgTran"]);
-            }
-            else
-            {
-                container.Values["SubtitleBgTran"] = 0.5;
-                return 0.5;
-
-            }
-        }
-
-        public static void Set_SubtitleBgTran(double value)
-        {
-
-            container.Values["SubtitleBgTran"] = value;
-        }
-
-
-        public static string Get_SubtitleColor()
-        {
-
-            if (container.Values["SubtitleColor"] != null)
-            {
-                return container.Values["SubtitleColor"].ToString();
-            }
-            else
-            {
-                container.Values["SubtitleColor"] = "#ffffffff";
-                return "#ffffffff";
-
-            }
-        }
-
-        public static void Set_SubtitleColor(string value)
-        {
-
-            container.Values["SubtitleColor"] = value;
+            get => GetOrSetDefault("#ffffffff");
+            set => SetValue(value);
         }
         #endregion
-
     }
 }

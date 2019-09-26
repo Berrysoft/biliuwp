@@ -712,7 +712,7 @@ namespace BiliBili3.Pages
                 }
 
                 //mediaElement.HardwareAcceleration
-                mediaElement.HardwareAcceleration = SettingHelper.Get_ForceVideo();
+                mediaElement.HardwareAcceleration = SettingHelper.ForceVideo;
                 pr_Load.Visibility = Visibility.Visible;
                 string cid = _roomid;
 
@@ -782,7 +782,7 @@ namespace BiliBili3.Pages
                     }
                     ls.Add(new LiveUrlListModel() { name = "H5源", url = await GetH5PlayUrl(cid) });
                     cb_Source.ItemsSource = ls;
-                    if (SettingHelper.Get_UseH5())
+                    if (SettingHelper.UseH5)
                     {
                         cb_Source.SelectedIndex = ls.Count - 1;
                     }
@@ -1551,13 +1551,13 @@ namespace BiliBili3.Pages
 
         private void sw_H5_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_UseH5(sw_H5.IsOn);
+            SettingHelper.UseH5 = sw_H5.IsOn;
         }
 
         private void cb_ClaerLiveComment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _countClear = SettingHelper.Get_ClearLiveComment() * 100;
-            SettingHelper.Set_ClearLiveComment(cb_ClaerLiveComment.SelectedIndex);
+            _countClear = SettingHelper.ClearLiveComment * 100;
+            SettingHelper.ClearLiveComment = cb_ClaerLiveComment.SelectedIndex;
         }
 
         private void slider_DanmuSize_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -1603,12 +1603,12 @@ namespace BiliBili3.Pages
             slider_DanmuTran.Value = SettingHelper.Get_LDMTran();
             slider_DanmuSpeed.Value = SettingHelper.Get_NewLDMSpeed();
 
-            sw_H5.IsOn = SettingHelper.Get_UseH5();
-            cb_ClaerLiveComment.SelectedIndex = SettingHelper.Get_ClearLiveComment();
+            sw_H5.IsOn = SettingHelper.UseH5;
+            cb_ClaerLiveComment.SelectedIndex = SettingHelper.ClearLiveComment;
 
-            sw_QZHP.IsOn = SettingHelper.Get_QZHP();
-            sw_ForceAudio.IsOn = SettingHelper.Get_ForceAudio();
-            sw_ForceVideo.IsOn = SettingHelper.Get_ForceVideo();
+            sw_QZHP.IsOn = SettingHelper.QZHP;
+            sw_ForceAudio.IsOn = SettingHelper.ForceAudio;
+            sw_ForceVideo.IsOn = SettingHelper.ForceVideo;
 
             danmu.borderStyle = (DanmakuBorderStyle)SettingHelper.Get_DMStyle();
             settingloading = false;
@@ -1619,7 +1619,7 @@ namespace BiliBili3.Pages
             btn_exitFull.Visibility = Visibility.Visible;
             btn_full.Visibility = Visibility.Collapsed;
             ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
-            if (SettingHelper.Get_QZHP())
+            if (SettingHelper.QZHP)
             {
                 DisplayInformation.AutoRotationPreferences = (DisplayOrientations)5;
             }
@@ -1715,20 +1715,20 @@ namespace BiliBili3.Pages
 
         private void sw_QZHP_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_QZHP(sw_QZHP.IsOn);
+            SettingHelper.QZHP = sw_QZHP.IsOn;
         }
 
         private void sw_ForceAudio_Toggled(object sender, RoutedEventArgs e)
         {
 
-            SettingHelper.Set_ForceAudio(sw_ForceAudio.IsOn);
+            SettingHelper.ForceAudio = sw_ForceAudio.IsOn;
             btn_Refresh_Click(sender, e);
 
         }
 
         private void sw_ForceVideo_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_ForceVideo(sw_ForceVideo.IsOn);
+            SettingHelper.ForceVideo = sw_ForceVideo.IsOn;
             btn_Refresh_Click(sender, e);
         }
 
