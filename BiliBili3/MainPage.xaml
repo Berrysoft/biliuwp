@@ -862,9 +862,6 @@
 
                 </AppBarToggleButton>
                 <TextBlock x:Name="txt_Header" Grid.Column="1" Margin="10 0" VerticalAlignment="Center" Foreground="White">首页</TextBlock>
-                <Button x:Name="btn_Test" Grid.Column="1" Foreground="White" Width="48" Height="48" Background="#00000000">
-                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Glyph="&#xe610;" FontSize="20" />
-                </Button>
                 <Button x:Name="btn_Down"  Click="btn_Down_Click" Grid.Column="2" Foreground="White" Width="48" Height="48" Background="#00000000">
                     <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Glyph="&#xe610;" FontSize="20" />
                 </Button>
@@ -946,28 +943,24 @@
                             <ListViewItem Style="{StaticResource SelectItem}" Height="48" >
                                 <StackPanel Orientation="Horizontal">
                                     <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" VerticalAlignment="Center" FontSize="18" Margin="4 0" Glyph="&#x3435;" Foreground="White"/>
-                                    <!--<SymbolIcon Symbol="Home"  Width="24" Height="24" />-->
                                     <TextBlock Text="首页" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
                                 </StackPanel>
                             </ListViewItem>
                             <ListViewItem  Style="{StaticResource SelectItem}" Height="48" >
                                 <StackPanel Orientation="Horizontal">
                                     <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xE62A;" Foreground="White"/>
-                                    <!--<SymbolIcon Symbol="Home"  Width="24" Height="24" />-->
                                     <TextBlock Text="频道" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
                                 </StackPanel>
                             </ListViewItem>
                             <ListViewItem  Style="{StaticResource SelectItem}" Height="48" >
                                 <StackPanel Orientation="Horizontal">
                                     <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xe648;" Foreground="White"/>
-                                    <!--<SymbolIcon Symbol="Home"  Width="24" Height="24" />-->
                                     <TextBlock Text="直播" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
                                 </StackPanel>
                             </ListViewItem>
                             <ListViewItem  Style="{StaticResource SelectItem}" Height="48" >
                                 <StackPanel Orientation="Horizontal">
                                     <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" VerticalAlignment="Center" Margin="4 0" Glyph="&#xe662;" Foreground="White"/>
-                                    <!--<SymbolIcon Symbol="Home"  Width="24" Height="24" />-->
                                     <TextBlock Text="番剧" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
                                 </StackPanel>
                             </ListViewItem>
@@ -976,7 +969,6 @@
                             <ListViewItem  Style="{StaticResource SelectItem}" Height="48" >
                                 <StackPanel Orientation="Horizontal">
                                     <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xe637;" Foreground="White"/>
-                                    <!--<SymbolIcon Symbol="Filter" Width="26" Height="26" Foreground="White"/>-->
                                     <TextBlock Text="动态" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
                                 </StackPanel>
                             </ListViewItem>
@@ -985,19 +977,9 @@
                             <ListViewItem  Style="{StaticResource SelectItem}"  Height="48" >
                                 <StackPanel Orientation="Horizontal">
                                     <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Glyph="&#xe62c;"  FontSize="18" Margin="4 0" Foreground="White"/>
-                                    <!--<SymbolIcon Symbol="Download" Width="26" Height="26" Foreground="White"/>-->
                                     <TextBlock Text="发现" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
                                 </StackPanel>
                             </ListViewItem>
-                            <!--<ListViewItem  Style="{StaticResource SelectItem}"  Height="48" >
-                                <StackPanel Orientation="Horizontal">
-                                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Glyph="&#xe702;" VerticalAlignment="Center"  FontSize="18" Margin="4 0" Foreground="White"/>
-                                    -->
-                            <!--<SymbolIcon Symbol="Setting" Width="26" Height="26" Foreground="White"/>-->
-                            <!--
-                                    <TextBlock Text="设置" VerticalAlignment="Center" Margin="20,0" Foreground="White" />
-                                </StackPanel>
-                            </ListViewItem>-->
                         </ListView>
                         <ListView VerticalAlignment="Bottom" ItemClick="ListView_ItemClick" IsItemClickEnabled="True" SelectionMode="None">
                             <ListViewItem Visibility="Collapsed" Style="{StaticResource SelectItem}" Height="48" >
@@ -1010,34 +992,27 @@
                             <ListViewItem  Style="{StaticResource SelectItem}" Height="48" >
                                 <StackPanel Orientation="Horizontal" Tag="ToView">
                                     <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xe633;" Foreground="White"/>
-                                    <!--<SymbolIcon Symbol="Home"  Width="24" Height="24" />-->
                                     <TextBlock Text="稍后再看" VerticalAlignment="Center" Margin="18 -2 18 0" Foreground="White" />
                                 </StackPanel>
                             </ListViewItem>
                             <ListViewItem  Style="{StaticResource SelectItem}" Height="48" >
                                 <StackPanel Orientation="Horizontal" Tag="Setting">
                                     <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xE658;" Foreground="White"/>
-                                    <!--<SymbolIcon Symbol="Home"  Width="24" Height="24" />-->
                                     <TextBlock Text="应用设置" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
                                 </StackPanel>
                             </ListViewItem>
-                            
                         </ListView>
                     </Grid>
-
                 </SplitView.Pane>
                 <Grid>
 
                     <Frame x:Name="main_frame" Navigated="main_frame_Navigated" >
                         <Frame.ContentTransitions >
                             <TransitionCollection>
-
                                 <PopupThemeTransition/>
                             </TransitionCollection>
                         </Frame.ContentTransitions>
                     </Frame>
-
-                    <!--<Image  x:Name="img_bg" ></Image>-->
 
                     <Border x:Name="bor_SS" 
 					ManipulationMode="TranslateX" 
@@ -1047,46 +1022,6 @@
                 </Grid>
             </SplitView>
             <Border x:Name="bor_Width" Width="56" VerticalAlignment="Top"></Border>
-            <!--<Grid Grid.Row="2"  Height="56" BorderThickness="0 4 0 0" Visibility="Visible" Background="{ThemeResource Main-Background}">
-                <Grid.BorderBrush>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#7FC7C7C7"/>
-                        <GradientStop Color="#7FFFFFFF" Offset="0.063"/>
-                    </LinearGradientBrush>
-                </Grid.BorderBrush>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Button HorizontalAlignment="Stretch" Foreground="{ThemeResource Bili-ForeColor}" VerticalAlignment="Stretch" Background="#00000000">
-                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Margin="0 4" FontSize="22"  VerticalAlignment="Center"  Glyph="&#xf012b;" />
-                </Button>
-                <Button HorizontalAlignment="Stretch" Foreground="{ThemeResource Main-ForeColor-No}"  Grid.Column="1"  VerticalAlignment="Stretch" Background="#00000000">
-
-                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Margin="0 4" FontSize="20"  VerticalAlignment="Center"  Glyph="&#xe648;" />
-
-                </Button>
-                <Button HorizontalAlignment="Stretch" Foreground="{ThemeResource Main-ForeColor-No}"  Grid.Column="2"  VerticalAlignment="Stretch" Background="#00000000">
-
-                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Margin="0 4" FontSize="20"  VerticalAlignment="Center"  Glyph="&#xe662;" />
-
-                </Button>
-                <Button HorizontalAlignment="Stretch" Foreground="{ThemeResource Main-ForeColor-No}"   Grid.Column="3"  VerticalAlignment="Stretch" Background="#00000000">
-
-                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Margin="0 4" FontSize="20"  VerticalAlignment="Center"  Glyph="&#xe637;"/>
-
-                </Button>
-                <Button HorizontalAlignment="Stretch" Foreground="{ThemeResource Main-ForeColor-No}"  Grid.Column="4" VerticalAlignment="Stretch" Background="#00000000">
-
-                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Margin="0 4" FontSize="20"  VerticalAlignment="Center"  Glyph="&#xe62c;" />
-
-                </Button>
-
-
-            </Grid>-->
             <GridView SelectionChanged="bottom_SelectionChanged" Grid.Row="2" x:Name="bottom" ScrollViewer.VerticalScrollBarVisibility="Disabled" Padding="0"  Height="56" BorderThickness="0 1 0 0" Visibility="Visible" Background="{ThemeResource Main-Background}" >
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
