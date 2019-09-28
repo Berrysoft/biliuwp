@@ -3,7 +3,7 @@
 ## 介绍
 这是一个自称“水平很菜”（实际上非常厉害）的“半个开发者”写的UWP项目的fork。由于本人不喜欢考虑程序的兼容性，因此将会大幅度更改已有代码，暂无Pull Request计划。
 
-由于原开发者并未注明开源协议，在得到原开发者的[许可](https://github.com/xiaoyaocz/biliuwp/issues/9)的情况下，本仓库仅由个人使用。
+在合并原开发者加上了MIT License后的代码的基础上更改，维持MIT不变。
 
 ![biliuwp](https://i.loli.net/2018/12/20/5c1bb55577b8e.png)
 

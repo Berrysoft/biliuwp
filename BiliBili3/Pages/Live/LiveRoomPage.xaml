@@ -144,8 +144,8 @@
                 
                 <danmu:Danmaku x:Name="danmu"
                                Opacity="{Binding ElementName=slider_DanmuTran,Path=Value,Mode=OneWay}"
-                               sizeZoom="{Binding ElementName=slider_DanmuSize,Path=Value,Mode=OneWay}"
-                               speed="{Binding ElementName=slider_DanmuSpeed,Path=Value,Mode=OneWay}"
+                               SizeZoom="{Binding ElementName=slider_DanmuSize,Path=Value,Mode=OneWay}"
+                               Speed="{Binding ElementName=slider_DanmuSpeed,Path=Value,Mode=OneWay}"
                                >
                 </danmu:Danmaku>
 

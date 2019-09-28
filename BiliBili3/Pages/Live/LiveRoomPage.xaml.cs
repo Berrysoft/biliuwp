@@ -1266,13 +1266,13 @@ namespace BiliBili3.Pages
             // double _fontSize = 25;
             if (grid_NotFull.ActualWidth < 600)
             {
-                danmu.speed = Convert.ToInt32(slider_DanmuSpeed.Value * 0.4);
-                danmu.sizeZoom = 0.65;
+                danmu.Speed = Convert.ToInt32(slider_DanmuSpeed.Value * 0.4);
+                danmu.SizeZoom = 0.65;
             }
             else
             {
-                danmu.speed = Convert.ToInt32(slider_DanmuSpeed.Value);
-                danmu.sizeZoom = slider_DanmuSize.Value;
+                danmu.Speed = Convert.ToInt32(slider_DanmuSpeed.Value);
+                danmu.SizeZoom = slider_DanmuSize.Value;
             }
         }
 
@@ -1610,7 +1610,7 @@ namespace BiliBili3.Pages
             sw_ForceAudio.IsOn = SettingHelper.ForceAudio;
             sw_ForceVideo.IsOn = SettingHelper.ForceVideo;
 
-            danmu.borderStyle = (DanmakuBorderStyle)SettingHelper.DMStyle;
+            danmu.BorderStyle = (DanmakuBorderStyle)SettingHelper.DMStyle;
             settingloading = false;
         }
 
@@ -1905,7 +1905,7 @@ namespace BiliBili3.Pages
                 await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
                 danmu.ClearAll();
                 danmu.SetSpeed(5);
-                danmu.sizeZoom = 0.5;
+                danmu.SizeZoom = 0.5;
                 btn_Mini.Visibility = Visibility.Collapsed;
                 btn_ExitMini.Visibility = Visibility.Visible;
             }
@@ -1915,8 +1915,8 @@ namespace BiliBili3.Pages
         {
             await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
             danmu.ClearAll();
-            danmu.speed = SettingHelper.DMSpeed.ToInt32();
-            danmu.sizeZoom = SettingHelper.NewDMSize;
+            danmu.Speed = SettingHelper.DMSpeed.ToInt32();
+            danmu.SizeZoom = SettingHelper.NewDMSize;
             btn_Mini.Visibility = Visibility.Visible;
             btn_ExitMini.Visibility = Visibility.Collapsed;
 

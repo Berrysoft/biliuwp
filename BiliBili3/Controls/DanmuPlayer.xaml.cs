@@ -1477,7 +1477,7 @@ namespace BiliBili3.Controls
             {
                 return;
             }
-            danmu.sizeZoom = slider_DanmuSize.Value;
+            danmu.SizeZoom = slider_DanmuSize.Value;
 
             SettingHelper.NewDMSize = slider_DanmuSize.Value;
         }
@@ -1493,7 +1493,7 @@ namespace BiliBili3.Controls
             {
                 return;
             }
-            danmu.speed = Convert.ToInt32(slider_DanmuSpeed.Value);
+            danmu.Speed = Convert.ToInt32(slider_DanmuSpeed.Value);
             if (slider_DanmuSpeed.Value == 0 || slider_DanmuSpeed.Value == -1)
             {
                 return;
@@ -1762,7 +1762,7 @@ namespace BiliBili3.Controls
                 await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
                 danmu.ClearAll();
                 danmu.SetSpeed(5);
-                danmu.sizeZoom = 0.5;
+                danmu.SizeZoom = 0.5;
             }
         }
 
@@ -1770,8 +1770,8 @@ namespace BiliBili3.Controls
         {
             await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
             danmu.ClearAll();
-            danmu.speed = SettingHelper.DMSpeed.ToInt32();
-            danmu.sizeZoom = SettingHelper.DMSize;
+            danmu.Speed = SettingHelper.DMSpeed.ToInt32();
+            danmu.SizeZoom = SettingHelper.DMSize;
         }
 
         private void MTC_DanmakuSetting(object sender, EventArgs e)
@@ -1913,14 +1913,14 @@ namespace BiliBili3.Controls
             {
                 return;
             }
-            danmu.borderStyle = (NSDanmaku.Model.DanmakuBorderStyle)cb_Style.SelectedIndex;
+            danmu.BorderStyle = (NSDanmaku.Model.DanmakuBorderStyle)cb_Style.SelectedIndex;
             SettingHelper.DMStyle = cb_Style.SelectedIndex;
 
         }
 
         private void sw_DanmuNotSubtitle_Toggled(object sender, RoutedEventArgs e)
         {
-            danmu.notHideSubtitle = sw_DanmuNotSubtitle.IsOn;
+            danmu.NotHideSubtitle = sw_DanmuNotSubtitle.IsOn;
             SettingHelper.DanmuNotSubtitle = sw_DanmuNotSubtitle.IsOn;
 
         }

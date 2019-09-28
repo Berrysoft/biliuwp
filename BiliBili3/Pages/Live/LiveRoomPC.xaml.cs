@@ -438,21 +438,21 @@ namespace BiliBili3.Pages.Live
         {
             loadingSetting = true;
             //弹幕大小
-            danmu.sizeZoom = SettingHelper.NewLDMSize;
+            danmu.SizeZoom = SettingHelper.NewLDMSize;
             slider_DanmuSize.Value = SettingHelper.NewLDMSize;
             //弹幕透明度
             danmu.Opacity = SettingHelper.LDMTran;
             slider_DanmuTran.Value = SettingHelper.LDMTran;
             //弹幕速度
-            danmu.speed = Convert.ToInt32(SettingHelper.NewLDMSpeed);
+            danmu.Speed = Convert.ToInt32(SettingHelper.NewLDMSpeed);
 
-            danmu.bold = SettingHelper.BoldDanmu;
+            danmu.Bold = SettingHelper.BoldDanmu;
             sw_BoldDanmu.IsOn = SettingHelper.BoldDanmu;
 
             slider_DanmuSpeed.Value = SettingHelper.NewLDMSpeed;
 
             //弹幕边框
-            danmu.borderStyle = (DanmakuBorderStyle)SettingHelper.DMStyle;
+            danmu.BorderStyle = (DanmakuBorderStyle)SettingHelper.DMStyle;
             //音量
             media.Volume = SettingHelper.LVolume;
             slider_volume.Value = SettingHelper.LVolume;
@@ -512,7 +512,7 @@ namespace BiliBili3.Pages.Live
                 Grid.SetColumnSpan(info, 2);
 
                 danmu.SetSpeed(5);
-                danmu.sizeZoom = 0.5;
+                danmu.SizeZoom = 0.5;
             }
             else
             {
@@ -522,8 +522,8 @@ namespace BiliBili3.Pages.Live
                 Grid.SetColumnSpan(medias, 1);
                 Grid.SetColumnSpan(info, 1);
 
-                danmu.speed = SettingHelper.DMSpeed.ToInt32();
-                danmu.sizeZoom = SettingHelper.NewDMSize;
+                danmu.Speed = SettingHelper.DMSpeed.ToInt32();
+                danmu.SizeZoom = SettingHelper.NewDMSize;
             }
 
             return base.MeasureOverride(availableSize);
@@ -790,7 +790,7 @@ namespace BiliBili3.Pages.Live
                 btn_winfull_Click(sender, e);
                 danmu.ClearAll();
                 danmu.SetSpeed(5);
-                danmu.sizeZoom = 0.5;
+                danmu.SizeZoom = 0.5;
                 btn_Mini.Visibility = Visibility.Collapsed;
                 btn_ExitMini.Visibility = Visibility.Visible;
             }
@@ -806,8 +806,8 @@ namespace BiliBili3.Pages.Live
             await Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
             btn_exitwinfull_Click(sender, e);
             danmu.ClearAll();
-            danmu.speed = SettingHelper.DMSpeed.ToInt32();
-            danmu.sizeZoom = SettingHelper.NewDMSize;
+            danmu.Speed = SettingHelper.DMSpeed.ToInt32();
+            danmu.SizeZoom = SettingHelper.NewDMSize;
             btn_Mini.Visibility = Visibility.Visible;
             btn_ExitMini.Visibility = Visibility.Collapsed;
         }
@@ -1250,7 +1250,7 @@ namespace BiliBili3.Pages.Live
             }
 
             SettingHelper.LDMSize = slider_DanmuSize.Value;
-            danmu.sizeZoom = slider_DanmuSize.Value;
+            danmu.SizeZoom = slider_DanmuSize.Value;
         }
         /// <summary>
         /// 设置弹幕速度
@@ -1264,7 +1264,7 @@ namespace BiliBili3.Pages.Live
                 return;
             }
             SettingHelper.LDMSpeed = slider_DanmuSpeed.Value;
-            danmu.speed = slider_DanmuSpeed.Value.ToInt32();
+            danmu.Speed = slider_DanmuSpeed.Value.ToInt32();
 
         }
         /// <summary>
@@ -1620,7 +1620,7 @@ namespace BiliBili3.Pages.Live
 
         private void sw_BoldDanmu_Toggled(object sender, RoutedEventArgs e)
         {
-            danmu.bold = sw_BoldDanmu.IsOn;
+            danmu.Bold = sw_BoldDanmu.IsOn;
             SettingHelper.BoldDanmu = sw_BoldDanmu.IsOn;
         }
     }
