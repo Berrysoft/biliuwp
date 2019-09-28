@@ -17,7 +17,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -57,13 +56,13 @@ namespace BiliBili3
             switch (new Random().Next(1, 4))
             {
                 case 1:
-                    txt_Load.Text = "爱国、敬业、诚信、友善";
+                    LoadText.Text = "爱国、敬业、诚信、友善";
                     break;
                 case 2:
-                    txt_Load.Text = "富强、民主、文明、和谐";
+                    LoadText.Text = "富强、民主、文明、和谐";
                     break;
                 case 3:
-                    txt_Load.Text = "自由、平等、公正、法治";
+                    LoadText.Text = "自由、平等、公正、法治";
                     break;
                 default:
                     break;
@@ -145,9 +144,7 @@ namespace BiliBili3
         {
             try
             {
-                string url = "http://app.bilibili.com/x/splash?plat=0&build=414000&channel=master&width=1080&height=1920";
-                img.Stretch = Stretch.Uniform;
-                url = "http://app.bilibili.com/x/splash?plat=0&build=414000&channel=master&width=1920&height=1080";
+                string url = "http://app.bilibili.com/x/splash?plat=0&build=414000&channel=master&width=1920&height=1080";
 
                 string Result = await WebClientClass.GetResults(new Uri(url));
                 LoadModel obj = JsonConvert.DeserializeObject<LoadModel>(Result);
@@ -159,9 +156,9 @@ namespace BiliBili3
                         var buff = await WebClientClass.GetBuffer(new Uri(obj.Data[0].Image));
                         BitmapImage bit = new BitmapImage();
                         await bit.SetSourceAsync(buff.AsStream().AsRandomAccessStream());
-                        img_bg.Source = bit;
+                        BackImage.Source = bit;
                         InitializedFrostedGlass(GlassHost);
-                        img.Source = bit;
+                        ForeImage.Source = bit;
                         _url = obj.Data[0].Param;
                     }
                 }
@@ -173,7 +170,7 @@ namespace BiliBili3
         }
 
         string _url;
-        private void grid_Load_Tapped(object sender, TappedRoutedEventArgs e)
+        private void ImageTapped(object sender, TappedRoutedEventArgs e)
         {
             m.StartType = StartTypes.Web;
             m.Par1 = _url;

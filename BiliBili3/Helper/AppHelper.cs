@@ -81,7 +81,11 @@ namespace BiliBili3.Helper
         {
             return verStr.Split('/')[0];
         }
-        public static string verStr = string.Format(@"Ver {0} 
+        public static string verStr = $@"Ver {SettingHelper.GetVersion()}
+01、整理代码
+02、删除广告
+
+/Ver 3.9.39.0
 01、支持设置外挂字幕
 02、修复其他一些小问题
 
@@ -302,7 +306,7 @@ namespace BiliBili3.Helper
 
 /Ver 3.1.2.0  2017-2-17
 3.0版本发布
-", SettingHelper.GetVersion());
+";
 
 
     }

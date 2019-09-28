@@ -6,21 +6,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Loaded="Page_Loaded">
-
     <Grid Background="{ThemeResource Bili-Background}">
         <Grid>
             <StackPanel VerticalAlignment="Center">
-                <Image x:Name="load_img" Source="ms-appx:///Assets/Splash.png" MaxWidth="350" ></Image>
+                <Image Source="ms-appx:///Assets/Splash.png" MaxWidth="350"/>
             </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Margin="0 30">
-                <ProgressRing Width="50" Height="50" IsActive="True" Margin="0 5" Foreground="Gray"></ProgressRing>
-                <TextBlock x:Name="txt_Load" HorizontalAlignment="Center"  Foreground="Gray" ></TextBlock>
+                <ProgressRing Width="50" Height="50" IsActive="True" Margin="0 5" Foreground="Gray"/>
+                <TextBlock x:Name="LoadText" HorizontalAlignment="Center" Foreground="Gray"/>
             </StackPanel>
         </Grid>
-        <Grid x:Name="grid_Load" >
-            <Image x:Name="img_bg"  Stretch="Fill" Tapped="grid_Load_Tapped"  />
-            <Canvas x:Name="GlassHost" Grid.ColumnSpan="2" />
-            <Image x:Name="img"  Stretch="Uniform" Tapped="grid_Load_Tapped"  />
+        <Grid>
+            <Image x:Name="BackImage"  Stretch="Fill" Tapped="ImageTapped"/>
+            <Canvas x:Name="GlassHost" Grid.ColumnSpan="2"/>
+            <Image x:Name="ForeImage"  Stretch="Uniform" Tapped="ImageTapped"/>
         </Grid>
     </Grid>
 </Page>

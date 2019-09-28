@@ -16,7 +16,6 @@ using BiliBili3.Pages.User;
 using BiliBili3.Views;
 using Microsoft.Graphics.Canvas.Effects;
 using Newtonsoft.Json;
-using Windows.Graphics.Display;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -52,7 +51,6 @@ namespace BiliBili3
     {
         public StartTypes StartType { get; set; }
         public string Par1 { get; set; }
-        public string Par2 { get; set; }
         public object Par3 { get; set; }
     }
 
@@ -235,7 +233,6 @@ namespace BiliBili3
                         break;
                     case StartTypes.MiniVideo:
                         MessageCenter.ShowMiniVideo(m.Par1);
-                        //MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(WebPage), "http://vc.bilibili.com/mobile/detail?vc=" + m.Par1);
                         break;
                     case StartTypes.Web:
                         MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(WebPage), m.Par1);
@@ -262,7 +259,6 @@ namespace BiliBili3
                             i++;
                         }
                         play_frame.Navigate(typeof(PlayerPage), new object[] { ls, 0 });
-                        // MessageCenter.SendNavigateTo(NavigateMode.Play, typeof(PlayerPage), new object[] { ls, 0 });
                         break;
                     case StartTypes.HandelUri:
                         if (!await MessageCenter.HandelUrl(m.Par1))
@@ -307,7 +303,7 @@ namespace BiliBili3
 
             account = new Account();
             //检查登录状态
-            if (SettingHelper.Get_Access_key() != "")
+            if (!string.IsNullOrEmpty(SettingHelper.Get_Access_key()))
             {
                 if ((await account.CheckLoginState(ApiHelper.access_key)).success)
                 {
