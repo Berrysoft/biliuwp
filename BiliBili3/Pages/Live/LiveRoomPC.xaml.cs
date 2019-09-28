@@ -446,13 +446,13 @@ namespace BiliBili3.Pages.Live
             //弹幕速度
             danmu.speed = Convert.ToInt32(SettingHelper.Get_NewLDMSpeed());
 
-            danmu.bold = SettingHelper.Get_BoldDanmu();
-            sw_BoldDanmu.IsOn = SettingHelper.Get_BoldDanmu();
+            danmu.bold = SettingHelper.BoldDanmu;
+            sw_BoldDanmu.IsOn = SettingHelper.BoldDanmu;
 
             slider_DanmuSpeed.Value = SettingHelper.Get_NewLDMSpeed();
 
             //弹幕边框
-            danmu.borderStyle = (DanmakuBorderStyle)SettingHelper.Get_DMStyle();
+            danmu.borderStyle = (DanmakuBorderStyle)SettingHelper.DMStyle;
             //音量
             media.Volume = SettingHelper.Get_LVolume();
             slider_volume.Value = SettingHelper.Get_LVolume();
@@ -522,8 +522,8 @@ namespace BiliBili3.Pages.Live
                 Grid.SetColumnSpan(medias, 1);
                 Grid.SetColumnSpan(info, 1);
 
-                danmu.speed = SettingHelper.Get_DMSpeed().ToInt32();
-                danmu.sizeZoom = SettingHelper.Get_NewDMSize();
+                danmu.speed = SettingHelper.DMSpeed.ToInt32();
+                danmu.sizeZoom = SettingHelper.NewDMSize;
             }
 
             return base.MeasureOverride(availableSize);
@@ -806,8 +806,8 @@ namespace BiliBili3.Pages.Live
             await Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
             btn_exitwinfull_Click(sender, e);
             danmu.ClearAll();
-            danmu.speed = SettingHelper.Get_DMSpeed().ToInt32();
-            danmu.sizeZoom = SettingHelper.Get_NewDMSize();
+            danmu.speed = SettingHelper.DMSpeed.ToInt32();
+            danmu.sizeZoom = SettingHelper.NewDMSize;
             btn_Mini.Visibility = Visibility.Visible;
             btn_ExitMini.Visibility = Visibility.Collapsed;
         }
@@ -1621,7 +1621,7 @@ namespace BiliBili3.Pages.Live
         private void sw_BoldDanmu_Toggled(object sender, RoutedEventArgs e)
         {
             danmu.bold = sw_BoldDanmu.IsOn;
-            SettingHelper.Set_BoldDanmu(sw_BoldDanmu.IsOn);
+            SettingHelper.BoldDanmu = sw_BoldDanmu.IsOn;
         }
     }
 }

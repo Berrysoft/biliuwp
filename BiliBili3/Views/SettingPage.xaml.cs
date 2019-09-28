@@ -86,7 +86,7 @@ namespace BiliBili3.Views
                 sw_LoadSe.IsOn = SettingHelper.LoadSplash;
                 sw_ForceAudio.IsOn = SettingHelper.ForceAudio;
                 sw_ForceVideo.IsOn = SettingHelper.ForceVideo;
-                sw_DanmuBorder.IsOn = SettingHelper.Get_DMBorder();
+                sw_DanmuBorder.IsOn = SettingHelper.DMBorder;
                 sw_Use4GDown.IsOn = SettingHelper.Use4GDown;
                 sw_RefreshButton.IsOn = SettingHelper.RefreshButton;
 
@@ -95,15 +95,15 @@ namespace BiliBili3.Views
                 sw_HideCursor.IsOn = SettingHelper.HideCursor;
 
                 sw_MouseBack.IsOn = SettingHelper.MouseBack;
-                sw_MergeDanmu.IsOn = SettingHelper.Get_MergeDanmu();
+                sw_MergeDanmu.IsOn = SettingHelper.MergeDanmu;
 
-                sw_NotSubtitle.IsOn = SettingHelper.Get_DanmuNotSubtitle();
-                sw_BoldDanmu.IsOn = SettingHelper.Get_BoldDanmu();
-                sw_StatusDanmu.IsOn = SettingHelper.Get_DMStatus();
+                sw_NotSubtitle.IsOn = SettingHelper.DanmuNotSubtitle;
+                sw_BoldDanmu.IsOn = SettingHelper.BoldDanmu;
+                sw_StatusDanmu.IsOn = SettingHelper.DMStatus;
 
-                sw_DTCT.IsOn = SettingHelper.Get_DTCT();
-                sw_DT.IsOn = SettingHelper.Get_DT();
-                sw_FJ.IsOn = SettingHelper.Get_FJ();
+                sw_DTCT.IsOn = SettingHelper.DTCT;
+                sw_DT.IsOn = SettingHelper.DT;
+                sw_FJ.IsOn = SettingHelper.FJ;
                 sw_CustomPath.IsOn = SettingHelper.CustomDownPath;
                 sw_FFmpeg.IsOn = SettingHelper.FFmpeg;
 
@@ -119,16 +119,16 @@ namespace BiliBili3.Views
                 sw_QZHP.IsOn = SettingHelper.QZHP;
                 sw_AutoFull.IsOn = SettingHelper.AutoFull;
 
-                slider_DanmuSize.Value = SettingHelper.Get_NewDMSize();
-                slider_Num.Value = SettingHelper.Get_DMNumber();
-                slider_DanmuTran.Value = SettingHelper.Get_NewDMTran();
-                slider_DanmuSpeed.Value = SettingHelper.Get_DMSpeed();
+                slider_DanmuSize.Value = SettingHelper.NewDMSize;
+                slider_Num.Value = SettingHelper.DMNumber;
+                slider_DanmuTran.Value = SettingHelper.NewDMTran;
+                slider_DanmuSpeed.Value = SettingHelper.DMSpeed;
 
                 List<string> fonts = SystemHelper.GetSystemFontFamilies();
                 cb_Font.ItemsSource = fonts;
-                if (SettingHelper.Get_DanmuFont() != "")
+                if (!string.IsNullOrEmpty(SettingHelper.DanmuFont))
                 {
-                    cb_Font.SelectedIndex = fonts.IndexOf(SettingHelper.Get_DanmuFont());
+                    cb_Font.SelectedIndex = fonts.IndexOf(SettingHelper.DanmuFont);
                 }
                 else
                 {
@@ -136,7 +136,7 @@ namespace BiliBili3.Views
                 }
 
                 var c = SettingHelper.Get_BiliplusCookie();
-                if (c != "")
+                if (!string.IsNullOrEmpty(c))
                 {
                     txtBPState.Text = "(已授权)";
                 }
@@ -148,7 +148,7 @@ namespace BiliBili3.Views
                 cb_PlayQuality.SelectedIndex = SettingHelper.PlayQualit - 1;
                 cb_DownQuality.SelectedIndex = SettingHelper.DownQualit - 1;
                 cb_VideoType.SelectedIndex = SettingHelper.VideoType;
-                cb_DanmuStyle.SelectedIndex = SettingHelper.Get_DMStyle();
+                cb_DanmuStyle.SelectedIndex = SettingHelper.DMStyle;
 
                 cb_DownMode.SelectedIndex = SettingHelper.DownMode;
 
@@ -362,14 +362,14 @@ namespace BiliBili3.Views
 
         private void sw_DanmuBorder_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_DMBorder(sw_DanmuBorder.IsOn);
+            SettingHelper.DMBorder = sw_DanmuBorder.IsOn;
         }
 
         private void slider_DanmuSize_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             if (!loadsetting)
             {
-                SettingHelper.Set_NewDMSize(slider_DanmuSize.Value);
+                SettingHelper.NewDMSize = slider_DanmuSize.Value;
             }
         }
 
@@ -379,27 +379,27 @@ namespace BiliBili3.Views
             {
                 return;
             }
-            SettingHelper.Set_DanmuFont(cb_Font.SelectedItem.ToString());
+            SettingHelper.DanmuFont = cb_Font.SelectedItem.ToString();
         }
 
         private void slider_DanmuSpeed_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
 
-            SettingHelper.Set_DMSpeed(slider_DanmuSpeed.Value);
+            SettingHelper.DMSpeed = slider_DanmuSpeed.Value;
         }
 
         private void slider_DanmuTran_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             if (!loadsetting)
             {
-                SettingHelper.Set_NewDMTran(slider_DanmuTran.Value);
+                SettingHelper.NewDMTran = slider_DanmuTran.Value;
             }
 
         }
 
         private void slider_Num_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SettingHelper.Set_DMNumber(Convert.ToInt32(slider_Num.Value));
+            SettingHelper.DMNumber = Convert.ToInt32(slider_Num.Value);
         }
 
         private void cb_DownQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -425,18 +425,18 @@ namespace BiliBili3.Views
                 var updater = TileUpdateManager.CreateTileUpdaterForApplication();
                 updater.Clear();
             }
-            SettingHelper.Set_DTCT(sw_DTCT.IsOn);
+            SettingHelper.DTCT = sw_DTCT.IsOn;
 
         }
 
         private void sw_DT_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_DT(sw_DT.IsOn);
+            SettingHelper.DT = sw_DT.IsOn;
         }
 
         private void sw_FJ_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_FJ(sw_FJ.IsOn);
+            SettingHelper.FJ = sw_FJ.IsOn;
         }
 
         private void tw_MNGA_Toggled(object sender, RoutedEventArgs e)
@@ -749,7 +749,7 @@ namespace BiliBili3.Views
 
         private void sw_MergeDanmu_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_MergeDanmu(sw_MergeDanmu.IsOn);
+            SettingHelper.MergeDanmu = sw_MergeDanmu.IsOn;
         }
 
         private void cb_DanmuStyle_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -783,12 +783,12 @@ namespace BiliBili3.Views
                 default:
                     break;
             }
-            SettingHelper.Set_DMStyle(cb_DanmuStyle.SelectedIndex);
+            SettingHelper.DMStyle = cb_DanmuStyle.SelectedIndex;
         }
 
         private void sw_NotSubtitle_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_DanmuNotSubtitle(sw_NotSubtitle.IsOn);
+            SettingHelper.DanmuNotSubtitle = sw_NotSubtitle.IsOn;
         }
 
         private void btn_Feedback_Click(object sender, RoutedEventArgs e)
@@ -798,12 +798,12 @@ namespace BiliBili3.Views
 
         private void sw_StatusDanmu_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_DMStatus(sw_StatusDanmu.IsOn);
+            SettingHelper.DMStatus = sw_StatusDanmu.IsOn;
         }
 
         private void sw_BoldDanmu_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_BoldDanmu(sw_BoldDanmu.IsOn);
+            SettingHelper.BoldDanmu = sw_BoldDanmu.IsOn;
         }
 
         private void tw_VipMode_Toggled(object sender, RoutedEventArgs e)
@@ -824,7 +824,7 @@ namespace BiliBili3.Views
                 return;
             }
             var re = await Account.AuthBiliPlus();
-            if (re != "")
+            if (!string.IsNullOrEmpty(re))
             {
                 txtBPState.Text = "(已授权)";
             }

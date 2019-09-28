@@ -121,7 +121,7 @@ namespace BiliBili3.Controls
                 (GetTemplateChild("MyFullWindowButton") as AppBarButton).Click += Btn_Full_Click;
                 (GetTemplateChild("CaptureBtn") as AppBarButton).Click += Btn_Capture_Click; ;
 
-                if (!SettingHelper.Get_DMStatus())
+                if (!SettingHelper.DMStatus)
                 {
                     (GetTemplateChild("btn_danmaku") as AppBarButton).Icon = new BitmapIcon() {
                         UriSource = new Uri("ms-appx:///Assets/PlayerAssets/ic_player_danmaku_input_options_rl_disabled.png")

@@ -505,21 +505,21 @@ namespace BiliBili3.Pages
             SYEngine.Core.ForceSoftwareDecode = SettingHelper.ForceVideo;
 
             DanDis_Get();
-            DMZZBDS = SettingHelper.Get_DMZZ();
-            slider_DanmuSize.Value = SettingHelper.Get_NewDMSize();
-            slider_Num.Value = SettingHelper.Get_DMNumber();
-            slider_DanmuTran.Value = SettingHelper.Get_NewDMTran();
-            slider_DanmuSpeed.Value = SettingHelper.Get_DMSpeed();
-            cb_Style.SelectedIndex = SettingHelper.Get_DMStyle();
+            DMZZBDS = SettingHelper.DMZZ;
+            slider_DanmuSize.Value = SettingHelper.NewDMSize;
+            slider_Num.Value = SettingHelper.DMNumber;
+            slider_DanmuTran.Value = SettingHelper.NewDMTran;
+            slider_DanmuSpeed.Value = SettingHelper.DMSpeed;
+            cb_Style.SelectedIndex = SettingHelper.DMStyle;
 
-            sw_DanmuBorder.IsOn = SettingHelper.Get_DMBorder();
-            sw_MergeDanmu.IsOn = SettingHelper.Get_MergeDanmu();
+            sw_DanmuBorder.IsOn = SettingHelper.DMBorder;
+            sw_MergeDanmu.IsOn = SettingHelper.MergeDanmu;
             mergeDanmu = sw_MergeDanmu.IsOn;
 
-            sw_DanmuNotSubtitle.IsOn = SettingHelper.Get_DanmuNotSubtitle();
+            sw_DanmuNotSubtitle.IsOn = SettingHelper.DanmuNotSubtitle;
             //danmu.notHideSubtitle = sw_DanmuNotSubtitle.IsOn;
 
-            sw_BoldDanmu.IsOn = SettingHelper.Get_BoldDanmu();
+            sw_BoldDanmu.IsOn = SettingHelper.BoldDanmu;
 
             sw_UseDASH.IsOn = SettingHelper.UseDASH;
             btnOpenInstallHEVC.Visibility = Visibility.Visible;
@@ -536,9 +536,9 @@ namespace BiliBili3.Pages
             List<string> fonts = SystemHelper.GetSystemFontFamilies();
             cb_Font.ItemsSource = fonts;
             cb_SubtitleFont.ItemsSource = fonts;
-            if (SettingHelper.Get_DanmuFont() != "")
+            if (SettingHelper.DanmuFont != "")
             {
-                cb_Font.SelectedIndex = fonts.IndexOf(SettingHelper.Get_DanmuFont());
+                cb_Font.SelectedIndex = fonts.IndexOf(SettingHelper.DanmuFont);
             }
             else
             {
@@ -569,16 +569,16 @@ namespace BiliBili3.Pages
 
             MTC.Brightness = SettingHelper.Light;
 
-            DanmuNum = SettingHelper.Get_DMNumber();
+            DanmuNum = SettingHelper.DMNumber;
             rb_defu.IsChecked = true;
             btn_ViewPost.Visibility = Visibility.Collapsed;
 
-            //danmu.borderStyle = (NSDanmaku.Model.DanmakuBorderStyle)SettingHelper.Get_DMStyle();
-            menu_setting_buttom.IsChecked = !SettingHelper.Get_DMVisBottom();
-            menu_setting_top.IsChecked = !SettingHelper.Get_DMVisTop();
-            menu_setting_gd.IsChecked = !SettingHelper.Get_DMVisRoll();
+            //danmu.borderStyle = (NSDanmaku.Model.DanmakuBorderStyle)SettingHelper.DMStyle;
+            menu_setting_buttom.IsChecked = !SettingHelper.DMVisBottom;
+            menu_setting_top.IsChecked = !SettingHelper.DMVisTop;
+            menu_setting_gd.IsChecked = !SettingHelper.DMVisRoll;
 
-            var danmuStatus = SettingHelper.Get_DMStatus();
+            var danmuStatus = SettingHelper.DMStatus;
             if (danmuStatus)
             {
                 danmu.Visibility = Visibility.Visible;
@@ -732,8 +732,8 @@ namespace BiliBili3.Pages
         {
 
 
-            string a = SettingHelper.Get_Guanjianzi();
-            string b = SettingHelper.Get_Yonghu();
+            string a = SettingHelper.Guanjianzi;
+            string b = SettingHelper.Yonghu;
             if (a.Length != 0)
             {
 
@@ -762,12 +762,12 @@ namespace BiliBili3.Pages
         {
             if (IsYonghu)
             {
-                SettingHelper.Set_Yonghu(SettingHelper.Get_Yonghu() + "|" + text);
+                SettingHelper.Yonghu = SettingHelper.Yonghu + "|" + text;
                 Yonghu.Add(text);
             }
             else
             {
-                SettingHelper.Set_Guanjianzi(SettingHelper.Get_Guanjianzi() + "|" + text);
+                SettingHelper.Guanjianzi = SettingHelper.Guanjianzi + "|" + text;
 
                 Guanjianzi.Add(text);
             }
@@ -1956,7 +1956,7 @@ namespace BiliBili3.Pages
         private void sw_DanmuBorder_Toggled(object sender, RoutedEventArgs e)
         {
             //danmu.D_Border = sw_DanmuBorder.IsOn;
-            SettingHelper.Set_DMBorder(sw_DanmuBorder.IsOn);
+            SettingHelper.DMBorder = sw_DanmuBorder.IsOn;
         }
 
         private void slider_DanmuSize_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -1967,7 +1967,7 @@ namespace BiliBili3.Pages
             }
             danmu.sizeZoom = slider_DanmuSize.Value;
 
-            SettingHelper.Set_NewDMSize(slider_DanmuSize.Value);
+            SettingHelper.NewDMSize = slider_DanmuSize.Value;
         }
 
         private void cb_Font_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1999,7 +1999,7 @@ namespace BiliBili3.Pages
             {
                 return;
             }
-            SettingHelper.Set_DanmuFont(cb_Font.SelectedItem.ToString());
+            SettingHelper.DanmuFont = cb_Font.SelectedItem.ToString();
             danmu.font = cb_Font.SelectedItem.ToString();
         }
 
@@ -2014,7 +2014,7 @@ namespace BiliBili3.Pages
             {
                 return;
             }
-            SettingHelper.Set_DMSpeed(slider_DanmuSpeed.Value);
+            SettingHelper.DMSpeed = slider_DanmuSpeed.Value;
         }
 
         private void slider_DanmuTran_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -2028,7 +2028,7 @@ namespace BiliBili3.Pages
                 return;
             }
             danmu.Opacity = slider_DanmuTran.Value;
-            SettingHelper.Set_NewDMTran(slider_DanmuTran.Value);
+            SettingHelper.NewDMTran = slider_DanmuTran.Value;
         }
         private void slider_Num_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
@@ -2037,7 +2037,7 @@ namespace BiliBili3.Pages
                 return;
             }
             DanmuNum = Convert.ToInt32(slider_Num.Value);
-            SettingHelper.Set_DMNumber(Convert.ToInt32(slider_Num.Value));
+            SettingHelper.DMNumber = Convert.ToInt32(slider_Num.Value);
         }
 
 
@@ -2047,7 +2047,7 @@ namespace BiliBili3.Pages
         {
 
             danmu.HideDanmaku(NSDanmaku.Model.DanmakuLocation.Top);
-            SettingHelper.Set_DMVisTop(false);
+            SettingHelper.DMVisTop = false;
 
 
         }
@@ -2055,32 +2055,32 @@ namespace BiliBili3.Pages
         private void menu_setting_buttom_Click(object sender, RoutedEventArgs e)
         {
             danmu.HideDanmaku(NSDanmaku.Model.DanmakuLocation.Bottom);
-            SettingHelper.Set_DMVisBottom(false);
+            SettingHelper.DMVisBottom = false;
         }
 
         private void menu_setting_gd_Checked(object sender, RoutedEventArgs e)
         {
             danmu.HideDanmaku(NSDanmaku.Model.DanmakuLocation.Roll);
-            SettingHelper.Set_DMVisRoll(false);
+            SettingHelper.DMVisRoll = false;
         }
 
         private void menu_setting_gd_Unchecked(object sender, RoutedEventArgs e)
         {
             danmu.ShowDanmaku(NSDanmaku.Model.DanmakuLocation.Roll);
-            SettingHelper.Set_DMVisRoll(true);
+            SettingHelper.DMVisRoll = true;
         }
 
         private void menu_setting_top_Unchecked(object sender, RoutedEventArgs e)
         {
             danmu.ShowDanmaku(NSDanmaku.Model.DanmakuLocation.Top);
-            SettingHelper.Set_DMVisTop(true);
+            SettingHelper.DMVisTop = true;
         }
 
         private void menu_setting_buttom_Unchecked(object sender, RoutedEventArgs e)
         {
             // danmu.SetDanmuVisibility(true, MyDanmaku.DanmuMode.Buttom);
             danmu.ShowDanmaku(NSDanmaku.Model.DanmakuLocation.Bottom);
-            SettingHelper.Set_DMVisBottom(true);
+            SettingHelper.DMVisBottom = true;
         }
 
 
@@ -2178,7 +2178,7 @@ namespace BiliBili3.Pages
 
         private void sw_MergeDanmu_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_MergeDanmu(sw_MergeDanmu.IsOn);
+            SettingHelper.MergeDanmu = sw_MergeDanmu.IsOn;
             mergeDanmu = sw_MergeDanmu.IsOn;
         }
 
@@ -2207,8 +2207,8 @@ namespace BiliBili3.Pages
         {
             await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
             danmu.ClearAll();
-            danmu.speed = SettingHelper.Get_DMSpeed().ToInt32();
-            danmu.sizeZoom = SettingHelper.Get_NewDMSize();
+            danmu.speed = SettingHelper.DMSpeed.ToInt32();
+            danmu.sizeZoom = SettingHelper.NewDMSize;
         }
 
         private void MTC_DanmakuSetting(object sender, EventArgs e)
@@ -2370,7 +2370,7 @@ namespace BiliBili3.Pages
                 return;
             }
             danmu.borderStyle = (NSDanmaku.Model.DanmakuBorderStyle)cb_Style.SelectedIndex;
-            SettingHelper.Set_DMStyle(cb_Style.SelectedIndex);
+            SettingHelper.DMStyle = cb_Style.SelectedIndex;
 
         }
 
@@ -2381,7 +2381,7 @@ namespace BiliBili3.Pages
                 return;
             }
             danmu.notHideSubtitle = sw_DanmuNotSubtitle.IsOn;
-            SettingHelper.Set_DanmuNotSubtitle(sw_DanmuNotSubtitle.IsOn);
+            SettingHelper.DanmuNotSubtitle = sw_DanmuNotSubtitle.IsOn;
 
         }
 
@@ -2471,7 +2471,7 @@ namespace BiliBili3.Pages
                 return;
             }
             danmu.bold = sw_BoldDanmu.IsOn;
-            SettingHelper.Set_BoldDanmu(sw_BoldDanmu.IsOn);
+            SettingHelper.BoldDanmu = sw_BoldDanmu.IsOn;
         }
 
         private async void menuitem_LocalDanmu_Click(object sender, RoutedEventArgs e)

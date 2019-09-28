@@ -288,417 +288,126 @@ namespace BiliBili3
         #endregion
 
         #region 弹幕设置
-
-        public static double Get_NewDMSize()
+        public static double NewDMSize
         {
-            if (container.Values["NewDMSize"] != null)
-            {
-                return Convert.ToDouble(container.Values["NewDMSize"]);
-            }
-            else
-            {
-                container.Values["NewDMSize"] = 1.0;
-                return 1.0;
-            }
+            get => GetOrSetDefault(1.0);
+            set => SetValue(value);
         }
 
-        public static void Set_NewDMSize(double value)
+        public static double NewDMTran
         {
-            container.Values["NewDMSize"] = value;
+            get => GetOrSetDefault(1.0);
+            set => SetValue(value);
         }
 
-        public static double Get_NewDMTran()
+        public static bool DMStatus
         {
-            if (container.Values["NewDMTran"] != null)
-            {
-                return Convert.ToDouble(container.Values["NewDMTran"]);
-            }
-            else
-            {
-                container.Values["NewDMTran"] = 1.0;
-                return 1.0;
-            }
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-        public static void Set_DMStatus(bool value)
+        public static string Guanjianzi
         {
-            container.Values["DMStatus"] = value;
+            get => GetValue("Guanjianzi");
+            set => SetValue(value);
         }
 
-        public static bool Get_DMStatus()
+        public static string Yonghu
         {
-            if (container.Values["DMStatus"] != null)
-            {
-                return Convert.ToBoolean(container.Values["DMStatus"]);
-            }
-            else
-            {
-                container.Values["DMStatus"] = true;
-                return true;
-            }
+            get => GetValue("Yonghu");
+            set => SetValue(value);
         }
 
-        public static void Set_NewDMTran(double value)
+        public static int DMNumber
         {
-            container.Values["NewDMTran"] = value;
+            get => GetOrSetDefault(0);
+            set => SetValue(value);
         }
 
-
-        public static void Set_Guanjianzi(string value)
+        public static bool DMBorder
         {
-            container.Values["Guanjianzi"] = value;
+            get => GetValue(true);
+            set => SetValue(value);
         }
 
-        public static string Get_Guanjianzi()
+        public static bool MergeDanmu
         {
-            if (container.Values["Guanjianzi"] != null)
-            {
-                return (string)container.Values["Guanjianzi"];
-            }
-            else
-            {
-                return "Guanjianzi";
-            }
+            get => GetValue(false);
+            set => SetValue(value);
         }
 
-        public static void Set_Yonghu(string value)
+        public static bool BoldDanmu
         {
-            container.Values["Yonghu"] = value;
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-        public static string Get_Yonghu()
+        public static string DanmuFont
         {
-            if (container.Values["Yonghu"] != null)
-            {
-                return (string)container.Values["Yonghu"];
-            }
-            else
-            {
-                return "Yonghu";
-            }
+            get => GetOrSetDefault(string.Empty);
+            set => SetValue(value);
         }
 
-
-
-
-        public static int Get_DMNumber()
+        public static bool DanmuNotSubtitle
         {
-            if (container.Values["DMNumber"] != null)
-            {
-                return Convert.ToInt32(container.Values["DMNumber"]);
-            }
-            else
-            {
-                container.Values["DMNumber"] = 0;
-                return 0;
-            }
+            get => GetValue(false);
+            set => SetValue(value);
         }
 
-        public static void Set_DMNumber(int value)
+        public static double DMSize
         {
-            container.Values["DMNumber"] = value;
+            get => GetOrSetDefault(22.0);
+            set => SetValue(value);
         }
 
-
-        //Get_DMBorder
-        public static bool Get_DMBorder()
+        public static int DMFont
         {
-            if (container.Values["DMBorder"] != null)
-            {
-                return (bool)container.Values["DMBorder"];
-            }
-            else
-            {
-                return true;
-            }
+            get => GetOrSetDefault(0);
+            set => SetValue(value);
         }
 
-        public static void Set_DMBorder(bool value)
+        public static int DMStyle
         {
-            container.Values["DMBorder"] = value;
+            get => GetOrSetDefault(0);
+            set => SetValue(value);
         }
 
-        public static bool Get_MergeDanmu()
+        public static double DMSpeed
         {
-            if (container.Values["MergeDanmu"] != null)
-            {
-                return (bool)container.Values["MergeDanmu"];
-            }
-            else
-            {
-                return false;
-            }
+            get => GetOrSetDefault(12.0);
+            set => SetValue(value);
         }
 
-        public static void Set_MergeDanmu(bool value)
+        public static double DMTran
         {
-            container.Values["MergeDanmu"] = value;
+            get => GetOrSetDefault(100.0);
+            set => SetValue(value);
         }
 
-        public static bool Get_BoldDanmu()
+        public static bool DMVisTop
         {
-            if (container.Values["BoldDanmu"] != null)
-            {
-                return (bool)container.Values["BoldDanmu"];
-            }
-            else
-            {
-                Set_BoldDanmu(true);
-                return true;
-            }
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-        public static void Set_BoldDanmu(bool value)
+        public static bool DMVisBottom
         {
-            container.Values["BoldDanmu"] = value;
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-
-        public static string Get_DanmuFont()
+        public static bool DMVisRoll
         {
-
-            if (container.Values["DanmuFont"] != null)
-            {
-                return (string)container.Values["DanmuFont"];
-            }
-            else
-            {
-                Set_DanmuFont("");
-                return "";
-            }
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-        public static void Set_DanmuFont(string value)
+        public static string DMZZ
         {
-
-            container.Values["DanmuFont"] = value;
+            get => GetOrSetDefault(string.Empty);
+            set => SetValue(value);
         }
-
-
-        //DanmuNotSubtitle
-        public static bool Get_DanmuNotSubtitle()
-        {
-
-            if (container.Values["DanmuNotSubtitle"] != null)
-            {
-                return (bool)container.Values["DanmuNotSubtitle"];
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static void Set_DanmuNotSubtitle(bool value)
-        {
-
-            container.Values["DanmuNotSubtitle"] = value;
-        }
-
-
-        public static double Get_DMSize()
-        {
-
-            if (container.Values["DMSize"] != null)
-            {
-                return Convert.ToDouble(container.Values["DMSize"]);
-            }
-            else
-            {
-                container.Values["DMSize"] = 22;
-                return 22;
-            }
-        }
-
-        public static void Set_DMSize(double value)
-        {
-
-            container.Values["DMSize"] = value;
-        }
-
-
-        public static int Get_DMFont()
-        {
-
-            if (container.Values["DMFont"] != null)
-            {
-                return (int)container.Values["DMFont"];
-            }
-            else
-            {
-                container.Values["DMFont"] = 0;
-                return 0;
-            }
-        }
-
-        public static void Set_DMFont(int value)
-        {
-
-            container.Values["DMFont"] = value;
-        }
-
-
-        public static int Get_DMStyle()
-        {
-
-            if (container.Values["DMStyle"] != null)
-            {
-                return (int)container.Values["DMStyle"];
-            }
-            else
-            {
-                container.Values["DMStyle"] = 0;
-                return 0;
-            }
-        }
-
-        public static void Set_DMStyle(int value)
-        {
-
-            container.Values["DMStyle"] = value;
-        }
-
-
-
-        public static double Get_DMSpeed()
-        {
-
-            if (container.Values["DMSpeed"] != null)
-            {
-
-                return Convert.ToDouble(container.Values["DMSpeed"]);
-            }
-            else
-            {
-
-                container.Values["DMSpeed"] = 12;
-                return 12;
-
-
-
-            }
-        }
-
-        public static void Set_DMSpeed(double value)
-        {
-
-            container.Values["DMSpeed"] = value;
-        }
-
-        public static double Get_DMTran()
-        {
-
-            if (container.Values["DMTran"] != null)
-            {
-                return Convert.ToDouble(container.Values["DMTran"]);
-            }
-            else
-            {
-
-                container.Values["DMTran"] = 100;
-                return 100;
-
-
-
-            }
-        }
-
-        public static void Set_DMTran(double value)
-        {
-
-            container.Values["DMTran"] = value;
-        }
-
-
-
-        public static bool Get_DMVisTop()
-        {
-
-            if (container.Values["DMVisTop"] != null)
-            {
-                return (bool)container.Values["DMVisTop"];
-            }
-            else
-            {
-                Set_DMVisTop(true);
-                return true;
-            }
-        }
-
-        public static void Set_DMVisTop(bool value)
-        {
-
-            container.Values["DMVisTop"] = value;
-        }
-
-        public static bool Get_DMVisBottom()
-        {
-
-            if (container.Values["DMVisBottom"] != null)
-            {
-                return (bool)container.Values["DMVisBottom"];
-            }
-            else
-            {
-                Set_DMVisBottom(true);
-                return true;
-            }
-        }
-
-        public static void Set_DMVisBottom(bool value)
-        {
-
-            container.Values["DMVisBottom"] = value;
-        }
-
-        public static bool Get_DMVisRoll()
-        {
-
-            if (container.Values["DMVisRoll"] != null)
-            {
-                return (bool)container.Values["DMVisRoll"];
-            }
-            else
-            {
-                Set_DMVisRoll(true);
-                return true;
-            }
-        }
-
-        public static void Set_DMVisRoll(bool value)
-        {
-
-            container.Values["DMVisRoll"] = value;
-        }
-
-        public static string Get_DMZZ()
-        {
-
-            if (container.Values["DMZZ"] != null)
-            {
-                return (string)container.Values["DMZZ"];
-            }
-            else
-            {
-                Set_DMZZ("");
-                return "";
-            }
-        }
-
-        public static void Set_DMZZ(string value)
-        {
-
-            container.Values["DMZZ"] = value;
-        }
-
-
-
-
-
-
-
         #endregion
-
 
         #region 下载
         public static int DownQualit
@@ -739,92 +448,24 @@ namespace BiliBili3
 
         #endregion
 
-
         #region 通知
-
-
-        public static bool Get_DTCT()
+        public static bool DTCT
         {
-
-            if (container.Values["DTCT"] != null)
-            {
-                return (bool)container.Values["DTCT"];
-            }
-            else
-            {
-                Set_DTCT(true);
-                return true;
-            }
-        }
-        public static void Set_DTCT(bool value)
-        {
-
-            container.Values["DTCT"] = value;
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-
-
-        public static bool Get_DT()
+        public static bool DT
         {
-
-            if (container.Values["DT"] != null)
-            {
-                return (bool)container.Values["DT"];
-            }
-            else
-            {
-                Set_DT(true);
-                return true;
-            }
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-        public static void Set_DT(bool value)
+        public static bool FJ
         {
-
-            container.Values["DT"] = value;
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
-
-        public static bool Get_FJ()
-        {
-
-            if (container.Values["FJ"] != null)
-            {
-                return (bool)container.Values["FJ"];
-            }
-            else
-            {
-                Set_FJ(true);
-                return true;
-            }
-        }
-
-        public static void Set_FJ(bool value)
-        {
-
-            container.Values["FJ"] = value;
-        }
-
-        public static string Get_TsDt()
-        {
-
-            if (container.Values["TsDt"] != null)
-            {
-                return (string)container.Values["TsDt"];
-            }
-            else
-            {
-                Set_TsDt("");
-                return "";
-            }
-        }
-
-        public static void Set_TsDt(string value)
-        {
-
-            container.Values["TsDt"] = value;
-        }
-
-
         #endregion
 
         #region 黑科技

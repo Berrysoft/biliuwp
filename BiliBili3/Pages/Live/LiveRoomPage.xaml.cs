@@ -1610,7 +1610,7 @@ namespace BiliBili3.Pages
             sw_ForceAudio.IsOn = SettingHelper.ForceAudio;
             sw_ForceVideo.IsOn = SettingHelper.ForceVideo;
 
-            danmu.borderStyle = (DanmakuBorderStyle)SettingHelper.Get_DMStyle();
+            danmu.borderStyle = (DanmakuBorderStyle)SettingHelper.DMStyle;
             settingloading = false;
         }
 
@@ -1915,8 +1915,8 @@ namespace BiliBili3.Pages
         {
             await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
             danmu.ClearAll();
-            danmu.speed = SettingHelper.Get_DMSpeed().ToInt32();
-            danmu.sizeZoom = SettingHelper.Get_NewDMSize();
+            danmu.speed = SettingHelper.DMSpeed.ToInt32();
+            danmu.sizeZoom = SettingHelper.NewDMSize;
             btn_Mini.Visibility = Visibility.Visible;
             btn_ExitMini.Visibility = Visibility.Collapsed;
 

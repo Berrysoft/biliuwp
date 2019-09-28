@@ -38,8 +38,8 @@ namespace BiliBili3.Controls
         {
             
             this.InitializeComponent();
-            D_Border = SettingHelper.Get_DMBorder();
-            danmuStyle = (DanmuStyle)SettingHelper.Get_DMStyle();
+            D_Border = SettingHelper.DMBorder;
+            danmuStyle = (DanmuStyle)SettingHelper.DMStyle;
         }
         public DanmuStyle danmuStyle  = DanmuStyle.Boder;
 

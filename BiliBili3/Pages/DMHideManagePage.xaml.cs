@@ -51,7 +51,7 @@ namespace BiliBili3.Pages
             txt_DM.Text="<d p=\"65.460998535156,1,25,16777215,1486119598,0,313ee262,2946614352\">这是一条正常的弹幕</d>";
             txt_SM.Text = "弹幕格式说明：<d p=\"弹幕出现时间,弹幕模式（1-3 滚动弹幕 4底端弹幕 5顶端弹幕 6.逆向弹幕 7精准定位 8高级弹幕）,弹幕大小（12非常小,16特小,18小,25中,36大,45很大,64特别大）,弹幕颜色（十进制）,弹幕发送时间（时间戳）,弹幕池（0普通池 1字幕池 2特殊池 【目前特殊池为高级弹幕专用】）,弹幕发送人,弹幕ID\">弹幕文本</d>";
 
-            string a = SettingHelper.Get_Guanjianzi();
+            string a = SettingHelper.Guanjianzi;
             if (a.Length != 0)
             {
                 list_Guanjianzi.Items.Clear();
@@ -62,7 +62,7 @@ namespace BiliBili3.Pages
                 list_Guanjianzi.Items.Remove(string.Empty);
             }
 
-            string b = SettingHelper.Get_Yonghu();
+            string b = SettingHelper.Yonghu;
             if (b.Length != 0)
             {
                 list_Yonghu.Items.Clear();
@@ -72,7 +72,7 @@ namespace BiliBili3.Pages
                 }
                 list_Yonghu.Items.Remove(string.Empty);
             }
-            txt_ZZ.Text = SettingHelper.Get_DMZZ();
+            txt_ZZ.Text = SettingHelper.DMZZ;
 
 
         }
@@ -87,7 +87,7 @@ namespace BiliBili3.Pages
                 txt_Yonghu.Text = "用户不能为空";
                 return;
             }
-            SettingHelper.Set_Yonghu(SettingHelper.Get_Yonghu() + "|" + txt_Yonghu.Text);
+            SettingHelper.Yonghu = SettingHelper.Yonghu + "|" + txt_Yonghu.Text;
             list_Yonghu.Items.Add(txt_Yonghu.Text);
             txt_Yonghu.Text = string.Empty;
         }
@@ -99,7 +99,7 @@ namespace BiliBili3.Pages
                 txt_Guanjianzi.Text = "关键字不能为空";
                 return;
             }
-            SettingHelper.Set_Guanjianzi(SettingHelper.Get_Guanjianzi() + "|" + txt_Guanjianzi.Text);
+            SettingHelper.Guanjianzi = SettingHelper.Guanjianzi + "|" + txt_Guanjianzi.Text;
             list_Guanjianzi.Items.Add(txt_Guanjianzi.Text);
             txt_Guanjianzi.Text = string.Empty;
         }
@@ -109,24 +109,24 @@ namespace BiliBili3.Pages
         {
             foreach (var item in list_Guanjianzi.SelectedItems)
             {
-                string b = SettingHelper.Get_Guanjianzi();
+                string b = SettingHelper.Guanjianzi;
                 list_Guanjianzi.Items.Remove(item);
-                SettingHelper.Set_Guanjianzi( b.Replace("|" + item, string.Empty));
+                SettingHelper.Guanjianzi =  b.Replace("|" + item, string.Empty);
             }
         }
            private void btn_DeleteYonghu_Click(object sender, RoutedEventArgs e)
         {
             foreach (var item in list_Yonghu.SelectedItems)
             {
-                string b = SettingHelper.Get_Yonghu();
+                string b = SettingHelper.Yonghu;
                 list_Yonghu.Items.Remove(item);
-                SettingHelper.Set_Yonghu(b.Replace("|" + item, string.Empty));
+                SettingHelper.Yonghu = b.Replace("|" + item, string.Empty);
             }
         }
 
         private void btn_SaveZZ_Click(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_DMZZ(txt_ZZ.Text);
+            SettingHelper.DMZZ = txt_ZZ.Text;
         }
 
         private void btn_TestZZ_Click(object sender, RoutedEventArgs e)
@@ -178,9 +178,9 @@ namespace BiliBili3.Pages
             try
             {
                 string results = await WebClientClass.GetResults(new Uri("http://api.bilibili.com/x/dm/filter/user?jsonp=jsonp"));
-                var ls= SettingHelper.Get_Guanjianzi().Split('|').ToList();
+                var ls= SettingHelper.Guanjianzi.Split('|').ToList();
                 ls.Remove(string.Empty);
-                var ls2= SettingHelper.Get_Yonghu().Split('|').ToList();
+                var ls2= SettingHelper.Yonghu.Split('|').ToList();
                 ls2.Remove(string.Empty);
 
                 DMFilterModel fm = JsonConvert.DeserializeObject<DMFilterModel>(results);
@@ -192,14 +192,14 @@ namespace BiliBili3.Pages
                         {
                             if (!ls.Contains(item.filter))
                             {
-                                SettingHelper.Set_Guanjianzi(SettingHelper.Get_Guanjianzi() + "|" + item.filter);
+                                SettingHelper.Guanjianzi = SettingHelper.Guanjianzi + "|" + item.filter;
                             }
                         }
                         if (item.type == 2)
                         {
                             if (!ls2.Contains(item.filter))
                             {
-                                SettingHelper.Set_Yonghu(SettingHelper.Get_Yonghu() + "|" + item.filter);
+                                SettingHelper.Yonghu = SettingHelper.Yonghu + "|" + item.filter;
                             }
                         }
                     }

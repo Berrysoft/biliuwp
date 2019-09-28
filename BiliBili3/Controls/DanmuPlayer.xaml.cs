@@ -363,30 +363,28 @@ namespace BiliBili3.Controls
 
 
             DanDis_Get();
-            DMZZBDS = SettingHelper.Get_DMZZ();
-            slider_DanmuSize.Value = SettingHelper.Get_NewDMSize();
-            slider_Num.Value = SettingHelper.Get_DMNumber();
-            slider_DanmuTran.Value = SettingHelper.Get_NewDMTran();
-            slider_DanmuSpeed.Value = SettingHelper.Get_DMSpeed();
-            cb_Style.SelectedIndex = SettingHelper.Get_DMStyle();
-            cb_Font.SelectedIndex = SettingHelper.Get_DMFont();
-            sw_DanmuBorder.IsOn = SettingHelper.Get_DMBorder();
-            sw_MergeDanmu.IsOn = SettingHelper.Get_MergeDanmu();
+            DMZZBDS = SettingHelper.DMZZ;
+            slider_DanmuSize.Value = SettingHelper.NewDMSize;
+            slider_Num.Value = SettingHelper.DMNumber;
+            slider_DanmuTran.Value = SettingHelper.NewDMTran;
+            slider_DanmuSpeed.Value = SettingHelper.DMSpeed;
+            cb_Style.SelectedIndex = SettingHelper.DMStyle;
+            cb_Font.SelectedIndex = SettingHelper.DMFont;
+            sw_DanmuBorder.IsOn = SettingHelper.DMBorder;
+            sw_MergeDanmu.IsOn = SettingHelper.MergeDanmu;
             mergeDanmu = sw_MergeDanmu.IsOn;
 
-            sw_DanmuNotSubtitle.IsOn = SettingHelper.Get_DanmuNotSubtitle();
-            //danmu.notHideSubtitle = sw_DanmuNotSubtitle.IsOn;
+            sw_DanmuNotSubtitle.IsOn = SettingHelper.DanmuNotSubtitle;
 
 
             mediaElement.Volume = SettingHelper.Volume;
-            DanmuNum = SettingHelper.Get_DMNumber();
+            DanmuNum = SettingHelper.DMNumber;
             rb_defu.IsChecked = true;
             btn_ViewPost.Visibility = Visibility.Collapsed;
 
-            //danmu.borderStyle = (NSDanmaku.Model.DanmakuBorderStyle)SettingHelper.Get_DMStyle();
-            menu_setting_buttom.IsChecked = !SettingHelper.Get_DMVisBottom();
-            menu_setting_top.IsChecked = !SettingHelper.Get_DMVisTop();
-            menu_setting_gd.IsChecked = !SettingHelper.Get_DMVisRoll();
+            menu_setting_buttom.IsChecked = !SettingHelper.DMVisBottom;
+            menu_setting_top.IsChecked = !SettingHelper.DMVisTop;
+            menu_setting_gd.IsChecked = !SettingHelper.DMVisRoll;
 
 
         }
@@ -522,8 +520,8 @@ namespace BiliBili3.Controls
         {
 
 
-            string a = SettingHelper.Get_Guanjianzi();
-            string b = SettingHelper.Get_Yonghu();
+            string a = SettingHelper.Guanjianzi;
+            string b = SettingHelper.Yonghu;
             if (a.Length != 0)
             {
 
@@ -552,12 +550,12 @@ namespace BiliBili3.Controls
         {
             if (IsYonghu)
             {
-                SettingHelper.Set_Yonghu(SettingHelper.Get_Yonghu() + "|" + text);
+                SettingHelper.Yonghu = SettingHelper.Yonghu + "|" + text;
                 Yonghu.Add(text);
             }
             else
             {
-                SettingHelper.Set_Guanjianzi(SettingHelper.Get_Guanjianzi() + "|" + text);
+                SettingHelper.Guanjianzi = SettingHelper.Guanjianzi + "|" + text;
 
                 Guanjianzi.Add(text);
             }
@@ -1471,7 +1469,7 @@ namespace BiliBili3.Controls
         private void sw_DanmuBorder_Toggled(object sender, RoutedEventArgs e)
         {
             //danmu.D_Border = sw_DanmuBorder.IsOn;
-            SettingHelper.Set_DMBorder(sw_DanmuBorder.IsOn);
+            SettingHelper.DMBorder = sw_DanmuBorder.IsOn;
         }
 
         private void slider_DanmuSize_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -1482,35 +1480,12 @@ namespace BiliBili3.Controls
             }
             danmu.sizeZoom = slider_DanmuSize.Value;
 
-            SettingHelper.Set_NewDMSize(slider_DanmuSize.Value);
+            SettingHelper.NewDMSize = slider_DanmuSize.Value;
         }
 
         private void cb_Font_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //switch (cb_Font.SelectedIndex)
-            //{
-            //    case 0:
-            //        danmu.fontFamily = "默认";
-            //        break;
-            //    case 1:
-            //        danmu.fontFamily = "微软雅黑";
-            //        break;
-            //    case 2:
-            //        danmu.fontFamily = "黑体";
-            //        break;
-            //    case 3:
-            //        danmu.fontFamily = "楷体";
-            //        break;
-            //    case 4:
-            //        danmu.fontFamily = "宋体";
-            //        break;
-            //    case 5:
-            //        danmu.fontFamily = "等线";
-            //        break;
-            //    default:
-            //        break;
-            //}
-            SettingHelper.Set_DMFont(cb_Font.SelectedIndex);
+            SettingHelper.DMFont = cb_Font.SelectedIndex;
         }
 
         private void slider_DanmuSpeed_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -1524,7 +1499,7 @@ namespace BiliBili3.Controls
             {
                 return;
             }
-            SettingHelper.Set_DMSpeed(slider_DanmuSpeed.Value);
+            SettingHelper.DMSpeed = slider_DanmuSpeed.Value;
         }
 
         private void slider_DanmuTran_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -1538,7 +1513,7 @@ namespace BiliBili3.Controls
                 return;
             }
             danmu.Opacity = slider_DanmuTran.Value;
-            SettingHelper.Set_NewDMTran(slider_DanmuTran.Value);
+            SettingHelper.NewDMTran = slider_DanmuTran.Value;
         }
         private void slider_Num_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
@@ -1547,7 +1522,7 @@ namespace BiliBili3.Controls
                 return;
             }
             DanmuNum = Convert.ToInt32(slider_Num.Value);
-            SettingHelper.Set_DMNumber(Convert.ToInt32(slider_Num.Value));
+            SettingHelper.DMNumber = Convert.ToInt32(slider_Num.Value);
         }
 
 
@@ -1557,7 +1532,7 @@ namespace BiliBili3.Controls
         {
 
             danmu.HideDanmaku(NSDanmaku.Model.DanmakuLocation.Top);
-            SettingHelper.Set_DMVisTop(false);
+            SettingHelper.DMVisTop = false;
 
 
         }
@@ -1565,32 +1540,32 @@ namespace BiliBili3.Controls
         private void menu_setting_buttom_Click(object sender, RoutedEventArgs e)
         {
             danmu.HideDanmaku(NSDanmaku.Model.DanmakuLocation.Bottom);
-            SettingHelper.Set_DMVisBottom(false);
+            SettingHelper.DMVisBottom = false;
         }
 
         private void menu_setting_gd_Checked(object sender, RoutedEventArgs e)
         {
             danmu.HideDanmaku(NSDanmaku.Model.DanmakuLocation.Roll);
-            SettingHelper.Set_DMVisRoll(false);
+            SettingHelper.DMVisRoll = false;
         }
 
         private void menu_setting_gd_Unchecked(object sender, RoutedEventArgs e)
         {
             danmu.ShowDanmaku(NSDanmaku.Model.DanmakuLocation.Roll);
-            SettingHelper.Set_DMVisRoll(true);
+            SettingHelper.DMVisRoll = true;
         }
 
         private void menu_setting_top_Unchecked(object sender, RoutedEventArgs e)
         {
             danmu.ShowDanmaku(NSDanmaku.Model.DanmakuLocation.Top);
-            SettingHelper.Set_DMVisTop(true);
+            SettingHelper.DMVisTop = true;
         }
 
         private void menu_setting_buttom_Unchecked(object sender, RoutedEventArgs e)
         {
             // danmu.SetDanmuVisibility(true, MyDanmaku.DanmuMode.Buttom);
             danmu.ShowDanmaku(NSDanmaku.Model.DanmakuLocation.Bottom);
-            SettingHelper.Set_DMVisBottom(true);
+            SettingHelper.DMVisBottom = true;
         }
 
 
@@ -1766,7 +1741,7 @@ namespace BiliBili3.Controls
 
         private void sw_MergeDanmu_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_MergeDanmu(sw_MergeDanmu.IsOn);
+            SettingHelper.MergeDanmu = sw_MergeDanmu.IsOn;
             mergeDanmu = sw_MergeDanmu.IsOn;
         }
 
@@ -1796,8 +1771,8 @@ namespace BiliBili3.Controls
         {
             await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
             danmu.ClearAll();
-            danmu.speed = SettingHelper.Get_DMSpeed().ToInt32();
-            danmu.sizeZoom = SettingHelper.Get_DMSize();
+            danmu.speed = SettingHelper.DMSpeed.ToInt32();
+            danmu.sizeZoom = SettingHelper.DMSize;
         }
 
         private void MTC_DanmakuSetting(object sender, EventArgs e)
@@ -1940,14 +1915,14 @@ namespace BiliBili3.Controls
                 return;
             }
             danmu.borderStyle = (NSDanmaku.Model.DanmakuBorderStyle)cb_Style.SelectedIndex;
-            SettingHelper.Set_DMStyle(cb_Style.SelectedIndex);
+            SettingHelper.DMStyle = cb_Style.SelectedIndex;
 
         }
 
         private void sw_DanmuNotSubtitle_Toggled(object sender, RoutedEventArgs e)
         {
             danmu.notHideSubtitle = sw_DanmuNotSubtitle.IsOn;
-            SettingHelper.Set_DanmuNotSubtitle(sw_DanmuNotSubtitle.IsOn);
+            SettingHelper.DanmuNotSubtitle = sw_DanmuNotSubtitle.IsOn;
 
         }
 
