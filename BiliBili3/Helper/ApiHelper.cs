@@ -51,7 +51,7 @@ namespace BiliBili3
             {
                 if (_access_key == "")
                 {
-                    return SettingHelper.Get_Access_key();
+                    return SettingHelper.AccessKey;
                 }
                 else
                 {
@@ -178,7 +178,7 @@ namespace BiliBili3
         {
             if (IsLogin())
             {
-                return SettingHelper.Get_UserID().ToString();
+                return SettingHelper.UserID.ToString();
             }
             else
             {
@@ -189,7 +189,7 @@ namespace BiliBili3
 
         public static bool IsLogin()
         {
-            if (SettingHelper.Get_Access_key() != "")
+            if (SettingHelper.AccessKey != "")
             {
                 return true;
             }

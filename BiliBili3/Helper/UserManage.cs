@@ -24,7 +24,7 @@ namespace BiliBili3.Helper
         public static string username { get; set; }
         public static bool IsLogin()
         {
-            if (SettingHelper.Get_Access_key() != "")
+            if (SettingHelper.AccessKey != "")
             {
                 return true;
             }
@@ -74,7 +74,7 @@ namespace BiliBili3.Helper
                     Windows.Web.Http.HttpResponseMessage hr2 = await hc.GetAsync(new Uri("http://api.bilibili.com/login/sso?&access_key=" + model.access_key + "&appkey=422fd9d7289a1dd9&platform=wp"));
                     hr2.EnsureSuccessStatusCode();
 
-                    SettingHelper.Set_Access_key(model.access_key);
+                    SettingHelper.AccessKey = model.access_key;
                 }
                 //看看存不存在Cookie
                 HttpBaseProtocolFilter hb = new HttpBaseProtocolFilter();
@@ -119,7 +119,7 @@ namespace BiliBili3.Helper
             Windows.Web.Http.HttpResponseMessage hr2 = await hc.GetAsync(new Uri("http://api.bilibili.com/login/sso?&access_key=" + access_token + "&appkey=422fd9d7289a1dd9&platform=wp"));
             hr2.EnsureSuccessStatusCode();
 
-            SettingHelper.Set_Access_key(access_token);
+            SettingHelper.AccessKey = access_token;
             //看看存不存在Cookie
             HttpBaseProtocolFilter hb = new HttpBaseProtocolFilter();
             HttpCookieCollection cookieCollection = hb.CookieManager.GetCookies(new Uri("http://bilibili.com/"));
@@ -191,12 +191,11 @@ namespace BiliBili3.Helper
             }
             ApiHelper.access_key = string.Empty;
             UserManage.access_key = string.Empty;
-            SettingHelper.Set_Access_key(string.Empty);
-            SettingHelper.Set_Refresh_Token(string.Empty);
-            SettingHelper.Set_Password(string.Empty);
-            SettingHelper.Set_UserID(0);
-            SettingHelper.Set_LoginExpires(DateTime.Now);
-            SettingHelper.Set_BiliplusCookie(string.Empty);
+            SettingHelper.AccessKey = string.Empty;
+            SettingHelper.RefreshToken = string.Empty;
+            SettingHelper.UserID = 0;
+            SettingHelper.LoginExpires = DateTime.Now;
+            SettingHelper.BiliplusCookie = string.Empty;
         }
 
 
@@ -204,7 +203,7 @@ namespace BiliBili3.Helper
         {
             get
             {
-                return SettingHelper.Get_UserID().ToString();
+                return SettingHelper.UserID.ToString();
             }
         }
 

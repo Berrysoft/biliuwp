@@ -438,47 +438,47 @@ namespace BiliBili3.Pages.Live
         {
             loadingSetting = true;
             //弹幕大小
-            danmu.sizeZoom = SettingHelper.Get_NewLDMSize();
-            slider_DanmuSize.Value = SettingHelper.Get_NewLDMSize();
+            danmu.sizeZoom = SettingHelper.NewLDMSize;
+            slider_DanmuSize.Value = SettingHelper.NewLDMSize;
             //弹幕透明度
-            danmu.Opacity = SettingHelper.Get_LDMTran();
-            slider_DanmuTran.Value = SettingHelper.Get_LDMTran();
+            danmu.Opacity = SettingHelper.LDMTran;
+            slider_DanmuTran.Value = SettingHelper.LDMTran;
             //弹幕速度
-            danmu.speed = Convert.ToInt32(SettingHelper.Get_NewLDMSpeed());
+            danmu.speed = Convert.ToInt32(SettingHelper.NewLDMSpeed);
 
             danmu.bold = SettingHelper.BoldDanmu;
             sw_BoldDanmu.IsOn = SettingHelper.BoldDanmu;
 
-            slider_DanmuSpeed.Value = SettingHelper.Get_NewLDMSpeed();
+            slider_DanmuSpeed.Value = SettingHelper.NewLDMSpeed;
 
             //弹幕边框
             danmu.borderStyle = (DanmakuBorderStyle)SettingHelper.DMStyle;
             //音量
-            media.Volume = SettingHelper.Get_LVolume();
-            slider_volume.Value = SettingHelper.Get_LVolume();
+            media.Volume = SettingHelper.LVolume;
+            slider_volume.Value = SettingHelper.LVolume;
             //自动领取瓜子
-            autoGetAward = SettingHelper.Get_LAutoGetAward();
-            sw_AutoGetAward.IsOn = SettingHelper.Get_LAutoGetAward();
+            autoGetAward = SettingHelper.LAutoGetAward;
+            sw_AutoGetAward.IsOn = SettingHelper.LAutoGetAward;
 
             //硬件加速
             media.HardwareAcceleration = SettingHelper.ForceVideo;
             sw_HardwareAcceleration.IsOn = SettingHelper.ForceVideo;
 
             //自动清理弹幕
-            slider_Clear.Value = SettingHelper.Get_LClear();
+            slider_Clear.Value = SettingHelper.LClear;
 
             //弹幕加载延迟
-            _biliLiveDanmu.delay = SettingHelper.Get_LDelay();
-            slider_DanmuDelay.Value = SettingHelper.Get_LDelay();
+            _biliLiveDanmu.delay = SettingHelper.LDelay;
+            slider_DanmuDelay.Value = SettingHelper.LDelay;
 
-            sw_receiveGiftMsg.IsOn = SettingHelper.Get_LReceiveGiftMsg();
-            receiveGiftMsg = SettingHelper.Get_LReceiveGiftMsg();
+            sw_receiveGiftMsg.IsOn = SettingHelper.LReceiveGiftMsg;
+            receiveGiftMsg = SettingHelper.LReceiveGiftMsg;
 
-            sw_receiveWelcomeMsg.IsOn = SettingHelper.Get_LReceiveWelcomeMsg();
-            receiveWelcomeMsg = SettingHelper.Get_LReceiveWelcomeMsg();
+            sw_receiveWelcomeMsg.IsOn = SettingHelper.LReceiveWelcomeMsg;
+            receiveWelcomeMsg = SettingHelper.LReceiveWelcomeMsg;
 
-            sw_receiveSysMsg.IsOn = SettingHelper.Get_LReceiveSysMsg();
-            receiveSysMsg = SettingHelper.Get_LReceiveSysMsg();
+            sw_receiveSysMsg.IsOn = SettingHelper.LReceiveSysMsg;
+            receiveSysMsg = SettingHelper.LReceiveSysMsg;
 
 
             loadingSetting = false;
@@ -1000,7 +1000,7 @@ namespace BiliBili3.Pages.Live
                 return;
             }
             media.Volume = slider_volume.Value.ToInt32();
-            SettingHelper.Set_LVolume(slider_volume.Value.ToInt32());
+            SettingHelper.LVolume = slider_volume.Value.ToInt32();
         }
         /// <summary>
         /// 发送弹幕
@@ -1191,7 +1191,7 @@ namespace BiliBili3.Pages.Live
             {
                 return;
             }
-            SettingHelper.Set_LClear(slider_Clear.Value.ToInt32());
+            SettingHelper.LClear = slider_Clear.Value.ToInt32();
         }
         /// <summary>
         /// 设置弹幕延迟
@@ -1205,7 +1205,7 @@ namespace BiliBili3.Pages.Live
                 return;
             }
             _biliLiveDanmu.delay = slider_DanmuDelay.Value.ToInt32();
-            SettingHelper.Set_LDelay(slider_DanmuDelay.Value.ToInt32());
+            SettingHelper.LDelay = slider_DanmuDelay.Value.ToInt32();
 
 
         }
@@ -1221,7 +1221,7 @@ namespace BiliBili3.Pages.Live
                 return;
             }
             autoGetAward = sw_AutoGetAward.IsOn;
-            SettingHelper.Set_LAutoGetAward(sw_AutoGetAward.IsOn);
+            SettingHelper.LAutoGetAward = sw_AutoGetAward.IsOn;
         }
         /// <summary>
         /// 设置硬件加速
@@ -1249,7 +1249,7 @@ namespace BiliBili3.Pages.Live
                 return;
             }
 
-            SettingHelper.Set_LDMSize(slider_DanmuSize.Value);
+            SettingHelper.LDMSize = slider_DanmuSize.Value;
             danmu.sizeZoom = slider_DanmuSize.Value;
         }
         /// <summary>
@@ -1263,7 +1263,7 @@ namespace BiliBili3.Pages.Live
             {
                 return;
             }
-            SettingHelper.Set_LDMSpeed(slider_DanmuSpeed.Value);
+            SettingHelper.LDMSpeed = slider_DanmuSpeed.Value;
             danmu.speed = slider_DanmuSpeed.Value.ToInt32();
 
         }
@@ -1278,7 +1278,7 @@ namespace BiliBili3.Pages.Live
             {
                 return;
             }
-            SettingHelper.Set_LDMTran(slider_DanmuTran.Value);
+            SettingHelper.LDMTran = slider_DanmuTran.Value;
             danmu.Opacity = slider_DanmuTran.Value;
 
         }
@@ -1294,7 +1294,7 @@ namespace BiliBili3.Pages.Live
                 return;
             }
             receiveGiftMsg = sw_receiveGiftMsg.IsOn;
-            SettingHelper.Set_LReceiveGiftMsg(sw_receiveGiftMsg.IsOn);
+            SettingHelper.LReceiveGiftMsg = sw_receiveGiftMsg.IsOn;
         }
         /// <summary>
         /// 设置接收欢迎信息
@@ -1308,7 +1308,7 @@ namespace BiliBili3.Pages.Live
                 return;
             }
             receiveWelcomeMsg = sw_receiveWelcomeMsg.IsOn;
-            SettingHelper.Set_LReceiveWelcomeMsg(sw_receiveWelcomeMsg.IsOn);
+            SettingHelper.LReceiveWelcomeMsg = sw_receiveWelcomeMsg.IsOn;
         }
         /// <summary>
         /// 设置接收系统信息
@@ -1322,7 +1322,7 @@ namespace BiliBili3.Pages.Live
                 return;
             }
             receiveSysMsg = sw_receiveSysMsg.IsOn;
-            SettingHelper.Set_LReceiveSysMsg(sw_receiveSysMsg.IsOn);
+            SettingHelper.LReceiveSysMsg = sw_receiveSysMsg.IsOn;
         }
         /// <summary>
         /// 打开设置

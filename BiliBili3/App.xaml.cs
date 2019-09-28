@@ -1,25 +1,10 @@
-﻿using BiliBili3.Helper;
+﻿using System;
+using BiliBili3.Helper;
 using BiliBili3.Pages;
-using BiliBili3.Pages.FindMore;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text.RegularExpressions;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
-using Windows.UI.Popups;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace BiliBili3
@@ -40,7 +25,7 @@ namespace BiliBili3
 
             this.Suspending += OnSuspending;
             App.Current.UnhandledException += App_UnhandledException;
-           
+
             this.EnteredBackground += App_EnteredBackground;
             this.LeavingBackground += App_LeavingBackground;
         }
@@ -136,8 +121,8 @@ namespace BiliBili3
             if (e.PrelaunchActivated == false)
             {
 
-                ApiHelper.access_key = SettingHelper.Get_Access_key();
-                UserManage.access_key = SettingHelper.Get_Access_key();
+                ApiHelper.access_key = SettingHelper.AccessKey;
+                UserManage.access_key = SettingHelper.AccessKey;
                 var par = new StartModel() { StartType = StartTypes.None };
                 if (e.Arguments.Length != 0)
                 {
@@ -162,7 +147,7 @@ namespace BiliBili3
                     }
                 }
 
-                if (SettingHelper.Get_PlayerMode())
+                if (SettingHelper.PlayerMode)
                 {
                     rootFrame.Navigate(typeof(PlayerModePage));
                 }
@@ -412,7 +397,7 @@ namespace BiliBili3
 
         protected override void OnFileActivated(FileActivatedEventArgs args)
         {
-            
+
             RegisterExceptionHandlingSynchronizationContext();
             StartModel par = new StartModel() { StartType = StartTypes.File, Par3 = args.Files };
             Frame rootFrame = Window.Current.Content as Frame;

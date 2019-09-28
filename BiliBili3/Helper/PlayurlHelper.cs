@@ -283,7 +283,7 @@ namespace BiliBili3.Helper
                 var playList = new SYEngine.Playlist(SYEngine.PlaylistTypes.NetworkHttp);
                 List<string> urls = new List<string>();
                 string rnd = ApiHelper.GetTimeSpan.ToString();
-                if (SettingHelper.Get_UseVIP())
+                if (SettingHelper.UseVIP)
                 {
                     rnd = "true" + rnd;
                 }
@@ -349,11 +349,11 @@ namespace BiliBili3.Helper
                 }
                 string url = "https://www.biliplus.com/BPplayurl.php?cid=" + cid + $"&otype=json&type=&quality={qn}&qn={qn}{season}&access_key={ApiHelper.access_key}";
                 Dictionary<string, string> header = new Dictionary<string, string>();
-                if (SettingHelper.Get_BiliplusCookie() != "")
+                if (!string.IsNullOrEmpty(SettingHelper.BiliplusCookie))
                 {
-                    if (cookie == "")
+                    if (string.IsNullOrEmpty(cookie))
                     {
-                        cookie = SettingHelper.Get_BiliplusCookie();
+                        cookie = SettingHelper.BiliplusCookie;
                     }
                     header.Add("Cookie", cookie);
                 }
@@ -363,7 +363,7 @@ namespace BiliBili3.Helper
                 if (m.code == 0)
                 {
                     List<string> urls = new List<string>();
-                    var playList = new SYEngine.Playlist(SYEngine.PlaylistTypes.NetworkHttp);
+                    var playList = new Playlist(PlaylistTypes.NetworkHttp);
                     foreach (var item in m.durl)
                     {
                         urls.Add(item.url);
@@ -426,15 +426,15 @@ namespace BiliBili3.Helper
                 var season = "";
                 if (season_type != 0)
                 {
-                    season = $"&module=bangumi&season_type={ season_type}";
+                    season = $"&module=bangumi&season_type={season_type}";
                 }
                 string url = "https://www.biliplus.com/BPplayurl.php?cid=" + cid + $"&otype=json&type=&quality={qn}&qn={qn}{season}&access_key={ApiHelper.access_key}&fourk=1&fnver=0&fnval=16";
                 Dictionary<string, string> header = new Dictionary<string, string>();
-                if (SettingHelper.Get_BiliplusCookie() != "")
+                if (SettingHelper.BiliplusCookie != "")
                 {
                     if (cookie == "")
                     {
-                        cookie = SettingHelper.Get_BiliplusCookie();
+                        cookie = SettingHelper.BiliplusCookie;
                     }
                     header.Add("Cookie", cookie);
                 }

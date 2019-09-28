@@ -120,10 +120,10 @@ namespace BiliBili3
             set => SetValue(value);
         }
 
-        public static int _BGHor
+        public static int BGHor
         {
-            get => GetOrSetDefault(1);
-            set => SetValue(value);
+            get => GetOrSetDefault(1, "_BGHor");
+            set => SetValue(value, "_BGHor");
         }
 
         public static bool HideStatus
@@ -469,263 +469,73 @@ namespace BiliBili3
         #endregion
 
         #region 黑科技
-
-        public static bool Get_PlayerMode()
+        public static bool PlayerMode
         {
-
-            if (container.Values["PlayerMode"] != null)
-            {
-                return (bool)container.Values["PlayerMode"];
-            }
-            else
-            {
-                Set_PlayerMode(false);
-                return false;
-            }
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-        public static void Set_PlayerMode(bool value)
+        public static bool UseHK
         {
-
-            container.Values["PlayerMode"] = value;
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-
-
-        public static bool Get_UseHK()
+        public static bool UseTW
         {
-
-            if (container.Values["UseHK"] != null)
-            {
-                return (bool)container.Values["UseHK"];
-            }
-            else
-            {
-                Set_UseHK(false);
-                return false;
-            }
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-        public static void Set_UseHK(bool value)
+        public static bool UseCN
         {
-
-            container.Values["UseHK"] = value;
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-
-        public static bool Get_UseTW()
+        public static bool UseVIP
         {
-
-            if (container.Values["UseTW"] != null)
-            {
-                return (bool)container.Values["UseTW"];
-            }
-            else
-            {
-                Set_UseTW(false);
-                return false;
-            }
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-        public static void Set_UseTW(bool value)
+        public static bool UseOtherSite
         {
-
-            container.Values["UseTW"] = value;
-        }
-
-
-
-        public static bool Get_UseCN()
-        {
-
-            if (container.Values["UseCN"] != null)
-            {
-                return (bool)container.Values["UseCN"];
-            }
-            else
-            {
-                Set_UseCN(false);
-                return false;
-            }
-        }
-
-        public static void Set_UseCN(bool value)
-        {
-
-            container.Values["UseCN"] = value;
-        }
-
-
-        public static bool Get_UseVIP()
-        {
-
-            if (container.Values["UseVIP"] != null)
-            {
-                return (bool)container.Values["UseVIP"];
-            }
-            else
-            {
-                Set_UseVIP(false);
-                return false;
-            }
-        }
-
-        public static void Set_UseVIP(bool value)
-        {
-
-            container.Values["UseVIP"] = value;
-        }
-
-
-        public static bool Get_UseOtherSite()
-        {
-
-            if (container.Values["UseOtherSite"] != null)
-            {
-                return (bool)container.Values["UseOtherSite"];
-            }
-            else
-            {
-                Set_UseOtherSite(true);
-                return true;
-            }
-        }
-
-        public static void Set_UseOtherSite(bool value)
-        {
-
-            container.Values["UseOtherSite"] = value;
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
         #endregion
 
         #region 用户信息
-
-        public static string Get_UserName()
+        public static string AccessKey
         {
-
-            if (container.Values["UserName"] != null)
-            {
-                return (string)container.Values["UserName"];
-            }
-            else
-            {
-                return "";
-            }
-        }
-        public static void Set_UserName(string value)
-        {
-
-            container.Values["UserName"] = value;
-        }
-        public static string Get_Password()
-        {
-
-            if (container.Values["Password"] != null)
-            {
-                return (string)container.Values["Password"];
-            }
-            else
-            {
-                return "";
-            }
-        }
-        public static void Set_Password(string value)
-        {
-
-            container.Values["Password"] = value;
+            get => GetValue(string.Empty, "Access_key");
+            set => SetValue(value, "Access_key");
         }
 
-        public static string Get_Access_key()
+        public static string BiliplusCookie
         {
-
-            if (container.Values["Access_key"] != null)
-            {
-                return (string)container.Values["Access_key"];
-            }
-            else
-            {
-                return "";
-            }
-        }
-        public static void Set_Access_key(string value)
-        {
-
-            container.Values["Access_key"] = value;
+            get => GetValue(string.Empty);
+            set => SetValue(value);
         }
 
-        public static string Get_BiliplusCookie()
+        public static string RefreshToken
         {
-
-            if (container.Values["BiliplusCookie"] != null)
-            {
-                return (string)container.Values["BiliplusCookie"];
-            }
-            else
-            {
-                return "";
-            }
-        }
-        public static void Set_BiliplusCookie(string value)
-        {
-
-            container.Values["BiliplusCookie"] = value;
+            get => GetValue(string.Empty, "Refresh_Token");
+            set => SetValue(value, "Refresh_Token");
         }
 
-
-        public static string Get_Refresh_Token()
+        public static DateTime LoginExpires
         {
-
-            if (container.Values["Refresh_Token"] != null)
-            {
-                return (string)container.Values["Refresh_Token"];
-            }
-            else
-            {
-                return "";
-            }
-        }
-        public static void Set_Refresh_Token(string value)
-        {
-
-            container.Values["Refresh_Token"] = value;
+            get => GetValue(DateTime.Now);
+            set => SetValue(value);
         }
 
-        public static DateTime Get_LoginExpires()
+        public static long UserID
         {
-
-            if (container.Values["LoginExpires"] != null)
-            {
-                return Convert.ToDateTime(container.Values["LoginExpires"]);
-            }
-            else
-            {
-                return DateTime.Now;
-            }
+            get => GetValue(0L);
+            set => SetValue(value);
         }
-        public static void Set_LoginExpires(DateTime value)
-        {
-
-            container.Values["LoginExpires"] = value.ToString();
-        }
-
-        public static long Get_UserID()
-        {
-
-            if (container.Values["UserID"] != null)
-            {
-                return Convert.ToInt64(container.Values["UserID"]);
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        public static void Set_UserID(long value)
-        {
-
-            container.Values["UserID"] = value;
-        }
-
         #endregion
 
         #region 系统方法
@@ -738,306 +548,90 @@ namespace BiliBili3
 
         #endregion
 
-
         #region 直播弹幕
-        public static double Get_LDMSize()
+        public static double LDMSize
         {
-
-            if (container.Values["LDMSize"] != null)
-            {
-                return Convert.ToDouble(container.Values["LDMSize"]);
-            }
-            else
-            {
-                container.Values["LDMSize"] = 22;
-                return 22;
-            }
+            get => GetOrSetDefault(22.0);
+            set => SetValue(value);
         }
 
-        public static void Set_LDMSize(double value)
+        public static int LDMFont
         {
-
-            container.Values["LDMSize"] = value;
+            get => GetOrSetDefault(0);
+            set => SetValue(value);
         }
 
-
-        public static int Get_LDMFont()
+        public static double LDMSpeed
         {
-
-            if (container.Values["LDMFont"] != null)
-            {
-                return (int)container.Values["LDMFont"];
-            }
-            else
-            {
-                container.Values["LDMFont"] = 0;
-                return 0;
-            }
+            get => GetOrSetDefault(100.0);
+            set => SetValue(value);
         }
 
-        public static void Set_LDMFont(int value)
+        public static double NewLDMSpeed
         {
-
-            container.Values["LDMFont"] = value;
+            get => GetOrSetDefault(12.0);
+            set => SetValue(value);
         }
 
-        public static double Get_LDMSpeed()
+        public static double LDMTran
         {
-
-            if (container.Values["LDMSpeed"] != null)
-            {
-                return Convert.ToDouble(container.Values["LDMSpeed"]);
-            }
-            else
-            {
-
-                container.Values["LDMSpeed"] = 100;
-                return 100;
-
-
-
-            }
+            get => GetOrSetDefault(1.0);
+            set => SetValue(value);
         }
 
-        public static void Set_LDMSpeed(double value)
+        public static bool LDMGift
         {
-
-            container.Values["LDMSpeed"] = value;
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-
-        public static double Get_NewLDMSpeed()
+        public static bool LAutoGetAward
         {
-
-            if (container.Values["NewLDMSpeed"] != null)
-            {
-                return Convert.ToDouble(container.Values["NewLDMSpeed"]);
-            }
-            else
-            {
-
-                container.Values["NewLDMSpeed"] = 12;
-                return 12;
-
-
-
-            }
+            get => GetOrSetDefault(false);
+            set => SetValue(value);
         }
 
-        public static void Set_NewLDMSpeed(double value)
+        public static bool LReceiveGiftMsg
         {
-
-            container.Values["NewLDMSpeed"] = value;
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-
-        public static double Get_LDMTran()
+        public static bool LReceiveWelcomeMsg
         {
-
-            if (container.Values["LDMTran"] != null)
-            {
-                double d = Convert.ToDouble(container.Values["LDMTran"]);
-                return d;
-            }
-            else
-            {
-
-                container.Values["LDMTran"] = 1;
-                return 1;
-
-
-
-            }
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-        public static void Set_LDMTran(double value)
+        public static bool LReceiveSysMsg
         {
-
-            container.Values["LDMTran"] = value;
+            get => GetOrSetDefault(true);
+            set => SetValue(value);
         }
 
-
-        public static bool Get_LDMGift()
+        public static double NewLDMSize
         {
-
-            if (container.Values["LDMGift"] != null)
-            {
-                return (bool)container.Values["LDMGift"];
-            }
-            else
-            {
-                Set_LDMGift(true);
-                return true;
-            }
+            get => GetOrSetDefault(1.0);
+            set => SetValue(value);
         }
 
-        public static void Set_LDMGift(bool value)
+        public static int LVolume
         {
-
-            container.Values["LDMGift"] = value;
+            get => GetOrSetDefault(100);
+            set => SetValue(value);
         }
 
-
-        public static bool Get_LAutoGetAward()
+        public static int LClear
         {
-
-            if (container.Values["LAutoGetAward"] != null)
-            {
-                return (bool)container.Values["LAutoGetAward"];
-            }
-            else
-            {
-                Set_LAutoGetAward(false);
-                return false;
-            }
+            get => GetOrSetDefault(50);
+            set => SetValue(value);
         }
 
-        public static void Set_LAutoGetAward(bool value)
+        public static int LDelay
         {
-
-            container.Values["LAutoGetAward"] = value;
+            get => GetOrSetDefault(200);
+            set => SetValue(value);
         }
-
-        public static bool Get_LReceiveGiftMsg()
-        {
-
-            if (container.Values["LReceiveGiftMsg"] != null)
-            {
-                return (bool)container.Values["LReceiveGiftMsg"];
-            }
-            else
-            {
-                Set_LReceiveGiftMsg(true);
-                return true;
-            }
-        }
-
-        public static void Set_LReceiveGiftMsg(bool value)
-        {
-
-            container.Values["LReceiveGiftMsg"] = value;
-        }
-
-        public static bool Get_LReceiveWelcomeMsg()
-        {
-
-            if (container.Values["LReceiveWelcomeMsg"] != null)
-            {
-                return (bool)container.Values["LReceiveWelcomeMsg"];
-            }
-            else
-            {
-                Set_LReceiveWelcomeMsg(true);
-                return true;
-            }
-        }
-
-        public static void Set_LReceiveWelcomeMsg(bool value)
-        {
-
-            container.Values["LReceiveWelcomeMsg"] = value;
-        }
-
-        public static bool Get_LReceiveSysMsg()
-        {
-
-            if (container.Values["LReceiveSysMsg"] != null)
-            {
-                return (bool)container.Values["LReceiveSysMsg"];
-            }
-            else
-            {
-                Set_LReceiveSysMsg(true);
-                return true;
-            }
-        }
-
-        public static void Set_LReceiveSysMsg(bool value)
-        {
-
-            container.Values["LReceiveSysMsg"] = value;
-        }
-
-        public static double Get_NewLDMSize()
-        {
-
-            if (container.Values["NewLDMSize"] != null)
-            {
-                return Convert.ToDouble(container.Values["NewLDMSize"]);
-            }
-            else
-            {
-                container.Values["NewLDMSize"] = 1.0;
-                return 1.0;
-            }
-        }
-
-        public static void Set_NewLDMSize(double value)
-        {
-
-            container.Values["NewLDMSize"] = value;
-        }
-
-        public static int Get_LVolume()
-        {
-
-            if (container.Values["LVolume"] != null)
-            {
-                return (int)container.Values["LVolume"];
-            }
-            else
-            {
-                container.Values["LVolume"] = 100;
-                return 100;
-            }
-        }
-
-        public static void Set_LVolume(int value)
-        {
-
-            container.Values["LVolume"] = value;
-        }
-
-        public static int Get_LClear()
-        {
-
-            if (container.Values["LClear"] != null)
-            {
-                return (int)container.Values["LClear"];
-            }
-            else
-            {
-                container.Values["LClear"] = 50;
-                return 50;
-            }
-        }
-
-        public static void Set_LClear(int value)
-        {
-
-            container.Values["LClear"] = value;
-        }
-
-        public static int Get_LDelay()
-        {
-
-            if (container.Values["LDelay"] != null)
-            {
-                return (int)container.Values["LDelay"];
-            }
-            else
-            {
-                container.Values["LDelay"] = 200;
-                return 200;
-            }
-        }
-
-        public static void Set_LDelay(int value)
-        {
-
-            container.Values["LDelay"] = value;
-        }
-
         #endregion
 
         public static bool PriorityBiliPlus

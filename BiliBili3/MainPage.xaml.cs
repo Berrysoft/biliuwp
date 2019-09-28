@@ -303,7 +303,7 @@ namespace BiliBili3
 
             account = new Account();
             //检查登录状态
-            if (!string.IsNullOrEmpty(SettingHelper.Get_Access_key()))
+            if (!string.IsNullOrEmpty(SettingHelper.AccessKey))
             {
                 if ((await account.CheckLoginState(ApiHelper.access_key)).success)
                 {
@@ -313,7 +313,7 @@ namespace BiliBili3
                 }
                 else
                 {
-                    var data = await account.RefreshToken(SettingHelper.Get_Access_key(), SettingHelper.Get_Refresh_Token());
+                    var data = await account.RefreshToken(SettingHelper.AccessKey, SettingHelper.RefreshToken);
                     if (!data.success)
                     {
                         Utils.ShowMessageToast("登录过期，请重新登录");
@@ -346,7 +346,7 @@ namespace BiliBili3
                 if (file != null)
                 {
                     img_bg.Stretch = (Stretch)SettingHelper.BGStretch;
-                    img_bg.HorizontalAlignment = (HorizontalAlignment)SettingHelper._BGHor;
+                    img_bg.HorizontalAlignment = (HorizontalAlignment)SettingHelper.BGHor;
                     img_bg.VerticalAlignment = (VerticalAlignment)SettingHelper.BGVer;
                     img_bg.Opacity = Convert.ToDouble(SettingHelper.BGOpacity) / 10;
 

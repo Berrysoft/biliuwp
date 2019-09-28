@@ -52,15 +52,6 @@ namespace BiliBili3.Views
         bool loadsetting = true;
         private async void GetSetting()
         {
-            //if (!SettingHelper.IsPc())
-            //{
-            //    CustomBg.Visibility = Visibility.Collapsed;
-            //}
-            //else
-            //{
-            //    CustomBg.Visibility = Visibility.Visible;
-
-            //}
             try
             {
                 loadsetting = true;
@@ -71,14 +62,6 @@ namespace BiliBili3.Views
                 sw_NewWidnows.IsOn = SettingHelper.NewWindow;
                 sw_UseDASH.IsOn = SettingHelper.UseDASH;
 
-                //if (!await SystemHelper.CheckCodec())
-                //{
-
-                //}
-                //else
-                //{
-                //    btnOpenInstallHEVC.Visibility = Visibility.Collapsed;
-                //}
                 btnOpenInstallHEVC.Visibility = Visibility.Visible;
                 sw_DASHUseHEVC.IsOn = SettingHelper.DASHUseHEVC;
                 sw_PriorityBiliPlus.IsOn = SettingHelper.PriorityBiliPlus;
@@ -109,12 +92,12 @@ namespace BiliBili3.Views
 
                 sw_NewFeed.IsOn = SettingHelper.NewFeed;
 
-                tw_MNGA.IsOn = SettingHelper.Get_UseHK();
-                tw_MNTW.IsOn = SettingHelper.Get_UseTW();
-                tw_MNDL.IsOn = SettingHelper.Get_UseCN();
-                tw_PlayerMode.IsOn = SettingHelper.Get_PlayerMode();
-                tw_VipMode.IsOn = SettingHelper.Get_UseVIP();
-                tw_OtherSiteMode.IsOn = SettingHelper.Get_UseOtherSite();
+                tw_MNGA.IsOn = SettingHelper.UseHK;
+                tw_MNTW.IsOn = SettingHelper.UseTW;
+                tw_MNDL.IsOn = SettingHelper.UseCN;
+                tw_PlayerMode.IsOn = SettingHelper.PlayerMode;
+                tw_VipMode.IsOn = SettingHelper.UseVIP;
+                tw_OtherSiteMode.IsOn = SettingHelper.UseOtherSite;
 
                 sw_QZHP.IsOn = SettingHelper.QZHP;
                 sw_AutoFull.IsOn = SettingHelper.AutoFull;
@@ -135,7 +118,7 @@ namespace BiliBili3.Views
                     cb_Font.SelectedIndex = fonts.IndexOf(cb_Font.FontFamily.Source);
                 }
 
-                var c = SettingHelper.Get_BiliplusCookie();
+                var c = SettingHelper.BiliplusCookie;
                 if (!string.IsNullOrEmpty(c))
                 {
                     txtBPState.Text = "(已授权)";
@@ -163,7 +146,7 @@ namespace BiliBili3.Views
 
                 cb_BGStretch.SelectedIndex = SettingHelper.BGStretch;
                 cb_Ver.SelectedIndex = SettingHelper.BGVer;
-                cbHor.SelectedIndex = SettingHelper._BGHor;
+                cbHor.SelectedIndex = SettingHelper.BGHor;
                 cb_BGOpacity.SelectedIndex = SettingHelper.BGOpacity - 1;
                 cb_FrostedGlass.SelectedIndex = SettingHelper.FrostedGlass;
                 cb_ClaerLiveComment.SelectedIndex = SettingHelper.ClearLiveComment;
@@ -441,7 +424,7 @@ namespace BiliBili3.Views
 
         private void tw_MNGA_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_UseHK(tw_MNGA.IsOn);
+            SettingHelper.UseHK = tw_MNGA.IsOn;
             if (tw_MNGA.IsOn)
             {
                 tw_MNTW.IsOn = false;
@@ -451,7 +434,7 @@ namespace BiliBili3.Views
 
         private void tw_MNTW_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_UseTW(tw_MNTW.IsOn);
+            SettingHelper.UseTW = tw_MNTW.IsOn;
             if (tw_MNTW.IsOn)
             {
                 tw_MNGA.IsOn = false;
@@ -461,7 +444,7 @@ namespace BiliBili3.Views
 
         private void tw_MNDL_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_UseCN(tw_MNDL.IsOn);
+            SettingHelper.UseCN = tw_MNDL.IsOn;
             if (tw_MNDL.IsOn)
             {
                 tw_MNGA.IsOn = false;
@@ -583,7 +566,7 @@ namespace BiliBili3.Views
 
         private void cbHor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SettingHelper._BGHor = cbHor.SelectedIndex;
+            SettingHelper.BGHor = cbHor.SelectedIndex;
             MessageCenter.SendChangedBg();
         }
 
@@ -668,7 +651,7 @@ namespace BiliBili3.Views
 
         private void tw_PlayerMode_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_PlayerMode(tw_PlayerMode.IsOn);
+            SettingHelper.PlayerMode = tw_PlayerMode.IsOn;
         }
 
         private void sw_FFmpeg_Toggled(object sender, RoutedEventArgs e)
@@ -808,12 +791,12 @@ namespace BiliBili3.Views
 
         private void tw_VipMode_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_UseVIP(tw_VipMode.IsOn);
+            SettingHelper.UseVIP = tw_VipMode.IsOn;
         }
 
         private void tw_OtherSiteMode_Toggled(object sender, RoutedEventArgs e)
         {
-            SettingHelper.Set_UseOtherSite(tw_OtherSiteMode.IsOn);
+            SettingHelper.UseOtherSite = tw_OtherSiteMode.IsOn;
         }
 
         private async void BrnAuthBiliPlus_Click(object sender, RoutedEventArgs e)

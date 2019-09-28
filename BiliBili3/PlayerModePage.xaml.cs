@@ -96,7 +96,7 @@ namespace BiliBili3
                 if (file != null)
                 {
                     img_bg.Stretch = (Stretch)SettingHelper.BGStretch;
-                    img_bg.HorizontalAlignment = (HorizontalAlignment)SettingHelper._BGHor;
+                    img_bg.HorizontalAlignment = (HorizontalAlignment)SettingHelper.BGHor;
                     img_bg.VerticalAlignment = (VerticalAlignment)SettingHelper.BGVer;
                     img_bg.Opacity = Convert.ToDouble(SettingHelper.BGOpacity) / 10;
 

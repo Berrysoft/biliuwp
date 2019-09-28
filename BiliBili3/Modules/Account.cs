@@ -140,10 +140,10 @@ namespace BiliBili3.Modules
                 {
                     if (m.data.status == 0)
                     {
-                        SettingHelper.Set_Access_key(m.data.token_info.access_token);
-                        SettingHelper.Set_Refresh_Token(m.data.token_info.refresh_token);
-                        SettingHelper.Set_LoginExpires(DateTime.Now.AddSeconds(m.data.token_info.expires_in));
-                        SettingHelper.Set_UserID(m.data.token_info.mid);
+                        SettingHelper.AccessKey = m.data.token_info.access_token;
+                        SettingHelper.RefreshToken = m.data.token_info.refresh_token;
+                        SettingHelper.LoginExpires = DateTime.Now.AddSeconds(m.data.token_info.expires_in);
+                        SettingHelper.UserID = m.data.token_info.mid;
                         //foreach (var item in m.data.sso)
                         //{
                         await SSO(m.data.token_info.access_token);
@@ -224,10 +224,10 @@ namespace BiliBili3.Modules
                 if (m.code == 0)
                 {
 
-                    SettingHelper.Set_Access_key(m.data.access_token);
-                    SettingHelper.Set_Refresh_Token(m.data.refresh_token);
-                    SettingHelper.Set_LoginExpires(DateTime.Now.AddSeconds(m.data.expires_in));
-                    SettingHelper.Set_UserID(m.data.mid);
+                    SettingHelper.AccessKey = m.data.access_token;
+                    SettingHelper.RefreshToken = m.data.refresh_token;
+                    SettingHelper.LoginExpires = DateTime.Now.AddSeconds(m.data.expires_in);
+                    SettingHelper.UserID = m.data.mid;
                     //foreach (var item in m.data.sso)
                     //{
                     await SSO(m.data.access_token);
@@ -278,10 +278,10 @@ namespace BiliBili3.Modules
 
         public async Task SetLoginSuccess(string access_token,string mid)
         {
-            SettingHelper.Set_Access_key(access_token);
-            SettingHelper.Set_Refresh_Token(access_token);
-            SettingHelper.Set_LoginExpires(DateTime.Now.AddSeconds(7200));
-            SettingHelper.Set_UserID(long.Parse( mid));
+            SettingHelper.AccessKey = access_token;
+            SettingHelper.RefreshToken = access_token;
+            SettingHelper.LoginExpires = DateTime.Now.AddSeconds(7200);
+            SettingHelper.UserID = long.Parse( mid);
             await SSO(access_token);
             MessageCenter.SendLogined();
         }
@@ -327,10 +327,10 @@ namespace BiliBili3.Modules
                 if (obj["code"].ToInt32() == 0)
                 {
                     var m = JsonConvert.DeserializeObject<Token_info>(obj["data"].ToString());
-                    SettingHelper.Set_Access_key(m.access_token);
-                    SettingHelper.Set_Refresh_Token(m.refresh_token);
-                    SettingHelper.Set_LoginExpires(DateTime.Now.AddSeconds(m.expires_in));
-                    SettingHelper.Set_UserID(m.mid);
+                    SettingHelper.AccessKey = m.access_token;
+                    SettingHelper.RefreshToken = m.refresh_token;
+                    SettingHelper.LoginExpires = DateTime.Now.AddSeconds(m.expires_in);
+                    SettingHelper.UserID = m.mid;
                     List<string> sso = new List<string>() {
                         "https://passport.bilibili.com/api/v2/sso",
                         "https://passport.biligame.com/api/v2/sso",
@@ -421,10 +421,10 @@ namespace BiliBili3.Modules
         {
             try
             {
-                SettingHelper.Set_Access_key(access_key);
-                SettingHelper.Set_Refresh_Token(refresh_token);
-                SettingHelper.Set_LoginExpires(DateTime.Now.AddSeconds(expires));
-                SettingHelper.Set_UserID(userid);
+                SettingHelper.AccessKey = access_key;
+                SettingHelper.RefreshToken = refresh_token;
+                SettingHelper.LoginExpires = DateTime.Now.AddSeconds(expires);
+                SettingHelper.UserID = userid;
                 List<string> sso = new List<string>() {
                         "https://passport.bilibili.com/api/v2/sso",
                         "https://passport.biligame.com/api/v2/sso",
@@ -505,7 +505,7 @@ namespace BiliBili3.Modules
                 {
                     return "";
                 }
-                var url = new Uri($"https://www.biliplus.com/login?act=savekey&mid={SettingHelper.Get_UserID()}&access_key={ApiHelper.access_key}&expire=");
+                var url = new Uri($"https://www.biliplus.com/login?act=savekey&mid={SettingHelper.UserID}&access_key={ApiHelper.access_key}&expire=");
                 using (HttpClient httpClient = new HttpClient())
                 {
                     var rq = await httpClient.GetAsync(url);
@@ -521,7 +521,7 @@ namespace BiliBili3.Modules
                             stringBuilder.Append(match.Groups[0].Value.Replace("HttpOnly, ", ""));
                         }
                     }
-                    SettingHelper.Set_BiliplusCookie(stringBuilder.ToString());
+                    SettingHelper.BiliplusCookie = stringBuilder.ToString();
                     return stringBuilder.ToString();
                 }
             }

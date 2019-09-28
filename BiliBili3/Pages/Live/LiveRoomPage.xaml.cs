@@ -1566,9 +1566,9 @@ namespace BiliBili3.Pages
             {
                 return;
             }
-            SettingHelper.Set_NewLDMSize(slider_DanmuSize.Value);
+            SettingHelper.NewLDMSize = slider_DanmuSize.Value;
             grid_NotFull_SizeChanged(sender, null);
-            //SettingHelper.Set_LDMSize(slider_DanmuSize.Value);
+            //SettingHelper.LDMSize = slider_DanmuSize.Value;
         }
 
         private void slider_DanmuSpeed_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -1577,7 +1577,7 @@ namespace BiliBili3.Pages
             {
                 return;
             }
-            SettingHelper.Set_NewLDMSpeed(slider_DanmuSpeed.Value);
+            SettingHelper.NewLDMSpeed = slider_DanmuSpeed.Value;
             grid_NotFull_SizeChanged(sender, null);
         }
 
@@ -1587,7 +1587,7 @@ namespace BiliBili3.Pages
             {
                 return;
             }
-            SettingHelper.Set_LDMTran(slider_DanmuTran.Value);
+            SettingHelper.LDMTran = slider_DanmuTran.Value;
         }
         private async void btn_Setting_Click(object sender, RoutedEventArgs e)
         {
@@ -1599,9 +1599,9 @@ namespace BiliBili3.Pages
         {
             settingloading = true;
 
-            slider_DanmuSize.Value = SettingHelper.Get_NewLDMSize();
-            slider_DanmuTran.Value = SettingHelper.Get_LDMTran();
-            slider_DanmuSpeed.Value = SettingHelper.Get_NewLDMSpeed();
+            slider_DanmuSize.Value = SettingHelper.NewLDMSize;
+            slider_DanmuTran.Value = SettingHelper.LDMTran;
+            slider_DanmuSpeed.Value = SettingHelper.NewLDMSpeed;
 
             sw_H5.IsOn = SettingHelper.UseH5;
             cb_ClaerLiveComment.SelectedIndex = SettingHelper.ClearLiveComment;

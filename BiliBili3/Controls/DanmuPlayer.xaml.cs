@@ -394,7 +394,6 @@ namespace BiliBili3.Controls
         string DMZZBDS = "";
 
         int DanmuNum = 0;
-        int i = 0;
         bool mergeDanmu = false;
         List<string> sended = new List<string>();
         private void Timer_Date_Tick(object sender, object e)
