@@ -78,7 +78,7 @@ namespace BiliBili3.Views
         {
             if (ApiHelper.regions == null)
             {
-                await ApiHelper.SetRegions();
+                await ApiHelper.SetRegionsAsync();
             }
 
             ls_Part.ItemsSource = ApiHelper.regions;

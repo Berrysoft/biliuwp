@@ -545,14 +545,13 @@ namespace BiliBili3.Views
             if (data.success)
             {
                 var d = data.data.FirstOrDefault(x => x._goto == "banner");
-                if (banner_items == null || banner_items.Count == 0)
-                {
-                    banner_items = d.banner_item;
-                    ItemsCount = d.banner_item.Count;
-
-                }
                 if (d != null)
                 {
+                    if (banner_items == null || banner_items.Count == 0)
+                    {
+                        banner_items = d.banner_item;
+                        ItemsCount = d.banner_item.Count;
+                    }
                     data.data.Remove(d);
                 }
 

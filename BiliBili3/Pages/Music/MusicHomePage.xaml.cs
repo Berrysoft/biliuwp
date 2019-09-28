@@ -288,7 +288,7 @@ namespace BiliBili3.Pages.Music
         {
             if (ApiHelper.regions == null)
             {
-                await ApiHelper.SetRegions();
+                await ApiHelper.SetRegionsAsync();
             }
 
             MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(PartsPage), ApiHelper.regions.Find(x => x.name.Contains("音乐")));

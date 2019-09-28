@@ -330,14 +330,6 @@ namespace BiliBili3
 
         }
 
-
-        public static event ShowOrHideBarHandel ShowOrHideBarEvent;
-        public static void ShowOrHideBar(bool show)
-        {
-            ShowOrHideBarEvent(show);
-        }
-
-
         public async static void OpenNewWindow(Type page, params object[] par)
         {
 

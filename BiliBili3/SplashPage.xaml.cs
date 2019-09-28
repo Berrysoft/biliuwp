@@ -8,6 +8,7 @@ using BackTask;
 using BiliBili3.Helper;
 using BiliBili3.Modules;
 using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using Windows.ApplicationModel.Background;
 using Windows.UI;
@@ -22,6 +23,18 @@ using Windows.UI.Xaml.Navigation;
 
 namespace BiliBili3
 {
+    public class LoadModel
+    {
+        [JsonProperty("code")]
+        public int Code { get; set; }
+        [JsonProperty("data")]
+        public List<LoadModel> Data { get; set; }
+        [JsonProperty("image")]
+        public string Image { get; set; }
+        [JsonProperty("param")]
+        public string Param { get; set; }
+    }
+
     public sealed partial class SplashPage : Page
     {
         public SplashPage()
@@ -30,18 +43,17 @@ namespace BiliBili3
             var bg = Color.FromArgb(255, 233, 233, 233);
             var titleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = bg;
-            titleBar.ForegroundColor = Colors.Black;//Colors.White纯白用不了。。。
+            titleBar.ForegroundColor = Colors.White;
             titleBar.ButtonHoverBackgroundColor = Colors.White;
             titleBar.ButtonBackgroundColor = bg;
             titleBar.ButtonForegroundColor = Color.FromArgb(255, 254, 254, 254);
             titleBar.InactiveBackgroundColor = bg;
             titleBar.ButtonInactiveBackgroundColor = bg;
         }
-        DispatcherTimer timer;
+
         StartModel m;
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            #region
             switch (new Random().Next(1, 4))
             {
                 case 1:
@@ -58,46 +70,33 @@ namespace BiliBili3
             }
             try
             {
-                await RegisterBackgroundTask();
+                RegisterBackgroundTask();
                 DownloadHelper2.LoadDowned();
                 ApiHelper.SetRegions();
                 LiveRoom.GetTitleItems();
                 ApiHelper.SetEmojis();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
-            #endregion
 
-            //await Task.Delay(2000); 
             m = e.Parameter as StartModel;
-            timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Tick += Timer_Tick;
-            timer.Start();
             if (m.StartType == StartTypes.None && SettingHelper.LoadSplash)
             {
                 await GetResults();
+                this.Frame.Navigate(typeof(MainPage), m);
             }
         }
-        int i = 1;
-        int maxnum = 3;
-        private void Timer_Tick(object sender, object e)
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (i != maxnum)
-            {
-                i++;
-            }
-            else
+            if (!(m.StartType == StartTypes.None && SettingHelper.LoadSplash))
             {
                 this.Frame.Navigate(typeof(MainPage), m);
             }
         }
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            timer.Stop();
-            timer = null;
-        }
+
         private void InitializedFrostedGlass(UIElement glassHost)
         {
             Visual hostVisual = ElementCompositionPreview.GetElementVisual(glassHost);
@@ -153,25 +152,26 @@ namespace BiliBili3
                 string Result = await WebClientClass.GetResults(new Uri(url));
                 LoadModel obj = JsonConvert.DeserializeObject<LoadModel>(Result);
 
-                if (obj.code == 0)
+                if (obj.Code == 0)
                 {
-                    if (obj.data.Count != 0)
+                    if (obj.Data.Count != 0)
                     {
-                        var buff = await WebClientClass.GetBuffer(new Uri(obj.data[0].image));
+                        var buff = await WebClientClass.GetBuffer(new Uri(obj.Data[0].Image));
                         BitmapImage bit = new BitmapImage();
                         await bit.SetSourceAsync(buff.AsStream().AsRandomAccessStream());
                         img_bg.Source = bit;
                         InitializedFrostedGlass(GlassHost);
                         img.Source = bit;
-                        _url = obj.data[0].param;
-                        maxnum = 5;
+                        _url = obj.Data[0].Param;
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
         }
+
         string _url;
         private void grid_Load_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -179,85 +179,9 @@ namespace BiliBili3
             m.Par1 = _url;
         }
 
-        public class LoadModel
+        private void RegisterBackgroundTask()
         {
-            public int code { get; set; }
-            public string message { get; set; }
-            public List<LoadModel> data { get; set; }
-            public int id { get; set; }
-            public int animate { get; set; }
-            public string image { get; set; }
-            public string param { get; set; }
+            BackgroundTaskHelper.Register(typeof(BackgroundTask), new TimeTrigger(15, false), true, true);
         }
-
-
-        #region 后台任务注册
-
-        private async Task RegisterBackgroundTask()
-        {
-            var task = await RegisterBackgroundTask(
-                typeof(BackgroundTask),
-                "BackgroundTask",
-                new TimeTrigger(15, false),
-                null);
-
-            task.Progress += TaskOnProgress;
-            task.Completed += TaskOnCompleted;
-        }
-
-        public static async Task<BackgroundTaskRegistration> RegisterBackgroundTask(Type taskEntryPoint,
-                                                                        string taskName,
-                                                                        IBackgroundTrigger trigger,
-                                                                        IBackgroundCondition condition)
-        {
-            var status = await BackgroundExecutionManager.RequestAccessAsync();
-
-            if (status == BackgroundAccessStatus.Unspecified || status == BackgroundAccessStatus.DeniedByUser)
-            {
-                return null;
-            }
-
-            foreach (var cur in BackgroundTaskRegistration.AllTasks)
-            {
-                if (cur.Value.Name == taskName)
-                {
-                    cur.Value.Unregister(true);
-                }
-            }
-
-            var builder = new BackgroundTaskBuilder
-            {
-                Name = taskName,
-                TaskEntryPoint = taskEntryPoint.FullName
-            };
-
-            builder.SetTrigger(trigger);
-
-            if (condition != null)
-            {
-                builder.AddCondition(condition);
-            }
-
-            BackgroundTaskRegistration task = builder.Register();
-
-            Debug.WriteLine($"Task {taskName} registered successfully.");
-
-            return task;
-        }
-
-
-        private void TaskOnProgress(BackgroundTaskRegistration sender, BackgroundTaskProgressEventArgs args)
-        {
-            Debug.WriteLine($"Background {sender.Name} TaskOnProgress.");
-        }
-
-        private void TaskOnCompleted(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
-        {
-            Debug.WriteLine($"Background {sender.Name} TaskOnCompleted.");
-        }
-
-        #endregion
-
-
     }
 }

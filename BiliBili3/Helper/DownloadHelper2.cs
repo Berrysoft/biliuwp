@@ -445,7 +445,7 @@ namespace BiliBili3.Helper
 
         }
 
-        public static async Task LoadDowned()
+        public static async void LoadDowned()
         {
             Dictionary<string, string> valuePairs = new Dictionary<string, string>();
             var folder = await DownloadHelper2.GetDownloadFolder();

@@ -1,25 +1,10 @@
-﻿/** 
-* 
-*----------Dragon be here!----------/ 
-* 　　　┏┓　　　┏┓ 
-* 　　┏┛┻━━━┛┻┓ 
-* 　　┃　　　　　　　┃ 
-* 　　┃　　　━　　　┃ 
-* 　　┃　┳┛　┗┳　┃ 
-* 　　┃　　　　　　　┃ 
-* 　　┃　　　┻　　　┃ 
-* 　　┃　　　　　　　┃ 
-* 　　┗━┓　　　┏━┛ 
-* 　　　　┃　　　┃神兽保佑 
-* 　　　　┃　　　┃代码无BUG！ 
-* 　　　　┃　　　┗━━━┓ 
-* 　　　　┃　　　　　　　┣┓ 
-* 　　　　┃　　　　　　　┏┛ 
-* 　　　　┗┓┓┏━┳┓┏┛ 
-* 　　　　　┃┫┫　┃┫┫ 
-* 　　　　　┗┻┛　┗┻┛ 
-* ━━━━━━神兽出没━━━━━━by:coder-pig 
-*/
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using BiliBili3.Controls;
 using BiliBili3.Helper;
 using BiliBili3.Models;
@@ -31,38 +16,20 @@ using BiliBili3.Pages.User;
 using BiliBili3.Views;
 using Microsoft.Graphics.Canvas.Effects;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
-using Windows.Web.Http.Filters;
-using static BiliBili3.Helper.MusicHelper;
-
-//“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
 
 namespace BiliBili3
 {
@@ -89,10 +56,6 @@ namespace BiliBili3
         public object Par3 { get; set; }
     }
 
-
-    /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         public MainPage()
@@ -103,15 +66,11 @@ namespace BiliBili3
             MusicHelper.MediaChanged += MusicHelper_MediaChanged;
             MusicHelper.DisplayEvent += MusicHelper_DisplayEvent;
             MusicHelper.UpdateList += MusicHelper_UpdateList1;
-            //ls_music.ItemsSource = MusicHelper.playList;
             musicplayer.SetMediaPlayer(MusicHelper._mediaPlayer);
             MessageCenter.NetworkError += MessageCenter_NetworkError;
             MessageCenter.ShowError += MessageCenter_ShowError;
             SystemNavigationManager.GetForCurrentView().BackRequested += MainPage_BackRequested;
-            DisplayInformation.GetForCurrentView().OrientationChanged += MainPage_OrientationChanged;
             Window.Current.Content.PointerPressed += MainPage_PointerEntered;
-
-
         }
 
         private async void MessageCenter_ShowError(object sender, Exception e)
@@ -121,10 +80,10 @@ namespace BiliBili3
                 ErrorDialog errorDialog = new ErrorDialog(e);
                 await errorDialog.ShowAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
-
         }
 
         private void MessageCenter_NetworkError(object sender, string e)
@@ -136,10 +95,8 @@ namespace BiliBili3
         {
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                //btn_MediaList.Flyout.ShowAt(btn_MediaList);
                 isSetMusic = true;
 
-                //ls_music.ItemsSource =e; 设置ItemsSource会出现bug
                 ls_music.Items.Clear();
                 foreach (var item in e)
                 {
@@ -148,7 +105,6 @@ namespace BiliBili3
                 ls_music.SelectedIndex = MusicHelper._mediaPlaybackList.CurrentItemIndex.ToInt32();
                 ls_music.UpdateLayout();
                 isSetMusic = false;
-                //btn_MediaList.Flyout.Hide();
             });
         }
 
@@ -172,10 +128,46 @@ namespace BiliBili3
                 ls_music.SelectedIndex = MusicHelper._mediaPlaybackList.CurrentItemIndex.ToInt32();
                 isSetMusic = false;
             });
-
         }
 
-        private async void MainPage_PointerEntered(object sender, PointerRoutedEventArgs e)
+        bool IsClicks = false;
+        private async void RequestBack()
+        {
+            if (play_frame.CanGoBack)
+            {
+                play_frame.GoBack();
+            }
+            else
+            {
+                if (frame.CanGoBack)
+                {
+                    frame.GoBack();
+                }
+                else
+                {
+                    if (_InBangumi)
+                    {
+                        main_frame.GoBack();
+                    }
+                    else
+                    {
+                        if (IsClicks)
+                        {
+                            Application.Current.Exit();
+                        }
+                        else
+                        {
+                            IsClicks = true;
+                            Utils.ShowMessageToast("再按一次退出应用", 1500);
+                            await Task.Delay(1500);
+                            IsClicks = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void MainPage_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             var par = e.GetCurrentPoint(sender as Frame).Properties.PointerUpdateKind;
             if (par == Windows.UI.Input.PointerUpdateKind.XButton1Pressed || par == Windows.UI.Input.PointerUpdateKind.MiddleButtonPressed)
@@ -184,111 +176,21 @@ namespace BiliBili3
                 {
                     return;
                 }
-                if (play_frame.CanGoBack)
-                {
-                    e.Handled = true;
-                    play_frame.GoBack();
-                }
-                else
-                {
-                    if (frame.CanGoBack)
-                    {
-                        e.Handled = true;
-                        frame.GoBack();
-                    }
-                    else
-                    {
-                        if (_InBangumi)
-                        {
-                            e.Handled = true;
-                            main_frame.GoBack();
-                        }
-                        else
-                        {
-                            if (e.Handled == false)
-                            {
-                                if (IsClicks)
-                                {
-                                    Application.Current.Exit();
-                                }
-                                else
-                                {
-                                    IsClicks = true;
-                                    e.Handled = true;
-                                    Utils.ShowMessageToast("再按一次退出应用", 1500);
-                                    await Task.Delay(1500);
-                                    IsClicks = false;
-                                }
-                            }
-                        }
-
-                    }
-                }
-
-
-
-
-            }
-
-        }
-
-
-
-
-
-        private void MainPage_OrientationChanged(DisplayInformation sender, object args)
-        {
-        }
-        Account account;
-        bool IsClicks = false;
-        private async void MainPage_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            if (play_frame.CanGoBack)
-            {
                 e.Handled = true;
-                play_frame.GoBack();
+                RequestBack();
             }
-            else
-            {
-                if (frame.CanGoBack)
-                {
-                    e.Handled = true;
-                    frame.GoBack();
-                }
-                else
-                {
-                    if (_InBangumi)
-                    {
-                        e.Handled = true;
-                        main_frame.GoBack();
-                    }
-                    else
-                    {
-                        if (e.Handled == false)
-                        {
-                            if (IsClicks)
-                            {
-                                Application.Current.Exit();
-                            }
-                            else
-                            {
-                                IsClicks = true;
-                                e.Handled = true;
-                                Utils.ShowMessageToast("再按一次退出应用", 1500);
-                                await Task.Delay(1500);
-                                IsClicks = false;
-                            }
-                        }
-                    }
+        }
 
-                }
-            }
+        Account account;
+        private void MainPage_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            e.Handled = true;
+            RequestBack();
         }
 
         DispatcherTimer timer;
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-
             sp_View.DisplayMode = SplitViewDisplayMode.CompactOverlay;
             ChangeTheme();
             timer = new DispatcherTimer();
@@ -302,9 +204,7 @@ namespace BiliBili3
             MessageCenter.HomeNavigateToEvent += MessageCenter_HomeNavigateToEvent;
             MessageCenter.BgNavigateToEvent += MessageCenter_BgNavigateToEvent; ;
             MessageCenter.Logined += MessageCenter_Logined;
-            MessageCenter.ShowOrHideBarEvent += MessageCenter_ShowOrHideBarEvent;
             MessageCenter.ChangeBg += MessageCenter_ChangeBg;
-            //main_frame.Navigate(typeof(HomePage));
             MessageCenter_ChangeBg();
             main_frame.Visibility = Visibility.Visible;
             menu_List.SelectedIndex = 0;
@@ -316,8 +216,6 @@ namespace BiliBili3
 
             play_frame.Visibility = Visibility.Visible;
             play_frame.Navigate(typeof(BlankPage));
-
-            //LoadPlayApiInfo();
 
             if (e.Parameter != null)
             {
@@ -360,7 +258,6 @@ namespace BiliBili3
                         int i = 1;
                         foreach (StorageFile file in files)
                         {
-
                             ls.Add(new PlayerModel() { Mode = PlayMode.FormLocal, No = i.ToString(), VideoTitle = "", Title = file.DisplayName, Parameter = file, Aid = file.DisplayName, Mid = file.Path });
                             i++;
                         }
@@ -403,9 +300,6 @@ namespace BiliBili3
 
 
                 SettingHelper.First = false;
-
-
-
             }
 
 
@@ -432,15 +326,6 @@ namespace BiliBili3
                 }
             }
 
-            //var RE=await _5DMHelper.GetUrl("21680", 0);
-
-
-            //await ApiHelper.GetBangumiUrl_FLV(new PlayerModel() { Mid= "5042718" },3);
-
-            //MessageCenter.SendNavigateTo(NavigateMode.Play, typeof(FuckMSPage));
-
-            //await  new Account().SSO();
-
             if (SettingHelper.UseDASH && SystemHelper.GetSystemBuild() < 17763)
             {
                 SettingHelper.UseDASH = false;
@@ -455,7 +340,6 @@ namespace BiliBili3
             MessageCenter.HomeNavigateToEvent -= MessageCenter_HomeNavigateToEvent;
             MessageCenter.BgNavigateToEvent -= MessageCenter_BgNavigateToEvent; ;
             MessageCenter.Logined -= MessageCenter_Logined;
-            MessageCenter.ShowOrHideBarEvent -= MessageCenter_ShowOrHideBarEvent;
             MessageCenter.ChangeBg -= MessageCenter_ChangeBg;
         }
         private async void MessageCenter_ChangeBg()
@@ -476,7 +360,6 @@ namespace BiliBili3
                     }
                     else
                     {
-
                         img_bg.MaxWidth = double.PositiveInfinity;
                     }
                     if (SettingHelper.BGMaxHeight != 0)
@@ -502,10 +385,6 @@ namespace BiliBili3
                     {
                         GlassHost.Visibility = Visibility.Collapsed;
                     }
-                }
-                else
-                {
-
                 }
             }
             else
@@ -565,23 +444,6 @@ namespace BiliBili3
             bg_Frame.Navigate(page, par);
         }
 
-        private void MessageCenter_ShowOrHideBarEvent(bool show)
-        {
-            if (show)
-            {
-                // row_bottom.Height = GridLength.Auto;
-                //bottom.Visibility = Visibility.Visible;
-                //_In.Storyboard.Begin();
-                //_In.Storyboard.Completed += Storyboard_Completed;
-            }
-            else
-            {
-                //bottom.Visibility = Visibility.Visible;
-                //_Out.Storyboard.Begin();
-                // _Out.Storyboard.Completed += Storyboard_Completed;
-            }
-        }
-
         private void Storyboard_Completed(object sender, object e)
         {
             row_bottom.Height = new GridLength(0);
@@ -620,13 +482,11 @@ namespace BiliBili3
                 {
                     Utils.ShowMessageToast(data.message);
                 }
-
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
-
         }
 
         private void MessageCenter_HomeNavigateToEvent(Type page, params object[] par)
@@ -644,7 +504,6 @@ namespace BiliBili3
             {
                 play_frame.Navigate(page, par);
             }
-
         }
 
         private void MessageCenter_InfoNavigateToEvent(Type page, params object[] par)
@@ -654,11 +513,8 @@ namespace BiliBili3
 
         private void MessageCenter_MianNavigateToEvent(Type page, params object[] par)
         {
-
             this.Frame.Navigate(page, par);
         }
-
-
 
         private void MessageCenter_ChanageThemeEvent(object par, params object[] par1)
         {
@@ -702,57 +558,21 @@ namespace BiliBili3
 
                     break;
                 case "Red":
-
-                    newDictionary.Source = new Uri("ms-appx:///Theme/RedTheme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Light;
-                    break;
                 case "Blue":
-
-                    newDictionary.Source = new Uri("ms-appx:///Theme/BlueTheme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Light;
-                    break;
                 case "Green":
-                    newDictionary.Source = new Uri("ms-appx:///Theme/GreenTheme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Light;
-                    break;
                 case "Pink":
-                    newDictionary.Source = new Uri("ms-appx:///Theme/PinkTheme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Light;
-                    break;
                 case "Purple":
-                    newDictionary.Source = new Uri("ms-appx:///Theme/PurpleTheme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Light;
-                    break;
                 case "Yellow":
-                    newDictionary.Source = new Uri("ms-appx:///Theme/YellowTheme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Light;
-                    break;
                 case "EMT":
-                    newDictionary.Source = new Uri("ms-appx:///Theme/EMTTheme.xaml", UriKind.RelativeOrAbsolute);
-
+                    newDictionary.Source = new Uri($"ms-appx:///Theme/{ThemeName}Theme.xaml", UriKind.RelativeOrAbsolute);
                     Application.Current.Resources.MergedDictionaries.Clear();
                     Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    // img_Hello.Source = new BitmapImage(new Uri("ms-appx:///Assets/Logo/EMT.png"));
                     RequestedTheme = ElementTheme.Light;
                     break;
             }
-            //tuic.To = this.ActualWidth;
-            //storyboardPopOut.Begin();
-            ChangeTitbarColor();
+            ChangeTitlebarColor();
         }
-        private void ChangeTitbarColor()
+        private void ChangeTitlebarColor()
         {
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = ((SolidColorBrush)grid_Top.Background).Color;
@@ -787,9 +607,6 @@ namespace BiliBili3
             }
         }
 
-        //}
-
-        MessageModel message = new MessageModel();
         private async Task<bool> HasMessage()
         {
             try
@@ -807,7 +624,6 @@ namespace BiliBili3
                 if (model.code == 0)
                 {
                     MessageModel list = JsonConvert.DeserializeObject<MessageModel>(model.data.ToString());
-                    message = list;
                     if (list.reply_me != 0 || list.chat_me != 0 || list.notify_me != 0 || list.praise_me != 0 || list.at_me != 0)
                     {
                         return true;
@@ -933,9 +749,22 @@ namespace BiliBili3
         #endregion
 
 
+        private static string GetTagString(string tag)
+        {
+            return tag switch
+            {
+                "Cn" => "国漫",
+                "Jp" => "番剧",
+                "Music" => "音频",
+                "Article" => "专栏",
+                _ => null
+            };
+        }
+
+        bool _InBangumi = false;
+
         private void play_frame_Navigated(object sender, NavigationEventArgs e)
         {
-
             if (play_frame.CanGoBack)
             {
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
@@ -946,35 +775,14 @@ namespace BiliBili3
                 {
                     SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
                 }
-
             }
-            if ((main_frame.Content as Page).Tag == null)
+            var text = GetTagString((main_frame.Content as Page)?.Tag?.ToString());
+            if (text != null)
             {
-                return;
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                _InBangumi = true;
+                txt_Header.Text = text;
             }
-            switch ((main_frame.Content as Page).Tag.ToString())
-            {
-
-                case "Cn":
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                    _InBangumi = true;
-                    txt_Header.Text = "国漫";
-                    break;
-                case "Jp":
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                    _InBangumi = true;
-                    txt_Header.Text = "番剧";
-                    break;
-                case "Music":
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                    _InBangumi = true;
-                    txt_Header.Text = "音频";
-                    break;
-                default:
-                    break;
-            }
-
-
         }
         private void frame_Navigated(object sender, NavigationEventArgs e)
         {
@@ -990,80 +798,25 @@ namespace BiliBili3
                 }
 
             }
-
-            //if ((frame.Content as Page).Tag == null)
-            //{
-            //    frame.Background = App.Current.Resources["Bili-Background"] as SolidColorBrush;
-            //    return;
-            //}
-
-            //if ((frame.Content as Page).Tag.ToString()!= "blank")
-            //{
-            //    frame.Background = App.Current.Resources["Bili-Background"] as SolidColorBrush;
-            //}
-            //else
-            //{
-            //    frame.Background =null;
-            //}
-            if ((main_frame.Content as Page).Tag == null)
+            var text = GetTagString((main_frame.Content as Page)?.Tag?.ToString());
+            if (text != null)
             {
-                return;
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                _InBangumi = true;
+                txt_Header.Text = text;
             }
-            switch ((main_frame.Content as Page).Tag.ToString())
-            {
-
-                case "Cn":
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                    _InBangumi = true;
-                    txt_Header.Text = "国漫";
-                    break;
-                case "Jp":
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                    _InBangumi = true;
-                    txt_Header.Text = "番剧";
-                    break;
-                case "Music":
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                    _InBangumi = true;
-                    txt_Header.Text = "音频";
-                    break;
-                case "Article":
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                    _InBangumi = true;
-                    txt_Header.Text = "专栏";
-                    break;
-                default:
-                    break;
-            }
-
-
-
-            //switch ((frame.Content as Page).Tag.ToString())
-            //{
-            //    case "blank":c
-            //        //Background="{ThemeResource Bili-Background}"
-
-            //        break;
-            //}
         }
-        bool _InBangumi = false;
+
+        private static readonly string[] tagList = { "首页", "频道", "直播", "番剧", "动态", "发现", "设置" };
+        private static readonly Type[] tagPageList = { typeof(NewFeedPage), typeof(HomePage), typeof(LiveV2Page), typeof(BangumiPage), typeof(AttentionPage), typeof(FindPage) };
+
+        private int GetTagListIndex(string tag)
+        {
+            return Array.IndexOf(tagList, tag);
+        }
+
         private void main_frame_Navigated(object sender, NavigationEventArgs e)
         {
-            //if (main_frame.CanGoBack)
-            //{
-            //    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            //}
-            //else
-            //{
-            //    if (!frame.CanGoBack && !play_frame.CanGoBack)
-            //    {
-            //        SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            //    }
-
-            //}
-
-            //if (e.NavigationMode == NavigationMode.Back)
-            //{
             if ((main_frame.Content as Page).Tag == null)
             {
                 return;
@@ -1071,149 +824,48 @@ namespace BiliBili3
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             Can_Nav = false;
             _InBangumi = false;
-            switch ((main_frame.Content as Page).Tag.ToString())
+            var tag = (main_frame.Content as Page)?.Tag?.ToString();
+            if (tag != null)
             {
-                case "首页":
-
-                    bottom.SelectedIndex = 0;
-
-                    menu_List.SelectedIndex = 0;
-                    txt_Header.Text = "首页";
-                    break;
-                case "频道":
-
-                    bottom.SelectedIndex = 1;
-
-                    menu_List.SelectedIndex = 1;
-                    txt_Header.Text = "频道";
-                    break;
-                case "直播":
-
-                    bottom.SelectedIndex = 2;
-
-                    menu_List.SelectedIndex = 2;
-                    txt_Header.Text = "直播";
-                    break;
-                case "番剧":
-
-                    bottom.SelectedIndex = 3;
-
-                    menu_List.SelectedIndex = 3;
-
-                    txt_Header.Text = "番剧";
-                    break;
-                case "动态":
-
-                    bottom.SelectedIndex = 4;
-
-                    menu_List.SelectedIndex = 4;
-
-                    //menu_List.SelectedIndex = 3;
-                    //bottom.SelectedIndex = 3;
-                    txt_Header.Text = "动态";
-                    break;
-                case "发现":
-
-                    bottom.SelectedIndex = 5;
-
-                    menu_List.SelectedIndex = 5;
-
-                    //menu_List.SelectedIndex = 4;
-                    //bottom.SelectedIndex = 4;
-                    txt_Header.Text = "发现";
-                    break;
-                case "设置":
-                    menu_List.SelectedIndex = 6;
-                    txt_Header.Text = "设置";
-                    break;
-                case "Cn":
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                    _InBangumi = true;
-                    txt_Header.Text = "国漫";
-                    break;
-                case "Jp":
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                    _InBangumi = true;
-                    txt_Header.Text = "番剧";
-                    break;
-                case "Music":
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                    _InBangumi = true;
-                    txt_Header.Text = "音频";
-                    break;
-                case "Article":
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                    _InBangumi = true;
-                    txt_Header.Text = "专栏";
-                    break;
-                default:
-                    break;
+                var index = GetTagListIndex(tag);
+                if (index >= 0)
+                {
+                    bottom.SelectedIndex = index;
+                    menu_List.SelectedIndex = index;
+                    txt_Header.Text = tag;
+                }
+                else
+                {
+                    var text = GetTagString(tag);
+                    if (text != null)
+                    {
+                        SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                        _InBangumi = true;
+                        txt_Header.Text = text;
+                    }
+                }
             }
             Can_Nav = true;
-            // }
         }
         bool Can_Nav = true;
-        private void menu_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void NavigateTagList()
         {
             if (!Can_Nav)
             {
                 return;
             }
-
-            switch (menu_List.SelectedIndex)
+            var index = menu_List.SelectedIndex;
+            if (index < 6)
             {
-                case 0:
-                    //if (SettingHelper.Get_NewFeed())
-                    //{
-                    //   
-                    //}
-                    //else
-                    //{
-                    main_frame.Navigate(typeof(NewFeedPage));
-                    //}
-                    //if (!Reg_OpenVideo)
-                    //{
-                    //    (main_frame.Content as HomePage).OpenVideo += MainPage_OpenVideo; 
-                    //    Reg_OpenVideo = true;
-                    //}
-                    txt_Header.Text = "首页";
-                    break;
-                case 1:
-                    main_frame.Navigate(typeof(HomePage));
-
-                    txt_Header.Text = "频道";
-                    break;
-                case 2:
-                    main_frame.Navigate(typeof(LiveV2Page));
-
-                    txt_Header.Text = "直播";
-                    break;
-                case 3:
-                    main_frame.Navigate(typeof(BangumiPage));
-
-                    txt_Header.Text = "番剧";
-                    break;
-
-                case 4:
-                    main_frame.Navigate(typeof(AttentionPage));
-
-                    txt_Header.Text = "动态";
-                    break;
-                case 5:
-                    main_frame.Navigate(typeof(FindPage));
-
-                    txt_Header.Text = "发现";
-                    break;
-                //case 4:
-                //    main_frame.Navigate(typeof(SettingPage));
-
-                //    txt_Header.Text = "设置";
-                //    break;
-                default:
-                    break;
+                main_frame.Navigate(tagPageList[index]);
+                txt_Header.Text = tagList[index];
             }
             sp_View.IsPaneOpen = false;
+        }
 
+        private void menu_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            NavigateTagList();
         }
 
         private void btn_Search_Click(object sender, RoutedEventArgs e)
@@ -1223,8 +875,6 @@ namespace BiliBili3
 
         private async void btn_Login_Click(object sender, RoutedEventArgs e)
         {
-            //frame.Navigate(typeof(LoginPage));
-
             LoginDialog loginDialog = new LoginDialog();
             await loginDialog.ShowAsync();
             fy.Hide();
@@ -1246,63 +896,7 @@ namespace BiliBili3
 
         private void bottom_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!Can_Nav)
-            {
-                return;
-            }
-            switch (bottom.SelectedIndex)
-            {
-                case 0:
-
-                    main_frame.Navigate(typeof(NewFeedPage));
-
-                    //if (!Reg_OpenVideo)
-                    //{
-                    //    (main_frame.Content as HomePage).OpenVideo += MainPage_OpenVideo; ;
-                    //    Reg_OpenVideo = true;
-                    //}
-                    txt_Header.Text = "首页";
-                    break;
-                case 1:
-                    main_frame.Navigate(typeof(HomePage));
-
-                    txt_Header.Text = "频道";
-                    break;
-                case 2:
-                    main_frame.Navigate(typeof(LiveV2Page));
-
-                    txt_Header.Text = "直播";
-                    break;
-                case 3:
-                    main_frame.Navigate(typeof(BangumiPage));
-
-                    txt_Header.Text = "追番";
-                    break;
-
-                //case 3:
-                //    main_frame.Navigate(typeof(PartPage));
-
-                //    txt_Header.Text = "分区";
-                //    break;
-                case 4:
-                    main_frame.Navigate(typeof(AttentionPage));
-
-                    txt_Header.Text = "动态";
-                    break;
-                case 5:
-                    main_frame.Navigate(typeof(FindPage));
-
-                    txt_Header.Text = "发现";
-                    break;
-                //case 4:
-                //    main_frame.Navigate(typeof(SettingPage));
-
-                //    txt_Header.Text = "设置";
-                //    break;
-                default:
-                    break;
-            }
-            sp_View.IsPaneOpen = false;
+            NavigateTagList();
         }
 
         private void btn_user_myvip_Click(object sender, RoutedEventArgs e)
@@ -1395,8 +989,6 @@ namespace BiliBili3
             }
             else if (item == "Test")
             {
-                string result;
-
                 try
                 {
                     var url = new Uri($"https://www.biliplus.com/login?act=savekey&mid={UserManage.Uid}&access_key={ApiHelper.access_key}&expire=");
@@ -1416,12 +1008,11 @@ namespace BiliBili3
                             }
                         }
                     }
-
                 }
                 catch (Exception ex)
                 {
                     // Authentication failed. Handle parameter, SSL/TLS, and Network Unavailable errors here. 
-                    result = ex.Message;
+                    Debug.WriteLine(ex);
                     throw;
                 }
 
@@ -1430,52 +1021,6 @@ namespace BiliBili3
             {
                 MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(SettingPage));
             }
-
-        }
-
-
-        //private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    //piv.SelectedIndex += 1;
-
-
-        //    if (piv.SelectedIndex == 0)
-        //    {
-
-        //        if (menu_List.SelectedIndex == 0)
-        //        {
-        //            menu_List.SelectedIndex = 4;
-        //        }
-        //        else
-        //        {
-        //            menu_List.SelectedIndex = menu_List.SelectedIndex - 1;
-        //        }
-        //        await Task.Delay(200);
-        //        piv.SelectedIndex = 1;
-        //        return;
-
-        //    }
-        //    if (piv.SelectedIndex == 2)
-        //    {
-
-        //        if (menu_List.SelectedIndex == 4)
-        //        {
-        //            menu_List.SelectedIndex = 0;
-        //        }
-        //        else
-        //        {
-        //            menu_List.SelectedIndex = menu_List.SelectedIndex + 1;
-        //        }
-        //        await Task.Delay(200);
-        //        piv.SelectedIndex = 1;
-        //        return;
-        //    }
-
-        //}
-
-        private void piv_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-
         }
 
         private void btn_user_moviecollect_Click(object sender, RoutedEventArgs e)
@@ -1501,7 +1046,6 @@ namespace BiliBili3
 
         private void btn_showMusicInfo_Click(object sender, RoutedEventArgs e)
         {
-
             MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(MusicInfoPage), (sender as AppBarButton).Tag.ToString());
         }
 
@@ -1529,11 +1073,6 @@ namespace BiliBili3
             btn_music_List.Visibility = Visibility.Collapsed;
         }
 
-        private void btn_CG_Click(object sender, RoutedEventArgs e)
-        {
-            GC.Collect();
-        }
-
         private void btn_user_toView_Click(object sender, RoutedEventArgs e)
         {
             MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(ToViewPage));
@@ -1542,11 +1081,6 @@ namespace BiliBili3
         private void btn_IKonwn_Click(object sender, RoutedEventArgs e)
         {
             network_error.Visibility = Visibility.Collapsed;
-        }
-
-        private void btn_Test_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

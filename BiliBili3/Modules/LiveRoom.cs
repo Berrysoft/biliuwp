@@ -41,7 +41,7 @@ namespace BiliBili3.Modules
             Round = 2
         }
         public static List<TitleItemModel> titleItems;
-        public async static Task GetTitleItems()
+        public async static void GetTitleItems()
         {
             try
             {

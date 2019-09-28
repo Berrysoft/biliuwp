@@ -5,15 +5,12 @@
     xmlns:local="using:BiliBili3"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
- 
-    
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="Page_Loaded">
 
     <Grid Background="{ThemeResource Bili-Background}">
         <Grid>
             <StackPanel VerticalAlignment="Center">
                 <Image x:Name="load_img" Source="ms-appx:///Assets/Splash.png" MaxWidth="350" ></Image>
-                <!--<Image Source="ms-appx:///HappyBirthDay.png"  Width="300"></Image>-->
             </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Margin="0 30">
                 <ProgressRing Width="50" Height="50" IsActive="True" Margin="0 5" Foreground="Gray"></ProgressRing>
@@ -24,7 +21,6 @@
             <Image x:Name="img_bg"  Stretch="Fill" Tapped="grid_Load_Tapped"  />
             <Canvas x:Name="GlassHost" Grid.ColumnSpan="2" />
             <Image x:Name="img"  Stretch="Uniform" Tapped="grid_Load_Tapped"  />
-            
         </Grid>
     </Grid>
 </Page>

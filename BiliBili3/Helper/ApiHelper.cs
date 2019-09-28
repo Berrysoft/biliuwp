@@ -21,6 +21,7 @@ using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using System.Xml.Linq;
 using BiliBili3.Helper;
+using System.Diagnostics;
 
 namespace BiliBili3
 {
@@ -44,24 +45,27 @@ namespace BiliBili3
         public const string build = "5442100";
 
         private static string _access_key;
-        public static string access_key {
+        public static string access_key
+        {
             get
             {
                 if (_access_key == "")
                 {
                     return SettingHelper.Get_Access_key();
                 }
-                else {
+                else
+                {
                     return _access_key;
-                }; }
-            set {  _access_key = value; }
+                };
+            }
+            set { _access_key = value; }
         }
         //public static List<string> followList;
 
 
-        public static string GetSign(string url, ApiKeyInfo apiKeyInfo= null)
+        public static string GetSign(string url, ApiKeyInfo apiKeyInfo = null)
         {
-            if (apiKeyInfo==null)
+            if (apiKeyInfo == null)
             {
                 apiKeyInfo = ApiHelper.AndroidKey;
             }
@@ -93,7 +97,7 @@ namespace BiliBili3
             }
             stringBuilder.Append(apiKeyInfo.Secret);
             result = MD5.GetMd5String(stringBuilder.ToString()).ToLower();
-            return url+="&sign="+result;
+            return url += "&sign=" + result;
         }
 
         public static string GetMd5String(string result)
@@ -113,9 +117,9 @@ namespace BiliBili3
             string strHash1 = CryptographicBuffer.EncodeToHexString(buffHash1);
             return strHash1;
         }
-      
 
-      
+
+
         public static long GetTimeSpan
         {
             get { return Convert.ToInt64((DateTime.Now - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalSeconds); }
@@ -146,29 +150,29 @@ namespace BiliBili3
 
 
         public static List<RegionModel> regions;
-        public static async Task SetRegions()
+        public static async Task SetRegionsAsync()
         {
             try
             {
-                string url = string.Format("https://app.bilibili.com/x/v2/region/index?appkey={0}&build={2}&mobi_app=android&platform=android&ts={1}", ApiHelper.AndroidKey.Appkey,GetTimeSpan,ApiHelper.build);
+                string url = string.Format("https://app.bilibili.com/x/v2/region/index?appkey={0}&build={2}&mobi_app=android&platform=android&ts={1}", ApiHelper.AndroidKey.Appkey, GetTimeSpan, ApiHelper.build);
                 url += "&sign=" + ApiHelper.GetSign(url);
 
                 string results = await WebClientClass.GetResults(new Uri(url));
                 RegionModel model = JsonConvert.DeserializeObject<RegionModel>(results);
-                if (model.code==0)
+                if (model.code == 0)
                 {
-                    model.data.RemoveAll(x =>(x.name == "会员购" || x.name == "游戏中心")|| x.logo=="");
-                
-                    regions = model.data;
+                    model.data.RemoveAll(x => (x.name == "会员购" || x.name == "游戏中心") || x.logo == "");
 
-                   // model.data.ForEach(x => x.emojis.ForEach(y => emojis.Add(y)));
+                    regions = model.data;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
-
         }
+
+        public static async void SetRegions() => await SetRegionsAsync();
 
         public static string GetUserId()
         {
@@ -183,7 +187,7 @@ namespace BiliBili3
 
         }
 
-        public  static bool IsLogin()
+        public static bool IsLogin()
         {
             if (SettingHelper.Get_Access_key() != "")
             {
@@ -191,7 +195,7 @@ namespace BiliBili3
             }
             else
             {
-               
+
                 return false;
             }
         }
@@ -212,7 +216,7 @@ namespace BiliBili3
 
     public class ApiKeyInfo
     {
-        public ApiKeyInfo(string key,string secret)
+        public ApiKeyInfo(string key, string secret)
         {
             Appkey = key;
             Secret = secret;
@@ -220,7 +224,7 @@ namespace BiliBili3
         public string Appkey { get; set; }
         public string Secret { get; set; }
     }
-   
+
 
     public class RegionModel
     {
@@ -232,7 +236,7 @@ namespace BiliBili3
         public int reid { get; set; }
         public string name { get; set; }
         public string logo { get; set; }
-        public string _goto{ get; set; }
+        public string _goto { get; set; }
         public string param { get; set; }
         public string uri { get; set; }
         public int type { get; set; }
