@@ -33,7 +33,7 @@
     <Grid Background="Black" >
         <Grid PointerEntered="mediaElement_PointerEntered" PointerMoved="Grid_PointerMoved">
 
-            <SplitView  x:Name="sp_View"  PaneClosed="Sp_View_PaneClosed" PanePlacement="Right" PaneBackground="#B2000000" >
+            <SplitView  x:Name="sp_View" PanePlacement="Right" PaneBackground="#B2000000" >
                 <SplitView.Pane>
                     <Grid RequestedTheme="Dark">
                         <ListView  SelectionChanged="gv_play_SelectionChanged" Margin="10" IsItemClickEnabled="True" Name="gv_play">
@@ -264,9 +264,7 @@
 
                     <MediaElement x:Name="mediaElement"  AreTransportControlsEnabled="True"  Stretch="Uniform" MinWidth="100" MinHeight="100" 
                                   MediaEnded="mediaElement_MediaEnded"  
-                                  DoubleTapped="mediaElement_DoubleTapped" 
                                   BufferingProgressChanged="mediaElement_BufferingProgressChanged" 
-                                  Tapped="mediaElement_Tapped" 
                                   MediaFailed="mediaElement_MediaFailed" 
                                   MediaOpened="mediaElement_MediaOpened" 
                                   PointerMoved="mediaElement_PointerMoved"
@@ -347,7 +345,7 @@
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
                     </GridView>
-                    <Border x:Name="ss" Visibility="Collapsed" Holding="ss_Holding"  ManipulationMode="TranslateX" ManipulationDelta="Grid_ManipulationDelta" ManipulationCompleted="Grid_ManipulationCompleted" Background="Transparent" Tapped="MTC_Tapped_1" DoubleTapped="mediaElement_DoubleTapped">
+                    <Border x:Name="ss" Visibility="Collapsed" Holding="ss_Holding"  ManipulationMode="TranslateX" ManipulationDelta="Grid_ManipulationDelta" ManipulationCompleted="Grid_ManipulationCompleted" Background="Transparent" Tapped="MTC_Tapped_1">
 
                     </Border>
                     <Border x:Name="ss_Volume" Margin="0 48 0 86" Background="#00000000" Visibility="Visible"  Width="56" HorizontalAlignment="Right" ManipulationMode="TranslateY" ManipulationDelta="ss_Volume_ManipulationDelta" ManipulationCompleted="ss_Volume_ManipulationCompleted" Tapped="MTC_Tapped_1"   DoubleTapped="MTC_DoubleTapped"  />

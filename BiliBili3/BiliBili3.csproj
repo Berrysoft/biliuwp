@@ -275,9 +275,6 @@
       <DependentUpon>CommentV2Control.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\DanmakuMTC.cs" />
-    <Compile Include="Controls\DanmuPlayer.xaml.cs">
-      <DependentUpon>DanmuPlayer.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\DynamicControls.xaml.cs">
       <DependentUpon>DynamicControls.xaml</DependentUpon>
     </Compile>
@@ -303,7 +300,6 @@
     <Compile Include="Controls\MiniVideoDialog.xaml.cs">
       <DependentUpon>MiniVideoDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MyDanmaku.xaml.cs" />
     <Compile Include="Controls\OrientedSize.cs" />
     <Compile Include="Controls\PlayerControl.xaml.cs">
       <DependentUpon>PlayerControl.xaml</DependentUpon>
@@ -751,10 +747,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\DanmuPlayer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\DynamicControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -786,10 +778,6 @@
     <Page Include="Controls\MiniVideoDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\MyDanmaku.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\PlayerControl.xaml">
       <SubType>Designer</SubType>

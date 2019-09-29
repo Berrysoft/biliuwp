@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
 using BiliBili3.Controls;
 using BiliBili3.Helper;
 using BiliBili3.Modules;
@@ -31,19 +30,15 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
-// “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
-
 namespace BiliBili3.Pages
 {
-    enum HeartBeatType
+    internal enum HeartBeatType
     {
         Start,
         Play,
         End
     }
-    /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
-    /// </summary>
+
     public sealed partial class PlayerPage : Page
     {
         public PlayerPage()
@@ -72,13 +67,13 @@ namespace BiliBili3.Pages
             switch (args.Button)
             {
                 case SystemMediaTransportControlsButton.Play:
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mediaElement.Play();
                     });
                     break;
                 case SystemMediaTransportControlsButton.Pause:
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         mediaElement.Pause();
                     });
@@ -138,14 +133,10 @@ namespace BiliBili3.Pages
                     if (!MTC.IsFullWindow)
                     {
                         MTC.ToFull();
-                        //ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
-
                     }
                     else
                     {
                         MTC.ExitFull();
-                        //ApplicationView.GetForCurrentView().ExitFullScreenMode();
-
                     }
                     break;
                 case Windows.System.VirtualKey.F10:
@@ -156,11 +147,9 @@ namespace BiliBili3.Pages
             }
         }
 
-
-
-        SystemMediaTransportControls _systemMediaTransportControls;
+        private SystemMediaTransportControls _systemMediaTransportControls;
         private DisplayRequest dispRequest = null;//保持屏幕常亮
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             CoreWindow.GetForCurrentThread().KeyDown += PlayerPage_KeyDown;
@@ -197,7 +186,7 @@ namespace BiliBili3.Pages
             }
 
         }
-        protected async override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             try
             {
@@ -221,7 +210,7 @@ namespace BiliBili3.Pages
                 //mediaElement.Stop();
                 base.OnNavigatingFrom(e);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -240,19 +229,20 @@ namespace BiliBili3.Pages
 
 
         private NSDanmaku.Controls.Danmaku danmu;
-        DispatcherTimer timer;
-        DispatcherTimer timer_Date;
-        List<PlayerModel> playList;
-        IEnumerable<NSDanmaku.Model.DanmakuModel> DanMuData = null;
-        ILookup<int, NSDanmaku.Model.DanmakuModel> DanMuPool = null;
-        PlayerModel playNow;
-        InteractionVideo interactionVideo;
-        NodeInfo nodeInfo;
+        private DispatcherTimer timer;
+        private DispatcherTimer timer_Date;
+        private List<PlayerModel> playList;
+        private IEnumerable<NSDanmaku.Model.DanmakuModel> DanMuData = null;
+        private ILookup<int, NSDanmaku.Model.DanmakuModel> DanMuPool = null;
+        private PlayerModel playNow;
+        private InteractionVideo interactionVideo;
+        private NodeInfo nodeInfo;
+
         //int _index = 0;
-        bool playLocal = false;
-        bool LoadDanmu = true;
-        int LastPost = 0;
-        bool settingFlag = true;
+        private bool playLocal = false;
+        private bool LoadDanmu = true;
+        private int LastPost = 0;
+        private bool settingFlag = true;
 
         private void SetDanMuPoll(IEnumerable<NSDanmaku.Model.DanmakuModel> source)
         {
@@ -262,10 +252,8 @@ namespace BiliBili3.Pages
 
         public async void LoadPlayer(List<PlayerModel> par, int index)
         {
-
-
             await Task.Delay(200);
-            danmu = MTC.myDanmaku;
+            danmu = MTC.MyDanmaku;
 
             UpdateSetting();
             if (SettingHelper.BackPlay)
@@ -431,19 +419,15 @@ namespace BiliBili3.Pages
                     return;
                 }
                 int time = 0;
-                int play_type = 1;
                 switch (heartBeatType)
                 {
                     case HeartBeatType.Start:
-                        play_type = 1;
                         time = 0;
                         break;
                     case HeartBeatType.Play:
-                        play_type = 0;
                         time = Convert.ToInt32(mediaElement.Position.TotalSeconds);
                         break;
                     case HeartBeatType.End:
-                        play_type = 4;
                         time = -1;
                         break;
                     default:
@@ -590,13 +574,11 @@ namespace BiliBili3.Pages
             settingFlag = false;
         }
 
-
-
-        string DMZZBDS = "";
-        bool hidePointerFlag = false;
-        int DanmuNum = 0;
-        bool mergeDanmu = false;
-        List<string> sended = new List<string>();
+        private string DMZZBDS = "";
+        private bool hidePointerFlag = false;
+        private int DanmuNum = 0;
+        private bool mergeDanmu = false;
+        private List<string> sended = new List<string>();
         private void Timer_Date_Tick(object sender, object e)
         {
 
@@ -681,9 +663,7 @@ namespace BiliBili3.Pages
             sended.Clear();
         }
 
-
-
-        int n = 0;
+        private int n = 0;
         private async void Timer_Tick(object sender, object e)
         {
             n++;
@@ -724,8 +704,9 @@ namespace BiliBili3.Pages
                 list_DisDanmu.Items.Remove(item);
             }
         }
-        List<string> Guanjianzi = new List<string>();
-        List<string> Yonghu = new List<string>();
+
+        private List<string> Guanjianzi = new List<string>();
+        private List<string> Yonghu = new List<string>();
         private void DanDis_Get()
         {
 
@@ -786,7 +767,7 @@ namespace BiliBili3.Pages
         //    mediaElement.Source = new Uri(playUrl);
         //}
 
-        bool QuityLoading = false;
+        private bool QuityLoading = false;
         private async void OpenVideo()
         {
             try
@@ -1021,14 +1002,16 @@ namespace BiliBili3.Pages
 
 
         }
+
         /// <summary>
         /// 字幕文件
         /// </summary>
-        SubtitleModel subtitles;
+        private SubtitleModel subtitles;
+
         /// <summary>
         /// 字幕Timer
         /// </summary>
-        DispatcherTimer subtitleTimer;
+        private DispatcherTimer subtitleTimer;
         /// <summary>
         /// 选择字幕
         /// </summary>
@@ -1306,169 +1289,18 @@ namespace BiliBili3.Pages
             return composition.GenerateMediaStreamSource();
         }
 
-
-        private async Task<List<MyDanmaku.DanMuModel>> GetLocalDanmu(StorageFile danmuFile)
-        {
-            List<MyDanmaku.DanMuModel> ls = new List<MyDanmaku.DanMuModel>();
-            try
-            {
-                string a = await FileIO.ReadTextAsync(danmuFile);
-                XmlDocument xdoc = new XmlDocument();
-                a = Regex.Replace(a, @"[\x00-\x08]|[\x0B-\x0C]|[\x0E-\x1F]", "");
-                xdoc.LoadXml(a);
-                XmlElement el = xdoc.DocumentElement;
-                XmlNodeList xml = el.ChildNodes;
-                foreach (XmlNode item in xml)
-                {
-                    if (item.Attributes["p"] != null)
-                    {
-                        try
-                        {
-                            string heheda = item.Attributes["p"].Value;
-                            string[] haha = heheda.Split(',');
-                            ls.Add(new MyDanmaku.DanMuModel
-                            {
-                                DanTime = decimal.Parse(haha[0]),
-                                DanMode = haha[1],
-                                DanSize = haha[2],
-                                _DanColor = haha[3],
-                                DanSendTime = haha[4],
-                                DanPool = haha[5],
-                                DanID = haha[6],
-                                DanRowID = haha[7],
-                                DanText = item.InnerText,
-                                source = item.OuterXml
-                            });
-                        }
-                        catch (Exception)
-                        {
-                        }
-
-                    }
-                }
-                AddLog("填充弹幕成功，共" + ls.Count + "条");
-                return ls;
-            }
-            catch (Exception)
-            {
-                AddLog("弹幕加载失败了...");
-                return ls;
-            }
-        }
-
-        private void btn_Back_Click(object sender, RoutedEventArgs e)
-        {
-            //if (this.Frame.CanGoBack)
-            //{
-            //    mediaElement.Stop();
-            //    this.Frame.GoBack();
-            //}
-        }
-
-        public async Task<List<MyDanmaku.DanMuModel>> GetDM(string cid, bool IsLocal, bool IsOld, string path)
-        {
-            List<MyDanmaku.DanMuModel> ls = new List<MyDanmaku.DanMuModel>();
-            try
-            {
-
-                string a = await WebClientClass.GetResults(new Uri("http://comment.bilibili.com/" + cid + ".xml" + "?rnd=" + new Random().Next(1, 9999)));
-                XmlDocument xdoc = new XmlDocument();
-                a = Regex.Replace(a, @"[\x00-\x08]|[\x0B-\x0C]|[\x0E-\x1F]", "");
-                xdoc.LoadXml(a);
-                XmlElement el = xdoc.DocumentElement;
-                XmlNodeList xml = el.ChildNodes;
-                foreach (XmlNode item in xml)
-                {
-                    if (item.Attributes["p"] != null)
-                    {
-                        try
-                        {
-                            string heheda = item.Attributes["p"].Value;
-                            string[] haha = heheda.Split(',');
-                            ls.Add(new MyDanmaku.DanMuModel
-                            {
-                                DanTime = decimal.Parse(haha[0]),
-                                DanMode = haha[1],
-                                DanSize = haha[2],
-                                _DanColor = haha[3],
-                                DanSendTime = haha[4],
-                                DanPool = haha[5],
-                                DanID = haha[6],
-                                DanRowID = haha[7],
-                                DanText = item.InnerText,
-                                source = item.OuterXml
-                            });
-                        }
-                        catch (Exception)
-                        {
-                        }
-
-                    }
-                }
-                //if (ls.Count>10000)
-                //{
-                //    ls = ls.Take(6000).ToList();
-                //}  
-                AddLog("填充弹幕成功，共" + ls.Count + "条");
-                return ls;
-            }
-            catch (Exception)
-            {
-                AddLog("弹幕加载失败了...");
-                return ls;
-            }
-
-        }
-
-
-        private void btn_Play_Click(object sender, RoutedEventArgs e)
-        {
-            mediaElement.Play();
-
-        }
-
-        private void btn_Pause_Click(object sender, RoutedEventArgs e)
-        {
-            if (mediaElement.CanPause)
-            {
-                mediaElement.Pause();
-            }
-        }
-
         private async void mediaElement_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            //if (e.ErrorMessage.Contains("SRC_NOT_SUPPORT"))
-            //{
-            //    await new MessageDialog("暂时无法播放此视频，请稍后再试").ShowAsync();
-            //}
-            //else
-            //{
-            //    await new MessageDialog("无法播放此视频" + e.ErrorMessage).ShowAsync();
-
-            //}
             await new MessageDialog("无法播放此视频 ＞﹏＜ \r\n请尝试更换清晰度").ShowAsync();
         }
-        private void mediaElement_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-
-        }
-
-        private void mediaElement_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-
-
-        }
-
 
         private void mediaElement_BufferingProgressChanged(object sender, RoutedEventArgs e)
         {
-
             pr.Text = mediaElement.BufferingProgress.ToString("P");
         }
-        bool buffering = false;
+
         private void mediaElement_CurrentStateChanged(object sender, RoutedEventArgs e)
         {
-            buffering = false;
             switch (mediaElement.CurrentState)
             {
                 case MediaElementState.Closed:
@@ -1485,7 +1317,6 @@ namespace BiliBili3.Pages
 
                     break;
                 case MediaElementState.Buffering:
-                    buffering = true;
                     progress.Visibility = Visibility.Visible;
                     danmu.PauseDanmaku();
                     break;
@@ -1605,8 +1436,7 @@ namespace BiliBili3.Pages
             txt_SSPosition.Visibility = Visibility.Collapsed;
         }
 
-
-        double ssValue = 0;
+        private double ssValue = 0;
         private void Grid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             e.Handled = true;
@@ -2119,7 +1949,8 @@ namespace BiliBili3.Pages
             Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
             _PointerHideTime = 1;
         }
-        int _PointerHideTime = 1;
+
+        private int _PointerHideTime = 1;
         private void Grid_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
             Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
@@ -2134,9 +1965,9 @@ namespace BiliBili3.Pages
             {
                 return;
             }
-            foreach (MyDanmaku.DanMuModel item in list_DisDanmu.SelectedItems)
+            foreach (NSDanmaku.Model.DanmakuModel item in list_DisDanmu.SelectedItems)
             {
-                ReportDM(item.DanRowID);
+                ReportDM(item.RowID);
             }
         }
 
@@ -2423,11 +2254,11 @@ namespace BiliBili3.Pages
                     var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream);
                     encoder.SetPixelData(BitmapPixelFormat.Bgra8,
                         BitmapAlphaMode.Ignore,
-                         (uint)bitmap.PixelWidth,
-                         (uint)bitmap.PixelHeight,
-                         DisplayInformation.GetForCurrentView().LogicalDpi,
-                         DisplayInformation.GetForCurrentView().LogicalDpi,
-                         pixelBuffer.ToArray());
+                        (uint)bitmap.PixelWidth,
+                        (uint)bitmap.PixelHeight,
+                        DisplayInformation.GetForCurrentView().LogicalDpi,
+                        DisplayInformation.GetForCurrentView().LogicalDpi,
+                        pixelBuffer.ToArray());
                     await encoder.FlushAsync();
                 }
                 Utils.ShowMessageToast("截图已经保存至图片库");
@@ -2489,8 +2320,6 @@ namespace BiliBili3.Pages
             {
                 Utils.ShowMessageToast("加载失败");
             }
-
-
         }
 
         private async void menuitem_tantan_Click(object sender, RoutedEventArgs e)
@@ -2541,9 +2370,7 @@ namespace BiliBili3.Pages
             ChangeQuality();
         }
 
-
-
-        bool settingStorylist = false;
+        private bool settingStorylist = false;
         private void Gv_story_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (gv_story_list.SelectedItem == null || settingStorylist)
@@ -2562,17 +2389,8 @@ namespace BiliBili3.Pages
             {
                 return;
             }
-            //if (sw_DASHUseHEVC.IsOn && !await SystemHelper.CheckCodec())
-            //{
-            //    sw_DASHUseHEVC.IsOn = false;
-            //    Utils.ShowMessageToast("请先安装HEVC扩展");
-            //}
-            //else
-            //{
             SettingHelper.DASHUseHEVC = sw_DASHUseHEVC.IsOn;
             Utils.ShowMessageToast("更改清晰度或重新加载生效");
-            //}
-
         }
 
         private void Sw_UseDASH_Toggled(object sender, RoutedEventArgs e)
@@ -2591,11 +2409,6 @@ namespace BiliBili3.Pages
             Utils.ShowMessageToast("更改清晰度或重新加载生效");
         }
 
-
-        private void Sp_View_PaneClosed(SplitView sender, object args)
-        {
-
-        }
 
         private void Cb_SubtitleFont_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
