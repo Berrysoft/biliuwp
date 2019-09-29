@@ -28,9 +28,9 @@ namespace BiliBili3.Modules
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    string re = model.json["data"].ToString();
+                    string re = model.Json["data"].ToString();
                     var m = JsonConvert.DeserializeObject<ChannelModel>(re.Replace("goto","_goto"));
                     return new ReturnModel<ChannelModel>()
                     {
@@ -44,7 +44,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ChannelModel>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -70,7 +70,7 @@ namespace BiliBili3.Modules
                 data += "&sign=" + ApiHelper.GetSign(data);
                 var results = await WebClientClass.PostResults(new Uri(url), data);
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
 
                     return new ReturnModel()
@@ -84,7 +84,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -109,7 +109,7 @@ namespace BiliBili3.Modules
                 data += "&sign=" + ApiHelper.GetSign(data);
                 var results = await WebClientClass.PostResults(new Uri(url), data);
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
                     return new ReturnModel()
                     {
@@ -122,7 +122,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -146,9 +146,9 @@ namespace BiliBili3.Modules
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    var m = JsonConvert.DeserializeObject<ObservableCollection<Atten_channel>>(model.json["data"].ToString());
+                    var m = JsonConvert.DeserializeObject<ObservableCollection<Atten_channel>>(model.Json["data"].ToString());
                     return new ReturnModel<ObservableCollection<Atten_channel>>()
                     {
                         success = true,
@@ -161,7 +161,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ObservableCollection<Atten_channel>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -189,10 +189,10 @@ namespace BiliBili3.Modules
                 var results = await WebClientClass.GetResults(new Uri(url));
                 results = results.Replace("goto", "_goto");
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
 
-                    ChannelFeedRootModel m = JsonConvert.DeserializeObject<ChannelFeedRootModel>(model.json["data"].ToString());
+                    ChannelFeedRootModel m = JsonConvert.DeserializeObject<ChannelFeedRootModel>(model.Json["data"].ToString());
                     return new ReturnModel<ObservableCollection<ChannelFeedModel>>()
                     {
                         success = true,
@@ -205,7 +205,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ObservableCollection<ChannelFeedModel>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -230,10 +230,10 @@ namespace BiliBili3.Modules
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
 
-                    var m = JsonConvert.DeserializeObject<FeedTabModel>(model.json["data"].ToString());
+                    var m = JsonConvert.DeserializeObject<FeedTabModel>(model.Json["data"].ToString());
                     return new ReturnModel<FeedTabModel>()
                     {
                         success = true,
@@ -246,7 +246,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<FeedTabModel>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 

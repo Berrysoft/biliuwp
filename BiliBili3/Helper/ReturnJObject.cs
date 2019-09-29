@@ -1,12 +1,17 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace BiliBili3
 {
     public class ReturnJObject
     {
-        public int code { get; set; }
-        public string message { get; set; }
-        public string msg { get; set; }
-        public JToken json { get; set; }
+        [JsonProperty("code")]
+        public int Code { get; set; }
+        [JsonProperty("message")]
+        public string Message { get; set; }
+        [JsonProperty("msg")]
+        public string Msg { get; set; }
+        [JsonIgnore]
+        public JToken Json { get; set; }
     }
 }

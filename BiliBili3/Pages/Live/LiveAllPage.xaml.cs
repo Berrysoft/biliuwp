@@ -80,10 +80,10 @@ namespace BiliBili3.Pages
                 string results = await WebClientClass.GetResults(new Uri(url));
                 var m = results.ToDynamicJObject();
 
-                if (m.code == 0)
+                if (m.Code == 0)
                 {
 
-                    var data = JsonConvert.DeserializeObject<RoomListModel>(m.json["data"].ToString());
+                    var data = JsonConvert.DeserializeObject<RoomListModel>(m.Json["data"].ToString());
                     if (data.list.Count != 0)
                     {
                         if (_TJPage == 1)
@@ -106,7 +106,7 @@ namespace BiliBili3.Pages
                 }
                 else
                 {
-                    Utils.ShowMessageToast(m.message, 3000);
+                    Utils.ShowMessageToast(m.Message, 3000);
                 }
 
             }
@@ -142,10 +142,10 @@ namespace BiliBili3.Pages
                 string results = await WebClientClass.GetResults(new Uri(url));
                 var m = results.ToDynamicJObject();
 
-                if (m.code == 0)
+                if (m.Code == 0)
                 {
 
-                    var data = JsonConvert.DeserializeObject<RoomListModel>(m.json["data"].ToString());
+                    var data = JsonConvert.DeserializeObject<RoomListModel>(m.Json["data"].ToString());
                     if (data.list.Count != 0)
                     {
                         if (_NewPage == 1)
@@ -168,7 +168,7 @@ namespace BiliBili3.Pages
                 }
                 else
                 {
-                    Utils.ShowMessageToast(m.message, 3000);
+                    Utils.ShowMessageToast(m.Message, 3000);
                 }
 
             }

@@ -19,10 +19,10 @@ namespace BiliBili3.Modules
 
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
 
-                    var m = JsonConvert.DeserializeObject<List<AreaList>>(model.json["data"].ToString());
+                    var m = JsonConvert.DeserializeObject<List<AreaList>>(model.Json["data"].ToString());
                     var rec = await GetRecAreaList();
                     if (rec.success)
                     {
@@ -44,7 +44,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<List<AreaList>>()
                     {
                         success = false,
-                        message = model.message.ToString()
+                        message = model.Message.ToString()
                     };
                 }
 
@@ -63,9 +63,9 @@ namespace BiliBili3.Modules
 
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    var m = JsonConvert.DeserializeObject<List<AreaListItem>>(model.json["data"].ToString());
+                    var m = JsonConvert.DeserializeObject<List<AreaListItem>>(model.Json["data"].ToString());
                     return new ReturnModel<List<AreaListItem>>()
                     {
                         success = true,
@@ -77,7 +77,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<List<AreaListItem>>()
                     {
                         success = false,
-                        message = model.message.ToString()
+                        message = model.Message.ToString()
                     };
                 }
 
@@ -97,9 +97,9 @@ namespace BiliBili3.Modules
 
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    var m = JsonConvert.DeserializeObject<AreaRoomList>(model.json["data"].ToString());
+                    var m = JsonConvert.DeserializeObject<AreaRoomList>(model.Json["data"].ToString());
                     return new ReturnModel<AreaRoomList>()
                     {
                         success = true,
@@ -111,7 +111,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<AreaRoomList>()
                     {
                         success = false,
-                        message = model.message.ToString()
+                        message = model.Message.ToString()
                     };
                 }
 

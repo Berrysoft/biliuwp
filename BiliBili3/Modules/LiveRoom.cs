@@ -73,13 +73,13 @@ namespace BiliBili3.Modules
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
 
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
                     return new ReturnModel()
                     {
                         success = true,
                         message = "",
-                        data = JsonConvert.DeserializeObject<ObservableCollection<AllGiftsModel>>(model.json["data"].ToString()),
+                        data = JsonConvert.DeserializeObject<ObservableCollection<AllGiftsModel>>(model.Json["data"].ToString()),
                     };
                 }
                 else
@@ -87,7 +87,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
             }
@@ -126,9 +126,9 @@ namespace BiliBili3.Modules
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    foreach (var item in model.json["data"]["list"])
+                    foreach (var item in model.Json["data"]["list"])
                     {
                         var id = item["id"].ToInt32();
                         roomGifts.Add(allGifts.First(x => x.id == id));
@@ -146,7 +146,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ObservableCollection<AllGiftsModel>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
             }
@@ -196,10 +196,10 @@ namespace BiliBili3.Modules
                 var results = await WebClientClass.GetResults(new Uri(url));
 
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
 
-                    ObservableCollection<LiveMyGiftsModel> ls = JsonConvert.DeserializeObject<ObservableCollection<LiveMyGiftsModel>>(model.json["data"]["list"].ToString());
+                    ObservableCollection<LiveMyGiftsModel> ls = JsonConvert.DeserializeObject<ObservableCollection<LiveMyGiftsModel>>(model.Json["data"]["list"].ToString());
 
                     foreach (var item in ls)
                     {
@@ -217,7 +217,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ObservableCollection<LiveMyGiftsModel>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -247,10 +247,10 @@ namespace BiliBili3.Modules
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
 
-                    LiveRoomInfoModel m = JsonConvert.DeserializeObject<LiveRoomInfoModel>(model.json["data"].ToString().Replace("0000-00-00 00:00:00", "1990-01-01 00:00:00"));
+                    LiveRoomInfoModel m = JsonConvert.DeserializeObject<LiveRoomInfoModel>(model.Json["data"].ToString().Replace("0000-00-00 00:00:00", "1990-01-01 00:00:00"));
                     m.UserInfo = await GetUpInfo(m.uid);
 
                     m.htmldesc = HtmlToRichText(m.description);
@@ -266,7 +266,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<LiveRoomInfoModel>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
             }
@@ -290,9 +290,9 @@ namespace BiliBili3.Modules
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    LiveUpModel m = JsonConvert.DeserializeObject<LiveUpModel>(model.json["data"].ToString());
+                    LiveUpModel m = JsonConvert.DeserializeObject<LiveUpModel>(model.Json["data"].ToString());
                     m.lvColor = new SolidColorBrush(Utils.ToColor(m.level_color));
                     return m;
                 }
@@ -324,9 +324,9 @@ namespace BiliBili3.Modules
                 string url = $"https://api.live.bilibili.com/room/v1/Room/playUrl?cid={roomid}&quality={quality}&platform=web";
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    LivePlayUrlsModel m = JsonConvert.DeserializeObject<LivePlayUrlsModel>(model.json["data"].ToString());
+                    LivePlayUrlsModel m = JsonConvert.DeserializeObject<LivePlayUrlsModel>(model.Json["data"].ToString());
                     int i = 1;
                     foreach (var item in m.durl)
                     {
@@ -345,7 +345,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<LivePlayUrlsModel>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
             }
@@ -365,9 +365,9 @@ namespace BiliBili3.Modules
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    RoundModel m = JsonConvert.DeserializeObject<RoundModel>(model.json["data"].ToString());
+                    RoundModel m = JsonConvert.DeserializeObject<RoundModel>(model.Json["data"].ToString());
                     var results2 = await WebClientClass.GetResults(new Uri(m.play_url));
                     var play = JsonConvert.DeserializeObject<RoundPlayModel>(results2);
                     m.data = play;
@@ -393,7 +393,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<RoundModel>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
             }
@@ -419,9 +419,9 @@ namespace BiliBili3.Modules
                 var results = await WebClientClass.GetResults(new Uri(url));
 
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    ObservableCollection<LiveMsgModel> ls = JsonConvert.DeserializeObject<ObservableCollection<LiveMsgModel>>(model.json["data"]["room"].ToString());
+                    ObservableCollection<LiveMsgModel> ls = JsonConvert.DeserializeObject<ObservableCollection<LiveMsgModel>>(model.Json["data"]["room"].ToString());
 
                     foreach (var v in ls)
                     {
@@ -472,7 +472,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ObservableCollection<LiveMsgModel>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -660,9 +660,9 @@ namespace BiliBili3.Modules
                 var results = await WebClientClass.GetResults(new Uri(url));
 
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    ObservableCollection<GiftTopListModel> ls = JsonConvert.DeserializeObject<ObservableCollection<GiftTopListModel>>(model.json["data"]["list"].ToString());
+                    ObservableCollection<GiftTopListModel> ls = JsonConvert.DeserializeObject<ObservableCollection<GiftTopListModel>>(model.Json["data"]["list"].ToString());
 
 
                     return new ReturnModel<ObservableCollection<GiftTopListModel>>()
@@ -677,7 +677,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ObservableCollection<GiftTopListModel>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -703,9 +703,9 @@ namespace BiliBili3.Modules
                 var results = await WebClientClass.GetResults(new Uri(url));
 
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    ObservableCollection<MedalRankListModel> ls = JsonConvert.DeserializeObject<ObservableCollection<MedalRankListModel>>(model.json["data"]["list"].ToString());
+                    ObservableCollection<MedalRankListModel> ls = JsonConvert.DeserializeObject<ObservableCollection<MedalRankListModel>>(model.Json["data"]["list"].ToString());
                     int i = 1;
                     foreach (var item in ls)
                     {
@@ -725,7 +725,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ObservableCollection<MedalRankListModel>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -754,9 +754,9 @@ namespace BiliBili3.Modules
                 var results = await WebClientClass.GetResults(new Uri(url));
 
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    ObservableCollection<OpTopListModel> ls = JsonConvert.DeserializeObject<ObservableCollection<OpTopListModel>>(model.json["data"]["list"].ToString());
+                    ObservableCollection<OpTopListModel> ls = JsonConvert.DeserializeObject<ObservableCollection<OpTopListModel>>(model.Json["data"]["list"].ToString());
                     return new ReturnModel<ObservableCollection<OpTopListModel>>()
                     {
                         success = true,
@@ -769,7 +769,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ObservableCollection<OpTopListModel>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -797,9 +797,9 @@ namespace BiliBili3.Modules
                 var results = await WebClientClass.GetResults(new Uri(url));
 
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    ObservableCollection<GuardRankListModel> ls = JsonConvert.DeserializeObject<ObservableCollection<GuardRankListModel>>(model.json["data"].ToString());
+                    ObservableCollection<GuardRankListModel> ls = JsonConvert.DeserializeObject<ObservableCollection<GuardRankListModel>>(model.Json["data"].ToString());
                     return new ReturnModel<ObservableCollection<GuardRankListModel>>()
                     {
                         success = true,
@@ -812,7 +812,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ObservableCollection<GuardRankListModel>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -843,9 +843,9 @@ namespace BiliBili3.Modules
                 var results = await WebClientClass.GetResults(new Uri(url));
 
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    ObservableCollection<RankActivityModel> ls = JsonConvert.DeserializeObject<ObservableCollection<RankActivityModel>>(model.json["data"]["rankInfo"]["activity"].ToString());
+                    ObservableCollection<RankActivityModel> ls = JsonConvert.DeserializeObject<ObservableCollection<RankActivityModel>>(model.Json["data"]["rankInfo"]["activity"].ToString());
                     ls.Insert(0, new RankActivityModel()
                     {
                         isEvent = 0,
@@ -929,7 +929,7 @@ namespace BiliBili3.Modules
 
                 var results = await WebClientClass.PostResultsUtf8(new Uri(url), data);
                 var json = results.ToDynamicJObject();
-                if (json.code == 0)
+                if (json.Code == 0)
                 {
                     return new ReturnModel()
                     {
@@ -941,7 +941,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel()
                     {
                         success = false,
-                        message = json.message
+                        message = json.Message
                     };
                 }
 
@@ -980,7 +980,7 @@ namespace BiliBili3.Modules
 
                 var results = await WebClientClass.PostResultsUtf8(new Uri(url), data);
                 var json = results.ToDynamicJObject();
-                if (json.code == 0)
+                if (json.Code == 0)
                 {
                     return new ReturnModel()
                     {
@@ -992,7 +992,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel()
                     {
                         success = false,
-                        message = json.message
+                        message = json.Message
                     };
                 }
 

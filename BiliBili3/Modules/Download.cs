@@ -243,12 +243,12 @@ namespace BiliBili3.Modules
                 string url = $"https://moe.nsapps.cn/api/v1/BiliAnimeUrl?animeid={season_id}&cid={cid}&epid=&rnd={ApiHelper.GetTimeSpan}";
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     //headers.Add("User-Agent", "Bilibili Freedoooooom/MarkII");
                     List<DownloadUrlInfo> downloadUrls = new List<DownloadUrlInfo>();
-                    foreach (var item in model.json["data"])
+                    foreach (var item in model.Json["data"])
                     {
                         downloadUrls.Add(new DownloadUrlInfo()
                         {
@@ -278,7 +278,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<List<DownloadUrlInfo>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 

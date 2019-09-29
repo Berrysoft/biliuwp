@@ -465,9 +465,9 @@ namespace BiliBili3.Modules
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var str = await WebClientClass.GetResults(new Uri(url));
                 var m = str.ToDynamicJObject();
-                if (m.code == 0)
+                if (m.Code == 0)
                 {
-                    var data = JsonConvert.DeserializeObject<MyInfoModel>(m.json["data"].ToString());
+                    var data = JsonConvert.DeserializeObject<MyInfoModel>(m.Json["data"].ToString());
                     myInfo = data;
                     
                     return new ReturnModel<MyInfoModel>()
@@ -481,7 +481,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<MyInfoModel>()
                     {
                         success = false,
-                        message = m.message
+                        message = m.Message
                     };
                 }
 

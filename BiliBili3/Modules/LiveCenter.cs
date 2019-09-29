@@ -27,13 +27,13 @@ namespace BiliBili3.Modules
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
                     if (Account.myInfo == null)
                     {
                         await new Account().GetMyInfo();
                     }
-                    LiveUserInfoModel m = JsonConvert.DeserializeObject<LiveUserInfoModel>(model.json["data"].ToString());
+                    LiveUserInfoModel m = JsonConvert.DeserializeObject<LiveUserInfoModel>(model.Json["data"].ToString());
                     m.uname = Account.myInfo.name;
                     m.face = Account.myInfo.face;
                     return new ReturnModel<LiveUserInfoModel>()
@@ -47,7 +47,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<LiveUserInfoModel>()
                     {
                         success = false,
-                        message = model.message.ToString()
+                        message = model.Message.ToString()
                     };
                 }
 
@@ -72,10 +72,10 @@ namespace BiliBili3.Modules
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
 
-                    ObservableCollection<LivingModel> m = JsonConvert.DeserializeObject<ObservableCollection<LivingModel>>(model.json["data"]["rooms"].ToString());
+                    ObservableCollection<LivingModel> m = JsonConvert.DeserializeObject<ObservableCollection<LivingModel>>(model.Json["data"]["rooms"].ToString());
                    
                     return new ReturnModel<ObservableCollection<LivingModel>>()
                     {
@@ -89,7 +89,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ObservableCollection<LivingModel>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -114,10 +114,10 @@ namespace BiliBili3.Modules
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
 
-                    ObservableCollection<NotLivingModel> m = JsonConvert.DeserializeObject<ObservableCollection<NotLivingModel>>(model.json["data"]["rooms"].ToString());
+                    ObservableCollection<NotLivingModel> m = JsonConvert.DeserializeObject<ObservableCollection<NotLivingModel>>(model.Json["data"]["rooms"].ToString());
 
                     return new ReturnModel<ObservableCollection<NotLivingModel>>()
                     {
@@ -131,7 +131,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ObservableCollection<NotLivingModel>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 

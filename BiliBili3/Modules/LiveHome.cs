@@ -77,9 +77,9 @@ namespace BiliBili3.Modules
                 string url =ApiHelper.GetSignWithUrl( $"https://api.live.bilibili.com/xlive/app-interface/v2/index/getAllList?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&qn=0&rec_page=1&relation_page=1&scale=xxhdpi&ts={ApiHelper.GetTimeSpan}",ApiHelper.AndroidKey);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    live_home m = JsonConvert.DeserializeObject<live_home>(model.json["data"].ToString());
+                    live_home m = JsonConvert.DeserializeObject<live_home>(model.Json["data"].ToString());
                     Areas = m.area_entrance_v2[0];
                     Banner = m.banner[0];
                     HourRank = m.hour_rank[0];
@@ -87,7 +87,7 @@ namespace BiliBili3.Modules
                 }
                 else
                 {
-                    Utils.ShowMessageToast(model.message);
+                    Utils.ShowMessageToast(model.Message);
                 }
             }
             catch (Exception ex)

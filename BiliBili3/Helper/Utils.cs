@@ -1,24 +1,18 @@
-﻿using BiliBili3.Controls;
-using BiliBili3.Helper;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using BiliBili3.Controls;
+using Newtonsoft.Json.Linq;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
-using Newtonsoft.Json;
 
 namespace BiliBili3
 {
     public static class Utils
     {
-
         public static ReturnJObject ToDynamicJObject(this string json)
         {
             try
@@ -26,44 +20,23 @@ namespace BiliBili3
                 var obj = JObject.Parse(json);
                 ReturnJObject returnJObject = new ReturnJObject()
                 {
-                    code= obj["code"].ToInt32(),
-                    message = (obj["message"]==null)?"": obj["message"].ToString(),
-                    msg= (obj["msg"] == null) ? "" : obj["msg"].ToString(),
-                    json = obj
+                    Code = obj["code"].ToInt32(),
+                    Message = (obj["message"] == null) ? string.Empty : obj["message"].ToString(),
+                    Msg = (obj["msg"] == null) ? string.Empty : obj["msg"].ToString(),
+                    Json = obj
                 };
                 return returnJObject;
             }
             catch (Exception)
             {
-                return new ReturnJObject() {
-                    code=-999,
-                    message="解析JSON失败",
-                    msg= "解析JSON失败"
+                return new ReturnJObject()
+                {
+                    Code = -999,
+                    Message = "解析JSON失败",
+                    Msg = "解析JSON失败"
                 };
             }
         }
-
-        //public static ObservableCollection<T> ToList<T>(this List<object> ls)
-        //{
-        //    ObservableCollection<T> list = new ObservableCollection<T>();
-        //    foreach (DynamicJObject item in ls)
-        //    {
-        //        list.Add(JsonConvert.DeserializeObject<T>(item.ToJsonString()));
-        //    }
-        //    return list;
-        //}
-
-
-        //public static Newtonsoft.Json.Linq.JArray ToJArray(this List<object> list)
-        //{
-        //    JArray jArray = new JArray();
-        //    foreach (var item in list)
-        //    {
-        //        var str = (item as DynamicJObject).ToJsonString();
-        //        jArray.Add(JToken.Parse(str));
-        //    }
-        //    return jArray;
-        //}
 
         public static void ReadB(this Stream stream, byte[] buffer, int offset, int count)
         {
@@ -81,48 +54,40 @@ namespace BiliBili3
                 offset += available;
             }
         }
+
         public static string RegexMatch(string input, string regular)
         {
             var data = Regex.Match(input, regular);
-            if (data.Groups.Count >= 2 && data.Groups[1].Value != "")
+            if (data.Groups.Count >= 2 && !string.IsNullOrEmpty(data.Groups[1].Value))
             {
                 return data.Groups[1].Value;
             }
             else
             {
-                return "";
+                return string.Empty;
             }
         }
-
 
         public static void SetClipboard(string content)
         {
-            Windows.ApplicationModel.DataTransfer.DataPackage pack = new Windows.ApplicationModel.DataTransfer.DataPackage();
+            DataPackage pack = new DataPackage();
             pack.SetText(content);
-            Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(pack); // 保存 DataPackage 对象到剪切板
-            Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
+            Clipboard.SetContent(pack); // 保存 DataPackage 对象到剪切板
+            Clipboard.Flush();
         }
 
-        public async static Task<bool> ShowLoginDialog()
+        public static async Task<bool> ShowLoginDialog()
         {
             LoginDialog login = new LoginDialog();
             await login.ShowAsync();
-            if (ApiHelper.IsLogin())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return ApiHelper.IsLogin();
         }
-
 
         /// <summary>
         /// 根据Epid取番剧ID
         /// </summary>
         /// <returns></returns>
-        public async static Task<string> BangumiEpidToSid(string url)
+        public static async Task<string> BangumiEpidToSid(string url)
         {
             try
             {
@@ -133,25 +98,24 @@ namespace BiliBili3
 
                 var re = await WebClientClass.GetResultsUTF8Encode(new Uri(url));
                 var data = RegexMatch(re, @"ss(\d+)");
-                if (data != "")
+                if (!string.IsNullOrEmpty(data))
                 {
                     return data;
                 }
                 else
                 {
-                    return "";
+                    return string.Empty;
                 }
             }
             catch (Exception)
             {
-                return "";
+                return string.Empty;
             }
         }
 
 
         public static int ToInt32(this object obj)
         {
-
             if (int.TryParse(obj.ToString(), out var value))
             {
                 return value;
@@ -212,12 +176,6 @@ namespace BiliBili3
             }
             return color;
         }
-        public static string DecodeHTML(this string obj)
-        {
-            obj = System.Net.WebUtility.HtmlDecode(obj);
-
-            return obj;
-        }
 
         public static void ShowMessageToast(string message)
         {
@@ -231,15 +189,14 @@ namespace BiliBili3
             ms.Show();
         }
 
-
         public static string ToW(this object par)
         {
             try
             {
                 var num = Convert.ToDouble(par);
-                if (num>=10000)
+                if (num >= 10000)
                 {
-                    return (num / (double)10000).ToString("0.00")+"万";
+                    return (num / 10000).ToString("0.00") + "万";
                 }
                 else
                 {
@@ -248,15 +205,9 @@ namespace BiliBili3
             }
             catch (Exception)
             {
-
                 return "0";
             }
-         
-
-
-
         }
-
 
         public static DateTime GetTime(long timeStamp)
         {
@@ -274,19 +225,13 @@ namespace BiliBili3
 
         public void RaiseCanExecuteChanged()
         {
-            if (CanExecuteChanged != null)
-            {
-                CanExecuteChanged(this, EventArgs.Empty);
-            }
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
-
 
         public bool CanExecute(object parameter)
         {
             return true;
         }
-
-
 
         public void Execute(object parameter)
         {
@@ -296,18 +241,10 @@ namespace BiliBili3
             }
             catch (Exception ex)
             {
-#if DEBUG
                 Debug.WriteLine(ex.Message);
-#endif
             }
         }
 
-
-        public Action<Object> MyExecute { get; set; }
-
-
-
-
+        public Action<object> MyExecute { get; set; }
     }
-
 }

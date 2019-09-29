@@ -131,13 +131,13 @@ namespace BiliBili3.Modules
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
                     return new ReturnModel<ObservableCollection<TabModel>>()
                     {
                         success = true,
                         message = "",
-                        data = JsonConvert.DeserializeObject<ObservableCollection<TabModel>>(model.json["data"]["tab"].ToString())
+                        data = JsonConvert.DeserializeObject<ObservableCollection<TabModel>>(model.Json["data"]["tab"].ToString())
                     };
                 }
                 else
@@ -145,7 +145,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<ObservableCollection<TabModel>>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
@@ -169,13 +169,13 @@ namespace BiliBili3.Modules
                 var results = await WebClientClass.GetResults(new Uri(url));
                 results = results.Replace("goto", "_goto");
                 var model = results.ToDynamicJObject();
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
                     return new ReturnModel<TabDataModel>()
                     {
                         success = true,
                         message = "",
-                        data = JsonConvert.DeserializeObject<TabDataModel>(model.json["data"].ToString())
+                        data = JsonConvert.DeserializeObject<TabDataModel>(model.Json["data"].ToString())
                     };
                 }
                 else
@@ -183,7 +183,7 @@ namespace BiliBili3.Modules
                     return new ReturnModel<TabDataModel>()
                     {
                         success = false,
-                        message = model.message
+                        message = model.Message
                     };
                 }
 
