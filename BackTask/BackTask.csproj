@@ -104,8 +104,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ApiHelper.cs" />
     <Compile Include="BackgroundTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">

@@ -8,12 +8,7 @@ namespace BiliBili3
 {
     public static class SettingHelper
     {
-        static ApplicationDataContainer container;
-
-        static SettingHelper()
-        {
-            container = ApplicationData.Current.LocalSettings;
-        }
+        static readonly ApplicationDataContainer container = ApplicationData.Current.LocalSettings;
 
         private static T GetValue<T>(T def, [CallerMemberName] string key = null)
         {
