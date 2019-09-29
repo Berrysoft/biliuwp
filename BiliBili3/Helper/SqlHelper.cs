@@ -34,15 +34,15 @@ namespace BiliBili3
                 TableQuery<HistoryClass> dbPerson = null;
                 if (mode == 0)
                 {
-                    dbPerson = conn.Table<HistoryClass>().OrderByDescending(x => x.lookTime).Take(30);
+                    dbPerson = conn.Table<HistoryClass>().OrderByDescending(x => x.LookTime).Take(30);
                 }
                 if (mode == 1)
                 {
-                    dbPerson = conn.Table<HistoryClass>().OrderByDescending(x => x.lookTime).Take(50);
+                    dbPerson = conn.Table<HistoryClass>().OrderByDescending(x => x.LookTime).Take(50);
                 }
                 if (mode == 2)
                 {
-                    dbPerson = conn.Table<HistoryClass>().OrderByDescending(x => x.lookTime);
+                    dbPerson = conn.Table<HistoryClass>().OrderByDescending(x => x.LookTime);
                 }
                 foreach (HistoryClass item in dbPerson)
                 {
@@ -66,7 +66,7 @@ namespace BiliBili3
             {
                 // 受影响行数。
                 var m = from p in conn.Table<HistoryClass>()
-                        where p._aid == aid
+                        where p.Aid == aid
                         select p;
                 return m.Any();
             }
@@ -75,7 +75,7 @@ namespace BiliBili3
         {
             using (var conn = GetDbConnection())
             {
-                var count = conn.Execute("UPDATE HistoryClass SET lookTime=?,title=?,up=?,image=? WHERE _aid=?;", DateTime.Now.ToLocalTime(), mo.title, mo.up, mo.image, mo._aid);
+                var count = conn.Execute("UPDATE HistoryClass SET lookTime=?,title=?,up=?,image=? WHERE _aid=?;", DateTime.Now.ToLocalTime(), mo.Title, mo.Up, mo.Image, mo.Aid);
                 return count == 1;
             }
         }
@@ -96,7 +96,7 @@ namespace BiliBili3
                 //var dbPerson = conn.Table<CommicHistoryClass>();
                 TableQuery<ViewPostHelperClass> t = conn.Table<ViewPostHelperClass>();
                 var q = from s in t.AsParallel<ViewPostHelperClass>()
-                        where s.epId == id
+                        where s.EpId == id
                         select s;
                 // 绑定
                 return q.FirstOrDefault();
@@ -117,7 +117,7 @@ namespace BiliBili3
             {
                 // 受影响行数。
                 var m = from p in conn.Table<ViewPostHelperClass>()
-                        where p.epId == Id
+                        where p.EpId == Id
                         select p;
                 return m.Any();
             }
@@ -126,7 +126,7 @@ namespace BiliBili3
         {
             using (var conn = GetDbConnection())
             {
-                var count = conn.Execute("UPDATE ViewPostHelperClass SET Post=?,viewTime=? WHERE epId=?;", mo.Post, DateTime.Now.ToLocalTime(), mo.epId);
+                var count = conn.Execute("UPDATE ViewPostHelperClass SET Post=?,viewTime=? WHERE epId=?;", mo.Post, DateTime.Now.ToLocalTime(), mo.EpId);
                 return count == 1;
             }
         }
@@ -136,7 +136,7 @@ namespace BiliBili3
         {
             using (var conn = GetDbConnection())
             {
-                return conn.Table<DownloadGuidClass>().First(x => x.guid == guid);
+                return conn.Table<DownloadGuidClass>().First(x => x.Guid == guid);
             }
         }
         public static bool InsertDownload(DownloadGuidClass m)
@@ -152,30 +152,30 @@ namespace BiliBili3
     public class HistoryClass
     {
         [PrimaryKey]
-        public string _aid { get; set; }
-        public string title { get; set; }
-        public string up { get; set; }
-        public string image { get; set; }
-        public DateTime lookTime { get; set; }
+        public string Aid { get; set; }
+        public string Title { get; set; }
+        public string Up { get; set; }
+        public string Image { get; set; }
+        public DateTime LookTime { get; set; }
     }
 
     public class ViewPostHelperClass
     {
         [PrimaryKey]
-        public string epId { get; set; }
+        public string EpId { get; set; }
         public int Post { get; set; }
-        public DateTime viewTime { get; set; }
+        public DateTime ViewTime { get; set; }
     }
 
     public class DownloadGuidClass
     {
         [PrimaryKey]
-        public string guid { get; set; }
-        public string cid { get; set; }
-        public string aid { get; set; }
-        public int index { get; set; }
-        public string eptitle { get; set; }
-        public string title { get; set; }
-        public string mode { get; set; }
+        public string Guid { get; set; }
+        public string Cid { get; set; }
+        public string Aid { get; set; }
+        public int Index { get; set; }
+        public string Eptitle { get; set; }
+        public string Title { get; set; }
+        public string Mode { get; set; }
     }
 }

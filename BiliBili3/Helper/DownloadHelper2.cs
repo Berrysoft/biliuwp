@@ -125,13 +125,13 @@ namespace BiliBili3.Helper
             }
             SqlHelper.InsertDownload(new DownloadGuidClass()
             {
-                guid = downloadOp.Guid.ToString(),
-                cid = m.cid,
-                index = index,
-                aid = (m.downloadMode == DownloadMode.Anime) ? m.sid : m.avid,
-                eptitle = m.epTitle,
-                title = m.title,
-                mode = (m.downloadMode == DownloadMode.Anime) ? "anime" : "video"
+                Guid = downloadOp.Guid.ToString(),
+                Cid = m.cid,
+                Index = index,
+                Aid = (m.downloadMode == DownloadMode.Anime) ? m.sid : m.avid,
+                Eptitle = m.epTitle,
+                Title = m.title,
+                Mode = (m.downloadMode == DownloadMode.Anime) ? "anime" : "video"
             });
             try
             {

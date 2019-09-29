@@ -671,7 +671,7 @@ namespace BiliBili3.Pages
             {
                 if (SqlHelper.GetPostIsViewPost(playNow.Mid))
                 {
-                    SqlHelper.UpdateViewPost(new ViewPostHelperClass() { epId = playNow.Mid, Post = Convert.ToInt32(mediaElement.Position.TotalSeconds) });
+                    SqlHelper.UpdateViewPost(new ViewPostHelperClass() { EpId = playNow.Mid, Post = Convert.ToInt32(mediaElement.Position.TotalSeconds) });
                 }
                 if (n == 10)
                 {
@@ -949,7 +949,7 @@ namespace BiliBili3.Pages
                 {
                     if (!SqlHelper.GetPostIsViewPost(playNow.Mid))
                     {
-                        SqlHelper.AddViewPost(new ViewPostHelperClass() { epId = playNow.Mid, Post = 0, viewTime = DateTime.Now.ToLocalTime() });
+                        SqlHelper.AddViewPost(new ViewPostHelperClass() { EpId = playNow.Mid, Post = 0, ViewTime = DateTime.Now.ToLocalTime() });
                     }
                 }
 

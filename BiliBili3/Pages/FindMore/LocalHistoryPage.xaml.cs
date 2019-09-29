@@ -58,7 +58,7 @@ namespace BiliBili3.Pages
 
         private void list_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.Frame.Navigate(typeof(VideoViewPage),new object[] { (e.ClickedItem as HistoryClass)._aid});
+            this.Frame.Navigate(typeof(VideoViewPage),new object[] { (e.ClickedItem as HistoryClass).Aid});
         }
 
         private void btn_Clear_Click(object sender, RoutedEventArgs e)

@@ -1038,11 +1038,11 @@ namespace BiliBili3.Pages
                 {
                     SqlHelper.UpdateComicHistory(new HistoryClass()
                     {
-                        _aid = _aid,
-                        image = (this.DataContext as VideoInfoModels).pic,
-                        title = txt_title.Text,
-                        up = (Video_UP.DataContext as VideoInfoModels).owner.name,
-                        lookTime = DateTime.Now
+                        Aid = _aid,
+                        Image = (this.DataContext as VideoInfoModels).pic,
+                        Title = txt_title.Text,
+                        Up = (Video_UP.DataContext as VideoInfoModels).owner.name,
+                        LookTime = DateTime.Now
                     });
 
 
@@ -1051,11 +1051,11 @@ namespace BiliBili3.Pages
                 {
                     SqlHelper.AddCommicHistory(new HistoryClass()
                     {
-                        _aid = _aid,
-                        image = (this.DataContext as VideoInfoModels).pic,
-                        title = txt_title.Text,
-                        up = (Video_UP.DataContext as VideoInfoModels).owner.name,
-                        lookTime = DateTime.Now
+                        Aid = _aid,
+                        Image = (this.DataContext as VideoInfoModels).pic,
+                        Title = txt_title.Text,
+                        Up = (Video_UP.DataContext as VideoInfoModels).owner.name,
+                        LookTime = DateTime.Now
                     });
                 }
             }

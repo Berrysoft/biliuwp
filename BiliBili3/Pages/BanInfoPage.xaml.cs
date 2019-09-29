@@ -1083,11 +1083,11 @@ namespace BiliBili3.Pages
                 {
                     SqlHelper.UpdateComicHistory(new HistoryClass()
                     {
-                        _aid = _aid,
-                        image = "",
-                        title = txt_Name.Text + " - " + _title,
-                        up = "",
-                        lookTime = DateTime.Now
+                        Aid = _aid,
+                        Image = "",
+                        Title = txt_Name.Text + " - " + _title,
+                        Up = "",
+                        LookTime = DateTime.Now
                     });
 
 
@@ -1096,11 +1096,11 @@ namespace BiliBili3.Pages
                 {
                     SqlHelper.AddCommicHistory(new HistoryClass()
                     {
-                        _aid = _aid,
-                        image = "",
-                        title = txt_Name.Text + " - " + _title,
-                        up = "",
-                        lookTime = DateTime.Now
+                        Aid = _aid,
+                        Image = "",
+                        Title = txt_Name.Text + " - " + _title,
+                        Up = "",
+                        LookTime = DateTime.Now
                     });
                 }
             }

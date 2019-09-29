@@ -77,14 +77,14 @@ namespace BiliBili3.Pages
                 CancellationTokenSource cancellationTokenSource = null;
 
                 var data = SqlHelper.GetDownload(item.Guid.ToString());
-                if (cts.ContainsKey(data.cid))
+                if (cts.ContainsKey(data.Cid))
                 {
-                    cancellationTokenSource = cts[data.cid];
+                    cancellationTokenSource = cts[data.Cid];
                 }
                 else
                 {
                     cancellationTokenSource = new CancellationTokenSource();
-                    cts.Add(data.cid, cancellationTokenSource);
+                    cts.Add(data.Cid, cancellationTokenSource);
                 }
 
                 //cancellationTokenSource.Token.Register(Handel(item, cancellationTokenSource));
@@ -97,15 +97,15 @@ namespace BiliBili3.Pages
                 
                 list.Add(new DisplayModel()
                 {
-                    cid = data.cid,
-                    title = data.title + " " + data.eptitle,
+                    cid = data.Cid,
+                    title = data.Title + " " + data.Eptitle,
                     backgroundTransferStatus = item.Progress.Status,
-                    index = (data.index + 1).ToString("00"),
+                    index = (data.Index + 1).ToString("00"),
                     progress = GetProgress(item.Progress.BytesReceived, GetTotalBytesToReceive(item)),
                     guid = item.Guid.ToString(),
                     size = GetSize(item.Progress.BytesReceived, GetTotalBytesToReceive(item)),
-                    id = data.aid,
-                    mode = data.mode
+                    id = data.Aid,
+                    mode = data.Mode
                 });
             }
             foreach (var item in list.GroupBy(x => x.cid))
@@ -462,7 +462,7 @@ namespace BiliBili3.Pages
                     //}
 
                     var d = SqlHelper.GetDownload(data.guid);
-                    await DownloadHelper2.DeleteFolder(d.aid, d.cid, d.mode);
+                    await DownloadHelper2.DeleteFolder(d.Aid, d.Cid, d.Mode);
 
                     LoadDowning();
                 }
