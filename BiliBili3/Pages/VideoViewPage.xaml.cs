@@ -34,6 +34,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.StartScreen;
 using BiliBili3.Modules;
 using BiliBili3.Pages.FindMore;
+using System.Diagnostics;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
 
@@ -1028,39 +1029,32 @@ namespace BiliBili3.Pages
 
         }
 
-
+        private HistoryClass CompleteHistory(HistoryClass history)
+        {
+            history.Image = (this.DataContext as VideoInfoModels).pic;
+            history.Title = txt_title.Text;
+            history.Up = (Video_UP.DataContext as VideoInfoModels).owner.name;
+            history.LookTime = DateTime.Now;
+            return history;
+        }
 
         private void PostHistory()
         {
             try
             {
-                if (SqlHelper.GetComicIsOnHistory(_aid))
+                var history = SqlHelper.GetComicHistory(_aid);
+                if (history != null)
                 {
-                    SqlHelper.UpdateComicHistory(new HistoryClass()
-                    {
-                        Aid = _aid,
-                        Image = (this.DataContext as VideoInfoModels).pic,
-                        Title = txt_title.Text,
-                        Up = (Video_UP.DataContext as VideoInfoModels).owner.name,
-                        LookTime = DateTime.Now
-                    });
-
-
+                    SqlHelper.UpdateComicHistory(CompleteHistory(history));
                 }
                 else
                 {
-                    SqlHelper.AddCommicHistory(new HistoryClass()
-                    {
-                        Aid = _aid,
-                        Image = (this.DataContext as VideoInfoModels).pic,
-                        Title = txt_title.Text,
-                        Up = (Video_UP.DataContext as VideoInfoModels).owner.name,
-                        LookTime = DateTime.Now
-                    });
+                    SqlHelper.AddCommicHistory(CompleteHistory(new HistoryClass() { Aid = _aid }));
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
         }
 

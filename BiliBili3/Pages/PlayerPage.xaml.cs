@@ -667,11 +667,13 @@ namespace BiliBili3.Pages
         private async void Timer_Tick(object sender, object e)
         {
             n++;
-            await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (SqlHelper.GetPostIsViewPost(playNow.Mid))
+                var post = SqlHelper.GetViewPost(playNow.Mid);
+                if (post != null)
                 {
-                    SqlHelper.UpdateViewPost(new ViewPostHelperClass() { EpId = playNow.Mid, Post = Convert.ToInt32(mediaElement.Position.TotalSeconds) });
+                    post.Post = (int)mediaElement.Position.TotalSeconds;
+                    SqlHelper.UpdateViewPost(post);
                 }
                 if (n == 10)
                 {
@@ -679,13 +681,8 @@ namespace BiliBili3.Pages
                     {
                         HeartBeat(HeartBeatType.Play);
                     }
-                    //if (mediaElement.NaturalDuration.TimeSpan.TotalSeconds>60*10)
-                    //{
-                    //    GC.Collect();
-                    //}
                     n = 0;
                 }
-                //sql.UpdateValue(Cid, Convert.ToInt32(mediaElement.Position.TotalSeconds));
             });
         }
 
@@ -935,10 +932,10 @@ namespace BiliBili3.Pages
                 HeartBeat(HeartBeatType.Start);
                 MTC.HideLog();
                 MTC.timer2.Start();
-                if (SqlHelper.GetPostIsViewPost(playNow.Mid) && SqlHelper.GettViewPost(playNow.Mid).Post != 0)
+                if (SqlHelper.GetPostIsViewPost(playNow.Mid) && SqlHelper.GetViewPost(playNow.Mid).Post != 0)
                 {
-                    TimeSpan ts = new TimeSpan(0, 0, SqlHelper.GettViewPost(playNow.Mid).Post);
-                    LastPost = SqlHelper.GettViewPost(playNow.Mid).Post;
+                    TimeSpan ts = new TimeSpan(0, 0, SqlHelper.GetViewPost(playNow.Mid).Post);
+                    LastPost = SqlHelper.GetViewPost(playNow.Mid).Post;
                     btn_ViewPost.Content = "上次播放到" + ts.Hours.ToString("00") + ":" + ts.Minutes.ToString("00") + ":" + ts.Seconds.ToString("00");
                     btn_ViewPost.Visibility = Visibility.Visible;
                     _lastpost_in.Begin();

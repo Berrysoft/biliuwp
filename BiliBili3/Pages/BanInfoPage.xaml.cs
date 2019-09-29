@@ -35,6 +35,7 @@ using Windows.Storage.Provider;
 using System.Threading.Tasks;
 using BiliBili3.Modules;
 using Windows.UI.Popups;
+using System.Diagnostics;
 
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
@@ -99,7 +100,7 @@ namespace BiliBili3.Pages
             catch (Exception)
             {
             }
-            
+
             pivot.SelectedIndex = 0;
             sv.ChangeView(null, 0, null);
             //}
@@ -178,7 +179,7 @@ namespace BiliBili3.Pages
                     //        x.index_title = x.long_title;
                     //    }
                     //});
-                   
+
                     if (model.result.episodes != null)
                     {
                         model.result.episodes.ForEach(x =>
@@ -201,14 +202,14 @@ namespace BiliBili3.Pages
                         });
                         model.result.episodes = model.result.episodes.OrderByDescending(x => x.orderindex).ToList();
                         //设置下载清晰度
-                        if (model.result.episodes.Count!=0)
+                        if (model.result.episodes.Count != 0)
                         {
-                            
+
                             var q = await download.GetSeasonQualitys(model.result.episodes[0].av_id.ToString(), model.result.episodes[0].danmaku.ToString(), model.result.episodes[0].season_type, ApiHelper.access_key, ApiHelper.GetUserId());
                             cb_Qu.ItemsSource = q.data;
                             cb_Qu.SelectedIndex = 0;
                         }
-                      
+
                     }
 
 
@@ -608,7 +609,7 @@ namespace BiliBili3.Pages
                     if (comment.CommentCount == 0)
                     {
                         await Task.Delay(200);
-                        if (cb_H.SelectedItem!=null)
+                        if (cb_H.SelectedItem != null)
                         {
                             comment.LoadComment(new LoadCommentInfo()
                             {
@@ -777,14 +778,14 @@ namespace BiliBili3.Pages
             {
                 if (item.IsDowned == Visibility.Collapsed)
                 {
-                    var downloadUrl = await download.GetSeasonDownloadUrl(item.av_id.ToString(), item.danmaku.ToString(),_banId.ToInt32(), item.season_type, cb_Qu.SelectedItem as QualityInfo,ApiHelper.access_key, ApiHelper.GetUserId());
+                    var downloadUrl = await download.GetSeasonDownloadUrl(item.av_id.ToString(), item.danmaku.ToString(), _banId.ToInt32(), item.season_type, cb_Qu.SelectedItem as QualityInfo, ApiHelper.access_key, ApiHelper.GetUserId());
                     if (!downloadUrl.success)
                     {
                         await new MessageDialog($"{item.index} {item.index_title}下载失败:{downloadUrl.message}").ShowAsync();
                         continue;
                     }
 
-                   await DownloadHelper2.CreateDownload(new DownloadTaskModel()
+                    await DownloadHelper2.CreateDownload(new DownloadTaskModel()
                     {
                         downloadMode = DownloadMode.Anime,
                         sid = _banId,
@@ -905,11 +906,11 @@ namespace BiliBili3.Pages
                 //}
                 //else
                 //{
-                    gv_Play.SelectionMode = ListViewSelectionMode.Multiple;
-                    gv_Play.IsItemClickEnabled = false;
-                    Utils.ShowMessageToast("请选中要下载的分P视频，点击确定", 3000);
-                    Down_ComBar.Visibility = Visibility.Visible;
-                    com_bar.Visibility = Visibility.Collapsed;
+                gv_Play.SelectionMode = ListViewSelectionMode.Multiple;
+                gv_Play.IsItemClickEnabled = false;
+                Utils.ShowMessageToast("请选中要下载的分P视频，点击确定", 3000);
+                Down_ComBar.Visibility = Visibility.Visible;
+                com_bar.Visibility = Visibility.Collapsed;
                 //}
 
 
@@ -1075,37 +1076,32 @@ namespace BiliBili3.Pages
             await x.ShowAsync();
         }
 
+        private HistoryClass CompleteHistory(HistoryClass history, string _title)
+        {
+            history.Image = string.Empty;
+            history.Title = txt_Name.Text + " - " + _title;
+            history.Up = string.Empty;
+            history.LookTime = DateTime.Now;
+            return history;
+        }
+
         private void PostHistory(string _aid, string _title)
         {
             try
             {
-                if (SqlHelper.GetComicIsOnHistory(_aid))
+                var history = SqlHelper.GetComicHistory(_aid);
+                if (history != null)
                 {
-                    SqlHelper.UpdateComicHistory(new HistoryClass()
-                    {
-                        Aid = _aid,
-                        Image = "",
-                        Title = txt_Name.Text + " - " + _title,
-                        Up = "",
-                        LookTime = DateTime.Now
-                    });
-
-
+                    SqlHelper.UpdateComicHistory(CompleteHistory(history, _title));
                 }
                 else
                 {
-                    SqlHelper.AddCommicHistory(new HistoryClass()
-                    {
-                        Aid = _aid,
-                        Image = "",
-                        Title = txt_Name.Text + " - " + _title,
-                        Up = "",
-                        LookTime = DateTime.Now
-                    });
+                    SqlHelper.AddCommicHistory(CompleteHistory(new HistoryClass() { Aid = _aid }, _title));
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
         }
 
