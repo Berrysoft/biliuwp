@@ -1,10 +1,8 @@
-﻿using SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SQLite;
 using Windows.Storage;
 
 namespace BiliBili3
@@ -14,30 +12,27 @@ namespace BiliBili3
         /// <summary>
         /// 数据库文件所在路径
         /// </summary>
-        public readonly static string DbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "RRMJData.db");
+        public static readonly string DbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "RRMJData.db");
 
         public static SQLiteConnection GetDbConnection()
         {
             // 连接数据库，如果数据库文件不存在则创建一个空数据库。
             var conn = new SQLiteConnection(DbPath);
-  
+
             conn.CreateTable<HistoryClass>();
             conn.CreateTable<ViewPostHelperClass>();
             conn.CreateTable<DownloadGuidClass>();
-          //  conn.CreateTable<CommicCollectHelperClass>();
             return conn;
         }
-
 
         #region viewHistory
         public static List<HistoryClass> GetHistoryList(int mode)
         {
-           
             List<HistoryClass> my = new List<HistoryClass>();
             using (var conn = GetDbConnection())
             {
                 TableQuery<HistoryClass> dbPerson = null;
-                if (mode==0)
+                if (mode == 0)
                 {
                     dbPerson = conn.Table<HistoryClass>().OrderByDescending(x => x.lookTime).Take(30);
                 }
@@ -56,40 +51,13 @@ namespace BiliBili3
                 return my;
             }
         }
-        public static HistoryClass GetHistory(string id)
-        {
-            using (var conn = GetDbConnection())
-            {
-                //var dbPerson = conn.Table<CommicHistoryClass>();
-                TableQuery<HistoryClass> t = conn.Table<HistoryClass>();
-                var q = from s in t.AsParallel<HistoryClass>()
-                        where s._aid == id
-                        select s;
-                // 绑定
-                if (q.ToList().Count != 0)
-                {
-                    return q.ToList()[0];
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
         public static bool AddCommicHistory(HistoryClass mo)
         {
             using (var conn = GetDbConnection())
             {
                 // 受影响行数。
                 var count = conn.Insert(mo);
-                if (count == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return count == 1;
             }
         }
         public static bool GetComicIsOnHistory(string aid)
@@ -100,14 +68,7 @@ namespace BiliBili3
                 var m = from p in conn.Table<HistoryClass>()
                         where p._aid == aid
                         select p;
-                if (m.ToList().Count == 0)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return m.Any();
             }
         }
         public static bool UpdateComicHistory(HistoryClass mo)
@@ -115,14 +76,7 @@ namespace BiliBili3
             using (var conn = GetDbConnection())
             {
                 var count = conn.Execute("UPDATE HistoryClass SET lookTime=?,title=?,up=?,image=? WHERE _aid=?;", DateTime.Now.ToLocalTime(), mo.title, mo.up, mo.image, mo._aid);
-                if (count == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return count == 1;
             }
         }
         public static void ClearHistory()
@@ -135,20 +89,6 @@ namespace BiliBili3
         #endregion
 
         #region 观看进度
-        public static List<ViewPostHelperClass> GetViewPostList()
-        {
-            List<ViewPostHelperClass> my = new List<ViewPostHelperClass>();
-            using (var conn = GetDbConnection())
-            {
-                var dbPerson = conn.Table<ViewPostHelperClass>();
-                foreach (ViewPostHelperClass item in dbPerson)
-                {
-                    my.Add(item);
-                }
-                return my;
-            }
-        }
-
         public static ViewPostHelperClass GettViewPost(string id)
         {
             using (var conn = GetDbConnection())
@@ -159,14 +99,7 @@ namespace BiliBili3
                         where s.epId == id
                         select s;
                 // 绑定
-                if (q.ToList().Count != 0)
-                {
-                    return q.ToList()[0];
-                }
-                else
-                {
-                    return null;
-                }
+                return q.FirstOrDefault();
             }
         }
         public static bool AddViewPost(ViewPostHelperClass mo)
@@ -175,14 +108,7 @@ namespace BiliBili3
             {
                 // 受影响行数。
                 var count = conn.Insert(mo);
-                if (count == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return count == 1;
             }
         }
         public static bool GetPostIsViewPost(string Id)
@@ -193,14 +119,7 @@ namespace BiliBili3
                 var m = from p in conn.Table<ViewPostHelperClass>()
                         where p.epId == Id
                         select p;
-                if (m.ToList().Count == 0)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return m.Any();
             }
         }
         public static bool UpdateViewPost(ViewPostHelperClass mo)
@@ -208,66 +127,16 @@ namespace BiliBili3
             using (var conn = GetDbConnection())
             {
                 var count = conn.Execute("UPDATE ViewPostHelperClass SET Post=?,viewTime=? WHERE epId=?;", mo.Post, DateTime.Now.ToLocalTime(), mo.epId);
-                if (count == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-        public static bool DeleteViewPost(string id)
-        {
-            using (var conn = GetDbConnection())
-            {
-                var count = conn.Execute("DELETE FROM ViewPostHelperClass WHERE epId=?", id);
-                if (count == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-
-            }
-        }
-
-        public static void ClearViewPost()
-        {
-            using (var conn = GetDbConnection())
-            {
-                conn.Execute("DELETE FROM ViewPostHelperClass");
+                return count == 1;
             }
         }
         #endregion
 
-
-        public static List<DownloadGuidClass> GetDownloadList(string cid)
-        {
-            using (var conn = GetDbConnection())
-            {
-                TableQuery<DownloadGuidClass> dbPerson = conn.Table<DownloadGuidClass>().Where(x=>x.cid== cid);
-                return dbPerson.ToList();
-            }
-        }
-        public static List<DownloadGuidClass> GetDownloadList()
-        {
-            using (var conn = GetDbConnection())
-            {
-                TableQuery<DownloadGuidClass> dbPerson = conn.Table<DownloadGuidClass>();
-                return dbPerson.ToList();
-            }
-        }
         public static DownloadGuidClass GetDownload(string guid)
         {
             using (var conn = GetDbConnection())
             {
                 return conn.Table<DownloadGuidClass>().First(x => x.guid == guid);
-             
             }
         }
         public static bool InsertDownload(DownloadGuidClass m)
@@ -275,43 +144,21 @@ namespace BiliBili3
             using (var conn = GetDbConnection())
             {
                 var count = conn.Insert(m);
-                if (count == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return count == 1;
             }
         }
-       
-
     }
-
-
 
     public class HistoryClass
     {
         [PrimaryKey]
         public string _aid { get; set; }
-
         public string title { get; set; }
         public string up { get; set; }
         public string image { get; set; }
         public DateTime lookTime { get; set; }
     }
-    public class CommicCollectHelperClass
-    {
 
-        [PrimaryKey]
-        public string comicId { get; set; }
-        public string name { get; set; }
-        public string desc { get; set; }
-        public string image { get; set; }
-        public string image_hor { get; set; }
-        public string updateInfo { get; set; }
-    }
     public class ViewPostHelperClass
     {
         [PrimaryKey]
@@ -329,10 +176,6 @@ namespace BiliBili3
         public int index { get; set; }
         public string eptitle { get; set; }
         public string title { get; set; }
-
         public string mode { get; set; }
     }
-
-
-
 }
