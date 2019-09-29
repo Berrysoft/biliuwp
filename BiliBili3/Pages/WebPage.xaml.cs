@@ -37,7 +37,7 @@ namespace BiliBili3.Pages
             //webView = new WebView(WebViewExecutionMode.SameThread);
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
-        BiliBiliJS.biliapp _biliapp = new BiliBiliJS.biliapp();
+        BiliBiliJS.Biliapp _biliapp = new BiliBiliJS.Biliapp();
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.New)

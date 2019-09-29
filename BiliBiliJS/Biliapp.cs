@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.UI.Popups;
 
-/// <summary>
-/// 用这个跟B站Web交互
-/// </summary>
 namespace BiliBiliJS
 {
+    /// <summary>
+    /// 用这个跟B站Web交互
+    /// </summary>
     [AllowForWeb]
-    public sealed class biliapp
+    public sealed class Biliapp
     {
         public async void Alert(string message)
         {
@@ -23,14 +19,9 @@ namespace BiliBiliJS
             await md.ShowAsync();
         }
         public event EventHandler<string> ValidateLoginEvent;
-        public void ValidateLogin(string data)
-        {
-            ValidateLoginEvent?.Invoke(this, data);
-        }
+        public void ValidateLogin(string data) => ValidateLoginEvent?.Invoke(this, data);
+
         public event EventHandler<string> CloseBrowserEvent;
-        public void CloseBrowser()
-        {
-            CloseBrowserEvent?.Invoke(this, "");
-        }
+        public void CloseBrowser() => CloseBrowserEvent?.Invoke(this, string.Empty);
     }
 }

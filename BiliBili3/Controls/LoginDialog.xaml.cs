@@ -45,8 +45,8 @@ namespace BiliBili3.Controls
             //throw new NotImplementedException();
         }
 
-        BiliBiliJS.biliapp _biliapp = new BiliBiliJS.biliapp();
-        BiliBiliJS.secure _secure = new BiliBiliJS.secure();
+        BiliBiliJS.Biliapp _biliapp = new BiliBiliJS.Biliapp();
+        BiliBiliJS.Secure _secure = new BiliBiliJS.Secure();
         private void _biliapp_CloseBrowserEvent(object sender, string e)
         {
             UserManage.Logout();
