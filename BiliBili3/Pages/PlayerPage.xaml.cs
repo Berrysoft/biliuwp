@@ -50,7 +50,6 @@ namespace BiliBili3.Pages
         {
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Disabled;
-            danmakuParse = new DanmakuParse();
             MTC.DanmuLoaded += MTC_DanmuLoaded;
             if (SettingHelper.BackPlay)
             {
@@ -241,7 +240,6 @@ namespace BiliBili3.Pages
 
 
         private NSDanmaku.Controls.Danmaku danmu;
-        DanmakuParse danmakuParse;
         DispatcherTimer timer;
         DispatcherTimer timer_Date;
         List<PlayerModel> playList;
@@ -259,7 +257,7 @@ namespace BiliBili3.Pages
         private void SetDanMuPoll(IEnumerable<NSDanmaku.Model.DanmakuModel> source)
         {
             DanMuData = source;
-            DanMuPool = source.ToLookup(model => (int)model.time);
+            DanMuPool = source.ToLookup(model => (int)model.Time);
         }
 
         public async void LoadPlayer(List<PlayerModel> par, int index)
@@ -620,7 +618,7 @@ namespace BiliBili3.Pages
                         var pool = DanMuPool[Convert.ToInt32(mediaElement.Position.TotalSeconds)];
                         foreach (var item in pool)
                         {
-                            if (!DanDis_Dis(item.text))
+                            if (!DanDis_Dis(item.Text))
                             {
                                 if (now_num >= DanmuNum && DanmuNum != 0)
                                 {
@@ -628,7 +626,7 @@ namespace BiliBili3.Pages
                                 }
                                 try
                                 {
-                                    if (DMZZBDS.Length != 0 && Regex.IsMatch(item.source, DMZZBDS))
+                                    if (DMZZBDS.Length != 0 && Regex.IsMatch(item.Source, DMZZBDS))
                                     {
                                         return;
                                     }
@@ -638,14 +636,14 @@ namespace BiliBili3.Pages
                                 }
                                 if (mergeDanmu)
                                 {
-                                    if (sended.Contains(item.text + item.location))
+                                    if (sended.Contains(item.Text + item.Location))
                                     {
                                         return;
                                     }
-                                    sended.Add(item.text + item.location);
+                                    sended.Add(item.Text + item.Location);
                                 }
 
-                                switch (item.location)
+                                switch (item.Location)
                                 {
 
                                     case NSDanmaku.Model.DanmakuLocation.Top:
@@ -721,7 +719,7 @@ namespace BiliBili3.Pages
         {
             foreach (NSDanmaku.Model.DanmakuModel item in list_DisDanmu.SelectedItems)
             {
-                DanDis_Add(item.sendID, true);
+                DanDis_Add(item.SendID, true);
                 danmu.Remove(item);
                 list_DisDanmu.Items.Remove(item);
             }
@@ -845,7 +843,7 @@ namespace BiliBili3.Pages
                             pr.Text = "填充弹幕中...";
                             AddLog("开始填充弹幕...");
 
-                            SetDanMuPoll(await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
+                            SetDanMuPoll(await DanmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
 
                             pr.Text = "开始读取视频...";
                             AddLog(string.Format("开始读取视频{0}-{1}-{2}...", "anime", playNow.banId, playNow.Mid));
@@ -876,7 +874,7 @@ namespace BiliBili3.Pages
 
                             pr.Text = "填充弹幕中...";
                             AddLog("开始填充弹幕...");
-                            SetDanMuPoll(await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
+                            SetDanMuPoll(await DanmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
                             pr.Text = "加载视频中...";
                             AddLog(string.Format("开始读取视频{0}-{1}-{2}...", "video", playNow.Aid, playNow.Mid));
                             var ss = await PlayurlHelper.GetVideoUrl(playNow.Aid, playNow.Mid, (cb_Quity.SelectedItem as QualityModel).qn);
@@ -903,7 +901,7 @@ namespace BiliBili3.Pages
 
                             pr.Text = "填充弹幕中...";
                             AddLog("开始填充弹幕...");
-                            SetDanMuPoll(await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
+                            SetDanMuPoll(await DanmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
                             pr.Text = "加载视频中...";
                             AddLog(string.Format("开始读取视频{0}-{1}...", "sohu", playNow.Mid));
                             mediaElement.Source = new Uri(await PlayurlHelper.GetSoHuPlayInfo(playNow.rich_vid, cb_Quity.SelectedIndex + 1));
@@ -1265,7 +1263,7 @@ namespace BiliBili3.Pages
                 {
                     pr.Text = "填充弹幕中...";
                     AddLog("填充弹幕中...");
-                    SetDanMuPoll(await danmakuParse.ParseBiliBili(item));
+                    SetDanMuPoll(await DanmakuParse.ParseBiliBili(item));
                 }
 
                 if (item.FileType == ".mp4" || item.FileType == ".flv")
@@ -2092,7 +2090,7 @@ namespace BiliBili3.Pages
             var s = danmu.GetDanmakus();
             foreach (var item in s)
             {
-                if (DanDis_Dis(item.text))
+                if (DanDis_Dis(item.Text))
                 {
                     danmu.Remove(item);
                 }
@@ -2166,7 +2164,7 @@ namespace BiliBili3.Pages
         {
             try
             {
-                SetDanMuPoll(await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
+                SetDanMuPoll(await DanmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
                 Utils.ShowMessageToast("已经更新弹幕池", 3000);
             }
             catch (Exception)
@@ -2300,15 +2298,15 @@ namespace BiliBili3.Pages
 
                 if (item.location == 1)
                 {
-                    danmu.AddRollDanmu(new NSDanmaku.Model.DanmakuModel { text = item.text, color = item.color.ToColor(), size = 25 }, true);
+                    danmu.AddRollDanmu(new NSDanmaku.Model.DanmakuModel { Text = item.text, Color = item.color.ToColor(), Size = 25 }, true);
                 }
                 if (item.location == 4)
                 {
-                    danmu.AddBottomDanmu(new NSDanmaku.Model.DanmakuModel { text = item.text, color = item.color.ToColor(), size = 25 }, true);
+                    danmu.AddBottomDanmu(new NSDanmaku.Model.DanmakuModel { Text = item.text, Color = item.color.ToColor(), Size = 25 }, true);
                 }
                 if (item.location == 5)
                 {
-                    danmu.AddTopDanmu(new NSDanmaku.Model.DanmakuModel { text = item.text, color = item.color.ToColor(), size = 25 }, true);
+                    danmu.AddTopDanmu(new NSDanmaku.Model.DanmakuModel { Text = item.text, Color = item.color.ToColor(), Size = 25 }, true);
                 }
                 mediaElement.Play();
             });
@@ -2483,7 +2481,7 @@ namespace BiliBili3.Pages
                 var file = await fileOpenPicker.PickSingleFileAsync();
                 if (file != null)
                 {
-                    var ls = await danmakuParse.ParseBiliBili(file);
+                    var ls = await DanmakuParse.ParseBiliBili(file);
                     SetDanMuPoll(DanMuData.Concat(ls));
                 }
             }
@@ -2538,7 +2536,7 @@ namespace BiliBili3.Pages
             playNow.node_id = node_id;
             playNow.VideoTitle = data.title;
             gridview_node.Visibility = Visibility.Collapsed;
-            SetDanMuPoll(await danmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
+            SetDanMuPoll(await DanmakuParse.ParseBiliBili(Convert.ToInt64(playNow.Mid)));
             danmu.ClearAll();
             ChangeQuality();
         }

@@ -49,7 +49,7 @@ namespace BiliBili3.Helper
         public static Dictionary<string, string> downloadeds = new Dictionary<string, string>();
         public static BackgroundTransferGroup group = BackgroundTransferGroup.CreateGroup("BILIBILIUWP");//下载组，方便管理
         public List<string> downedList;
-        public static List<VideoProcessingDialog> videoProcessingDialogs=new List<VideoProcessingDialog>();
+        public static List<VideoProcessingDialog> videoProcessingDialogs = new List<VideoProcessingDialog>();
         public static async Task CreateDownload(DownloadTaskModel m, List<DownloadUrlInfo> downloadUrls)
         {
             //var urls = await PlayurlHelper.GetVideoUrl_Download(m);
@@ -152,7 +152,7 @@ namespace BiliBili3.Helper
                 {
                     return;
                 }
-                string results = await new NSDanmaku.Helper.DanmakuParse().GetBiliBili(Convert.ToInt64(cid));
+                string results = await NSDanmaku.Helper.DanmakuParse.GetBiliBili(Convert.ToInt64(cid));
                 //将弹幕存在在应用文件夹
                 //StorageFolder folder = ApplicationData.Current.LocalFolder;
                 //StorageFolder DowFolder = await KnownFolders.VideosLibrary.CreateFolderAsync("Bili-Download", CreationCollisionOption.OpenIfExists);
@@ -169,7 +169,7 @@ namespace BiliBili3.Helper
         {
             try
             {
-                string results = await new NSDanmaku.Helper.DanmakuParse().GetBiliBili(Convert.ToInt64(cid));
+                string results = await NSDanmaku.Helper.DanmakuParse.GetBiliBili(Convert.ToInt64(cid));
 
                 StorageFile fileWrite = await StorageFile.GetFileFromPathAsync(path);
                 await FileIO.WriteTextAsync(fileWrite, results);
@@ -405,7 +405,7 @@ namespace BiliBili3.Helper
             });
             return re;
         }
-       
+
 
         public static async Task DeleteFolder(string id, string cid, string mode)
         {

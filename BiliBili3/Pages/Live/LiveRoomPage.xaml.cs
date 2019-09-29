@@ -134,9 +134,9 @@ namespace BiliBili3.Pages
                             {
                                 danmu.AddRollDanmu(new NSDanmaku.Model.DanmakuModel()
                                 {
-                                    text = m.text,
-                                    size = 25,
-                                    color = Colors.White
+                                    Text = m.text,
+                                    Size = 25,
+                                    Color = Colors.White
                                 }, false);
                             }
 
