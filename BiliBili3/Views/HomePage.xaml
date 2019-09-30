@@ -2,16 +2,11 @@
     x:Class="BiliBili3.Views.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:BiliBili3.Views"
-        xmlns:pr="using:PullToRefresh.UWP"
-      
+    xmlns:local="using:BiliBili3.Views"      
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    
-    Tag="频道"
-      
-    >
+    Tag="频道">
     <!--xmlns:c="using:Microsoft.Toolkit.Uwp.UI.Controls"-->
     <Grid  x:Name="g">
 
@@ -27,9 +22,9 @@
                         </GridView.ItemContainerStyle>
                         <GridView.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Height="72" Width="72"  >
-                                    <Image Source="{Binding logo}" Width="48" Height="48"/>
-                                    <TextBlock Text="{Binding name}" FontSize="14" HorizontalAlignment="Center"/>
+                                <StackPanel Height="72" Width="72">
+                                    <Image Source="{Binding Logo}" Width="48" Height="48"/>
+                                    <TextBlock Text="{Binding Name}" FontSize="14" HorizontalAlignment="Center"/>
                                 </StackPanel>
                             </DataTemplate>
                         </GridView.ItemTemplate>

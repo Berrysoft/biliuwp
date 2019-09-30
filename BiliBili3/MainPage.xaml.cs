@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -68,7 +67,6 @@ namespace BiliBili3
             musicplayer.SetMediaPlayer(MusicHelper._mediaPlayer);
             MessageCenter.NetworkError += MessageCenter_NetworkError;
             MessageCenter.ShowError += MessageCenter_ShowError;
-            SystemNavigationManager.GetForCurrentView().BackRequested += MainPage_BackRequested;
             Window.Current.Content.PointerPressed += MainPage_PointerEntered;
         }
 
@@ -128,7 +126,7 @@ namespace BiliBili3
             });
         }
 
-        bool IsClicks = false;
+        private bool IsClicks = false;
         private async void RequestBack()
         {
             if (play_frame.CanGoBack)
@@ -143,23 +141,16 @@ namespace BiliBili3
                 }
                 else
                 {
-                    if (_InBangumi)
+                    if (IsClicks)
                     {
-                        main_frame.GoBack();
+                        Application.Current.Exit();
                     }
                     else
                     {
-                        if (IsClicks)
-                        {
-                            Application.Current.Exit();
-                        }
-                        else
-                        {
-                            IsClicks = true;
-                            Utils.ShowMessageToast("再按一次退出应用", 1500);
-                            await Task.Delay(1500);
-                            IsClicks = false;
-                        }
+                        IsClicks = true;
+                        Utils.ShowMessageToast("再按一次退出应用", 1500);
+                        await Task.Delay(1500);
+                        IsClicks = false;
                     }
                 }
             }
@@ -179,15 +170,10 @@ namespace BiliBili3
             }
         }
 
-        Account account;
-        private void MainPage_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            e.Handled = true;
-            RequestBack();
-        }
+        private Account account;
 
-        DispatcherTimer timer;
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        private DispatcherTimer timer;
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ChangeTheme();
             timer = new DispatcherTimer();
@@ -195,7 +181,7 @@ namespace BiliBili3
             timer.Start();
             timer.Tick += Timer_Tick;
             MessageCenter.ChanageThemeEvent += MessageCenter_ChanageThemeEvent;
-            MessageCenter.MianNavigateToEvent += MessageCenter_MianNavigateToEvent;
+            MessageCenter.MainNavigateToEvent += MessageCenter_MainNavigateToEvent;
             MessageCenter.InfoNavigateToEvent += MessageCenter_InfoNavigateToEvent;
             MessageCenter.PlayNavigateToEvent += MessageCenter_PlayNavigateToEvent;
             MessageCenter.HomeNavigateToEvent += MessageCenter_HomeNavigateToEvent;
@@ -324,7 +310,7 @@ namespace BiliBili3
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             MessageCenter.ChanageThemeEvent -= MessageCenter_ChanageThemeEvent;
-            MessageCenter.MianNavigateToEvent -= MessageCenter_MianNavigateToEvent;
+            MessageCenter.MainNavigateToEvent -= MessageCenter_MainNavigateToEvent;
             MessageCenter.InfoNavigateToEvent -= MessageCenter_InfoNavigateToEvent;
             MessageCenter.PlayNavigateToEvent -= MessageCenter_PlayNavigateToEvent;
             MessageCenter.HomeNavigateToEvent -= MessageCenter_HomeNavigateToEvent;
@@ -494,7 +480,7 @@ namespace BiliBili3
             frame.Navigate(page, par);
         }
 
-        private void MessageCenter_MianNavigateToEvent(Type page, params object[] par)
+        private void MessageCenter_MainNavigateToEvent(Type page, params object[] par)
         {
             this.Frame.Navigate(page, par);
         }
@@ -554,10 +540,10 @@ namespace BiliBili3
         {
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = ((SolidColorBrush)grid_Top.Background).Color;
-            titleBar.ForegroundColor = Color.FromArgb(255, 254, 254, 254);//Colors.White纯白用不了。。。
+            titleBar.ForegroundColor = Colors.White;
             titleBar.ButtonHoverBackgroundColor = ((SolidColorBrush)sp_View.Background).Color;
             titleBar.ButtonBackgroundColor = ((SolidColorBrush)grid_Top.Background).Color;
-            titleBar.ButtonForegroundColor = Color.FromArgb(255, 254, 254, 254);
+            titleBar.ButtonForegroundColor = Colors.White;
             titleBar.InactiveBackgroundColor = ((SolidColorBrush)grid_Top.Background).Color;
             titleBar.ButtonInactiveBackgroundColor = ((SolidColorBrush)grid_Top.Background).Color;
         }
@@ -614,52 +600,6 @@ namespace BiliBili3
             };
         }
 
-        bool _InBangumi = false;
-
-        private void play_frame_Navigated(object sender, NavigationEventArgs e)
-        {
-            if (play_frame.CanGoBack)
-            {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            }
-            else
-            {
-                if (!frame.CanGoBack)
-                {
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-                }
-            }
-            var text = GetTagString((main_frame.Content as Page)?.Tag?.ToString());
-            if (text != null)
-            {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                _InBangumi = true;
-                txt_Header.Text = text;
-            }
-        }
-        private void frame_Navigated(object sender, NavigationEventArgs e)
-        {
-            if (frame.CanGoBack)
-            {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            }
-            else
-            {
-                if (!play_frame.CanGoBack)
-                {
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-                }
-
-            }
-            var text = GetTagString((main_frame.Content as Page)?.Tag?.ToString());
-            if (text != null)
-            {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                _InBangumi = true;
-                txt_Header.Text = text;
-            }
-        }
-
         private static readonly Dictionary<string, Type> navigateList = new Dictionary<string, Type>
         {
             ["NewFeed"] = typeof(NewFeedPage),
@@ -667,49 +607,25 @@ namespace BiliBili3
             ["Live"] = typeof(LiveV2Page),
             ["Bangumi"] = typeof(BangumiPage),
             ["Attention"] = typeof(AttentionPage),
-            ["Find"] = typeof(FindPage)
+            ["Find"] = typeof(FindPage),
+            ["ToView"] = typeof(ToViewPage)
         };
-        //private int GetTagListIndex(string tag)
-        //{
-        //    return Array.IndexOf(tagList, tag);
-        //}
 
-        //private void main_frame_Navigated(object sender, NavigationEventArgs e)
-        //{
-        //    if ((main_frame.Content as Page).Tag == null)
-        //    {
-        //        return;
-        //    }
-        //    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-        //    Can_Nav = false;
-        //    _InBangumi = false;
-        //    var tag = (main_frame.Content as Page)?.Tag?.ToString();
-        //    if (tag != null)
-        //    {
-        //        var index = GetTagListIndex(tag);
-        //        if (index >= 0)
-        //        {
-        //            bottom.SelectedIndex = index;
-        //            menu_List.SelectedIndex = index;
-        //            txt_Header.Text = tag;
-        //        }
-        //        else
-        //        {
-        //            var text = GetTagString(tag);
-        //            if (text != null)
-        //            {
-        //                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-        //                _InBangumi = true;
-        //                txt_Header.Text = text;
-        //            }
-        //        }
-        //    }
-        //    Can_Nav = true;
-        //}
-        //bool Can_Nav = true;
-        private void NavigateTagList(string tag)
+        private async void NavigateTagList(string tag)
         {
-            if (navigateList.TryGetValue(tag, out Type type))
+            if (tag == "ToView")
+            {
+                if (!ApiHelper.IsLogin() && !await Utils.ShowLoginDialog())
+                {
+                    Utils.ShowMessageToast("请先登录");
+                    return;
+                }
+            }
+            if (tag == "Setting")
+            {
+                frame.Navigate(typeof(SettingPage));
+            }
+            else if (navigateList.TryGetValue(tag, out Type type))
             {
                 main_frame.Navigate(type);
             }
@@ -717,7 +633,14 @@ namespace BiliBili3
 
         private void sp_View_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            NavigateTagList(args.InvokedItemContainer.Tag.ToString());
+            if (args.IsSettingsInvoked)
+            {
+                NavigateTagList("Setting");
+            }
+            else
+            {
+                NavigateTagList(args.InvokedItemContainer.Tag.ToString());
+            }
         }
 
         private void btn_Search_Click(object sender, RoutedEventArgs e)
@@ -740,16 +663,6 @@ namespace BiliBili3
             gv_User.Visibility = Visibility.Collapsed;
             fy.Hide();
         }
-
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            //bor_Width.Width = (this.ActualWidth / 6) - 2;
-        }
-
-        //private void bottom_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    NavigateTagList();
-        //}
 
         private void btn_user_myvip_Click(object sender, RoutedEventArgs e)
         {
@@ -791,13 +704,11 @@ namespace BiliBili3
         private void btn_user_myGuanzhu_Click(object sender, RoutedEventArgs e)
         {
             MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(WebPage), "https://space.bilibili.com/h5/follow");
-            //frame.Navigate(typeof(UserInfoPage), new object[] { null, 2 });
             fy.Hide();
         }
 
         private void btn_user_mymessage_Click(object sender, RoutedEventArgs e)
         {
-
             frame.Navigate(typeof(MyMessagePage));
             fy.Hide();
         }
@@ -807,12 +718,14 @@ namespace BiliBili3
 
             //var info = gv_user.DataContext as UserInfoModel;
 
-            frame.Navigate(typeof(MyQrPage), new object[] { new MyqrModel() {
-                  name=Account.myInfo.name,
-                  photo=Account.myInfo.face,
-                  qr=string.Format("http://qr.liantu.com/api.php?w=500&text={0}&inpt=00AAF0&logo={1}",Uri.EscapeDataString("http://space.bilibili.com/"+ApiHelper.GetUserId()),Uri.EscapeDataString(Account.myInfo.face)),
-                  sex=Account.myInfo.Sex
-            } });
+            frame.Navigate(typeof(MyQrPage), new object[] {
+                new MyqrModel() {
+                    name = Account.myInfo.name,
+                    photo = Account.myInfo.face,
+                    qr = $"http://qr.liantu.com/api.php?w=500&text={Uri.EscapeDataString("http://space.bilibili.com/" + ApiHelper.GetUserId())}&inpt=00AAF0&logo={Uri.EscapeDataString(Account.myInfo.face)}",
+                    sex = Account.myInfo.Sex
+                }
+            });
             fy.Hide();
         }
 
@@ -823,56 +736,55 @@ namespace BiliBili3
 
         private void btn_Down_Click(object sender, RoutedEventArgs e)
         {
-
             frame.Navigate(typeof(Download2Page));
         }
 
-        private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            var item = (e.ClickedItem as StackPanel).Tag.ToString();
-            if (item == "ToView")
-            {
-                if (!ApiHelper.IsLogin() && !await Utils.ShowLoginDialog())
-                {
-                    Utils.ShowMessageToast("请先登录");
-                    return;
-                }
-                MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(ToViewPage));
-            }
-            else if (item == "Test")
-            {
-                try
-                {
-                    var url = new Uri($"https://www.biliplus.com/login?act=savekey&mid={UserManage.Uid}&access_key={ApiHelper.AccessKey}&expire=");
-                    using (HttpClient httpClient = new HttpClient())
-                    {
-                        var rq = await httpClient.GetAsync(url);
-                        var setCookie = rq.Headers["set-cookie"];
-                        StringBuilder stringBuilder = new StringBuilder();
-                        var matches = Regex.Matches(setCookie, "(.*?)=(.*?); ", RegexOptions.Singleline);
-                        foreach (Match match in matches)
-                        {
-                            var key = match.Groups[1].Value.Replace("HttpOnly, ", "");
-                            var value = match.Groups[2].Value;
-                            if (key != "expires" && key != "Max-Age" && key != "path" && key != "domain")
-                            {
-                                stringBuilder.Append(match.Groups[0].Value.Replace("HttpOnly, ", string.Empty));
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Authentication failed. Handle parameter, SSL/TLS, and Network Unavailable errors here. 
-                    Debug.WriteLine(ex);
-                    throw;
-                }
-            }
-            else
-            {
-                MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(SettingPage));
-            }
-        }
+        //private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        //{
+        //    var item = (e.ClickedItem as StackPanel).Tag.ToString();
+        //    if (item == "ToView")
+        //    {
+        //        if (!ApiHelper.IsLogin() && !await Utils.ShowLoginDialog())
+        //        {
+        //            Utils.ShowMessageToast("请先登录");
+        //            return;
+        //        }
+        //        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(ToViewPage));
+        //    }
+        //    else if (item == "Test")
+        //    {
+        //        try
+        //        {
+        //            var url = new Uri($"https://www.biliplus.com/login?act=savekey&mid={UserManage.Uid}&access_key={ApiHelper.AccessKey}&expire=");
+        //            using (HttpClient httpClient = new HttpClient())
+        //            {
+        //                var rq = await httpClient.GetAsync(url);
+        //                var setCookie = rq.Headers["set-cookie"];
+        //                StringBuilder stringBuilder = new StringBuilder();
+        //                var matches = Regex.Matches(setCookie, "(.*?)=(.*?); ", RegexOptions.Singleline);
+        //                foreach (Match match in matches)
+        //                {
+        //                    var key = match.Groups[1].Value.Replace("HttpOnly, ", "");
+        //                    var value = match.Groups[2].Value;
+        //                    if (key != "expires" && key != "Max-Age" && key != "path" && key != "domain")
+        //                    {
+        //                        stringBuilder.Append(match.Groups[0].Value.Replace("HttpOnly, ", string.Empty));
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            // Authentication failed. Handle parameter, SSL/TLS, and Network Unavailable errors here. 
+        //            Debug.WriteLine(ex);
+        //            throw;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(SettingPage));
+        //    }
+        //}
 
         private void btn_user_moviecollect_Click(object sender, RoutedEventArgs e)
         {
@@ -885,7 +797,7 @@ namespace BiliBili3
             MusicHelper.ClearMediaList();
         }
 
-        bool isSetMusic = false;
+        private bool isSetMusic = false;
         private void ls_music_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!isSetMusic)

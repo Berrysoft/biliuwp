@@ -22,19 +22,13 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
-
 namespace BiliBili3.Pages
 {
-    /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
-    /// </summary>
     public sealed partial class WebPage : Page
     {
         public WebPage()
         {
             this.InitializeComponent();
-            //webView = new WebView(WebViewExecutionMode.SameThread);
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
         BiliBiliJS.Biliapp _biliapp = new BiliBiliJS.Biliapp();
@@ -47,15 +41,13 @@ namespace BiliBili3.Pages
                 _biliapp.ValidateLoginEvent += _biliapp_ValidateLoginEvent;
 
                 webView.Navigate(new Uri((e.Parameter as object[])[0].ToString()));
-
             }
-            
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.Back)
             {
-                webView.NavigateToString("");
+                webView.NavigateToString(string.Empty);
                 this.NavigationCacheMode = NavigationCacheMode.Disabled;
             }
             base.OnNavigatedFrom(e);
@@ -73,7 +65,7 @@ namespace BiliBili3.Pages
                 if (jObject["access_token"] != null)
                 {
                     Account account = new Account();
-                    var m= await account.CheckAgainLogin(jObject["access_token"].ToString(), jObject["refresh_token"].ToString(), jObject["expires_in"].ToInt32(),Convert.ToInt64(jObject["mid"]));
+                    var m = await account.CheckAgainLogin(jObject["access_token"].ToString(), jObject["refresh_token"].ToString(), jObject["expires_in"].ToInt32(), Convert.ToInt64(jObject["mid"]));
                     if (m.success)
                     {
                         Utils.ShowMessageToast("登录成功");
@@ -82,7 +74,6 @@ namespace BiliBili3.Pages
                     {
                         Utils.ShowMessageToast("登录失败");
                     }
-                    //await UserManage.LoginSucess(jObject["access_token"].ToString());
                 }
                 else
                 {
@@ -93,23 +84,10 @@ namespace BiliBili3.Pages
             catch (Exception)
             {
             }
-            
         }
-
-      
-
-
 
         private void btn_Back_Click(object sender, RoutedEventArgs e)
         {
-            //if (webView.CanGoBack)
-            //{
-            //    webView.GoBack();
-            //}
-            //else
-            //{
-              //  this.Frame.GoBack();
-            //}
             if (this.Frame.CanGoBack)
             {
                 this.Frame.GoBack();
@@ -118,7 +96,7 @@ namespace BiliBili3.Pages
 
         private async void webview_WebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
-            if (args.Uri==null)
+            if (args.Uri == null)
             {
                 return;
             }
@@ -134,101 +112,11 @@ namespace BiliBili3.Pages
             {
                 LogHelper.WriteLog(ex);
             }
-          
-
-
-
-            //string ban = Regex.Match(args.Uri.AbsoluteUri, @"^http://bangumi.bilibili.com/anime/(.*?)$").Groups[1].Value;
-            //if (ban.Length != 0)
-            //{
-            //    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(BanInfoPage), ban.Replace("/", ""));
-            //    return;
-            //}
-            //string ban2 = Regex.Match(args.Uri.AbsoluteUri, @"^http://www.bilibili.com/bangumi/i/(.*?)$").Groups[1].Value;
-            //if (ban2.Length != 0)
-            //{
-            //    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(BanInfoPage), ban2.Replace("/", ""));
-            //    return;
-            //}
-
-            ////bilibili://?av=4284663
-            //string ban3 = Regex.Match(args.Uri.AbsoluteUri, @"^bilibili://?av=(.*?)$").Groups[1].Value;
-            //if (ban3.Length != 0)
-            //{
-            //    //args.Handled = true;
-            //    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), ban3.Replace("/", ""));
-            //    //this.Frame.Navigate(typeof(VideoViewPage), ban3.Replace("/", ""));
-            //    return;
-            //}
-            ////https://bangumi.bilibili.com/anime/6499
-            //string ban4 = Regex.Match(args.Uri.AbsoluteUri+"/", @"/anime/(.*?)/",RegexOptions.Singleline).Groups[1].Value;
-            //if (ban4.Length != 0)
-            //{
-            //    //args.Handled = true;
-            //    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(BanInfoPage), ban4.Replace("/", ""));
-            //    // this.Frame.Navigate(typeof(BanInfoPage), ban2.Replace("/", ""));
-            //    return;
-            //}
-
-
-
-            //string live = Regex.Match(args.Uri.AbsoluteUri, @"^bilibili://live/(.*?)$").Groups[1].Value;
-            //if (live.Length != 0)
-            //{
-            //    MessageCenter.SendNavigateTo(NavigateMode.Play, typeof(LiveRoomPage), live);
-
-            //    return;
-            //}
-
-            //string live2 = Regex.Match(args.Uri.AbsoluteUri, @"^http://live.bilibili.com/(.*?)$").Groups[1].Value;
-            //if (live2.Length != 0)
-            //{
-            //    long roomid = 0;
-            //    if (long.TryParse(live2.Replace("/",""),out roomid))
-            //    {
-            //        MessageCenter.SendNavigateTo(NavigateMode.Play, typeof(LiveRoomPage), live2.Replace("/", "").Replace("h5/",""));
-            //        return;
-            //    }
-
-
-
-            //}
-
-            //string minivideo = Regex.Match(args.Uri.AbsoluteUri+"/", @"vc=(.*?)/").Groups[1].Value;
-            //if (minivideo.Length != 0)
-            //{
-
-            //    //MessageCenter.SendNavigateTo(NavigateMode.Play, typeof(LiveRoomPage), minivideo);
-            //    MessageCenter.ShowMiniVideo(minivideo);
-            //    return;
-            //}
-
-
-            ////text .Text= args.Uri.AbsoluteUri;
-            //webview_progressBar.Visibility = Visibility.Visible;
-            //if (Regex.IsMatch(args.Uri.AbsoluteUri, "/video/av(.*)?[/|+](.*)?"))
-            //{
-
-            //    string a = Regex.Match(args.Uri.AbsoluteUri, "/video/av(.*)?[/|+](.*)?").Groups[1].Value;
-            //    //this.Frame.Navigate(typeof(VideoViewPage), a);
-            //    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), a);
-            //}
-
-
-        }
-
-     
-
-        private void webview_WebView_FrameDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
-        {
-            webview_progressBar.Visibility = Visibility.Collapsed;
-            
         }
 
         private void webview_WebView_DOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
         {
             webview_progressBar.Visibility = Visibility.Collapsed;
-
         }
 
 
@@ -243,122 +131,11 @@ namespace BiliBili3.Pages
                 md.Commands.Add(new UICommand("取消", new UICommandInvokedHandler((e) => { })));
                 await md.ShowAsync();
             }
-
-
-
-            //string ban = Regex.Match(args.Uri.AbsoluteUri, @"^http://bangumi.bilibili.com/anime/(.*?)$").Groups[1].Value;
-            //if (ban.Length != 0)
-            //{
-            //    args.Handled = true;
-            //    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(BanInfoPage), ban.Replace("/", ""));
-            //    // this.Frame.Navigate(typeof(BanInfoPage), ban.Replace("/", ""));
-            //    return;
-            //}
-            //string ban2 = Regex.Match(args.Uri.AbsoluteUri, @"^http://www.bilibili.com/bangumi/i/(.*?)$").Groups[1].Value;
-            //if (ban2.Length != 0)
-            //{
-            //    args.Handled = true;
-            //    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(BanInfoPage), ban2.Replace("/", ""));
-            //    //this.Frame.Navigate(typeof(BanInfoPage), ban2.Replace("/", ""));
-            //    return;
-            //}
-            //string ban3 = Regex.Match(args.Uri.AbsoluteUri, @"^bilibili://?av=(.*?)$").Groups[1].Value;
-            //if (ban3.Length != 0)
-            //{
-            //    args.Handled = true;
-            //    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), ban3.Replace("/", ""));
-            //    //this.Frame.Navigate(typeof(VideoViewPage), ban3.Replace("/", ""));
-            //    return;
-            //}
-
-            //string ban4 = Regex.Match(args.Uri.AbsoluteUri, @"^bilibili.com/anime/(.*?)$").Groups[1].Value;
-            //if (ban4.Length != 0)
-            //{
-            //    //args.Handled = true;
-            //    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(BanInfoPage), ban4.Replace("/", ""));
-            //    // this.Frame.Navigate(typeof(BanInfoPage), ban2.Replace("/", ""));
-            //    return;
-            //}
-            //string live = Regex.Match(args.Uri.AbsoluteUri, @"^bilibili://live/(.*?)$").Groups[1].Value;
-            //if (live.Length != 0)
-            //{
-            //    args.Handled = true;
-            //    MessageCenter.SendNavigateTo(NavigateMode.Play, typeof(LiveRoomPage), live);
-
-            //    return;
-            //}
-
-            //string minivideo = Regex.Match(args.Uri.AbsoluteUri + "/", @"vc=(.*?)/").Groups[1].Value;
-            //if (minivideo.Length != 0)
-            //{
-            //    args.Handled = true;
-            //    //MessageCenter.SendNavigateTo(NavigateMode.Play, typeof(LiveRoomPage), minivideo);
-            //    MessageCenter.ShowMiniVideo(minivideo);
-
-
-
-            //    return;
-            //}
-
-
-            //string video = Regex.Match(args.Uri.AbsoluteUri + "?", @"av(.*?)\?").Groups[1].Value;
-            //if (video.Length != 0)
-            //{
-            //    args.Handled = true;
-            //    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), video);
-            //    return;
-            //}
-
-
-
-            ////乱写一通的正则
-            ////正则真的真的真的不会啊- -
-            //if (Regex.IsMatch(args.Uri.AbsoluteUri, "/video/av(.*)?[/|+](.*)?"))
-            //{
-            //    args.Handled = true;
-
-            //    string a = Regex.Match(args.Uri.AbsoluteUri, "/video/av(.*)?[/|+](.*)?").Groups[1].Value;
-            //    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), a);
-            //    //this.Frame.Navigate(typeof(VideoViewPage), a);
-            //}
-            //else
-            //{
-            //    if (Regex.IsMatch(args.Uri.AbsoluteUri + "+", "/video/av(.*)[/|+]"))
-            //    {
-            //        args.Handled = true;
-            //        string a = Regex.Match(args.Uri.AbsoluteUri + "+", "/video/av(.*)[/|+]").Groups[1].Value;
-            //        //this.Frame.Navigate(typeof(VideoViewPage), a);
-            //        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), a);
-            //    }
-            //    else
-            //    {
-            //        if (Regex.IsMatch(args.Uri.AbsoluteUri, @"live.bilibili.com/(.*?)"))
-            //        {
-            //            args.Handled = true;
-            //            string a = Regex.Match(args.Uri.AbsoluteUri + "a", "live.bilibili.com/(.*?)a").Groups[1].Value;
-            //            // livePlayVideo(a);
-            //            MessageCenter.SendNavigateTo(NavigateMode.Play, typeof(LiveRoomPage), a.Replace("h5/", ""));
-            //        }
-            //        else
-            //        {
-            //            args.Handled = true;
-
-            //            var md = new MessageDialog("是否调用外部浏览器打开此链接？");
-            //            md.Commands.Add(new UICommand("确定", new UICommandInvokedHandler(async (e) => { await Windows.System.Launcher.LaunchUriAsync(args.Uri); })));
-            //            md.Commands.Add(new UICommand("取消", new UICommandInvokedHandler((e) => {  })));
-            //            await md.ShowAsync();
-
-            //            //Utils.ShowMessageToast("已禁止跳转：" + args.Uri.AbsoluteUri + "\r\n请点击右上角使用浏览器打开", 3000);
-            //            //text.Text = "已禁止跳转：" + args.Uri.AbsoluteUri;
-            //        }
-            //    }
-            //}
-
         }
 
         private void menu_copy_Click(object sender, RoutedEventArgs e)
         {
-            DataPackage pack = new Windows.ApplicationModel.DataTransfer.DataPackage();
+            DataPackage pack = new DataPackage();
             pack.SetText(webView.Source.AbsoluteUri);
             Clipboard.SetContent(pack); // 保存 DataPackage 对象到剪切板
             Clipboard.Flush();
@@ -395,7 +172,7 @@ namespace BiliBili3.Pages
             {
                 webView.GoBack();
             }
-           
+
         }
 
         private void btn_WebRefresh_Click(object sender, RoutedEventArgs e)
@@ -410,8 +187,8 @@ namespace BiliBili3.Pages
                 if (args.Uri.AbsoluteUri.Contains("23344273.aspx"))
                 {
                     string appVer = SettingHelper.GetVersion();
-                 
-                    string systemVer = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily + " " +SystemHelper.SystemVersion();
+
+                    string systemVer = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily + " " + SystemHelper.SystemVersion();
                     string js = $"document.getElementById('q2').value='{appVer}';document.getElementById('q3').value='{systemVer}';";
                     await webView.InvokeScriptAsync("eval", new string[] { js });
                 }

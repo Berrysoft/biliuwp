@@ -396,9 +396,6 @@
     <Compile Include="Pages\FindMore\FeedbackPage.xaml.cs">
       <DependentUpon>FeedbackPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\FuckMSPage.xaml.cs">
-      <DependentUpon>FuckMSPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Live\LiveMyMedalPage.xaml.cs">
       <DependentUpon>LiveMyMedalPage.xaml</DependentUpon>
     </Compile>
@@ -843,10 +840,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\FindMore\FeedbackPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\FuckMSPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

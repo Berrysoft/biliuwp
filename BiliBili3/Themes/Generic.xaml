@@ -17,12 +17,6 @@
                 <ControlTemplate TargetType="MediaTransportControls">
                     <Grid x:Name="RootGrid"  RequestedTheme="Dark" Background="Transparent">
                         <Grid.Resources>
-                            <!-- New AppBar button style 48x48 pixels in size -->
-                            <Style x:Key="AppBarButtonStyle" TargetType="AppBarButton">
-                                <Setter Property="Width" Value="{ThemeResource MTCMediaButtonWidth}" />
-                                <Setter Property="Height" Value="{ThemeResource MTCMediaButtonHeight}" />
-                                <Setter Property="AllowFocusOnInteraction" Value="True" />
-                            </Style>
                             <!-- New CommandBar Style -->
                             <Style x:Key="CommandBarStyle" TargetType="CommandBar">
                                 <Setter Property="Height" Value="{ThemeResource MTCMediaButtonHeight}" />
@@ -584,36 +578,30 @@
                                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Grid.Column="2">
                                         <TextBlock VerticalAlignment="Center" x:Name="txt_time"></TextBlock>
                                         <ContentPresenter Content="{TemplateBinding QuityContent}" VerticalAlignment="Center" Margin="4 0"></ContentPresenter>
-                                        <!--<ComboBox BorderThickness="0" SelectedIndex="0"   Background="Transparent">
-                                            <ComboBoxItem>超清</ComboBoxItem>
-                                            <ComboBoxItem>高清</ComboBoxItem>
-                                            <ComboBoxItem>1080P</ComboBoxItem>
-                                        </ComboBox>-->
-                                        <AppBarButton Visibility="{TemplateBinding ShowCoinsBtn}" x:Name="CoinsBtn" ToolTipService.ToolTip="投币" Width="48" Height="48">
+                                        <AppBarButton Style="{ThemeResource AppBarButtonStyle}" Visibility="{TemplateBinding ShowCoinsBtn}" x:Name="CoinsBtn" ToolTipService.ToolTip="投币" Width="48" Height="48">
                                             <AppBarButton.Icon>
                                                 <BitmapIcon UriSource="ms-appx:///Assets/PlayerAssets/ic_player_coin.png"></BitmapIcon>
                                             </AppBarButton.Icon>
                                         </AppBarButton>
-                                        <AppBarButton Visibility="{TemplateBinding ShowShareBtn}"  x:Name="ShareBtn" ToolTipService.ToolTip="分享" Width="48" Height="48">
+                                        <AppBarButton Style="{ThemeResource AppBarButtonStyle}" Visibility="{TemplateBinding ShowShareBtn}"  x:Name="ShareBtn" ToolTipService.ToolTip="分享" Width="48" Height="48">
                                             <AppBarButton.Icon>
                                                 <BitmapIcon UriSource="ms-appx:///Assets/PlayerAssets/ic_player_share.png"></BitmapIcon>
                                             </AppBarButton.Icon>
                                         </AppBarButton>
-                                        <AppBarButton  x:Name="CaptureBtn" ToolTipService.ToolTip="截图" Width="48" Height="48">
+                                        <AppBarButton Style="{ThemeResource AppBarButtonStyle}" x:Name="CaptureBtn" ToolTipService.ToolTip="截图" Width="48" Height="48">
                                             <AppBarButton.Icon>
                                                 <BitmapIcon UriSource="ms-appx:///Assets/PlayerAssets/ic_player_share_image.png"></BitmapIcon>
                                             </AppBarButton.Icon>
                                         </AppBarButton>
-                                        <AppBarButton x:Name="btn_danmakusetting" Visibility="{TemplateBinding ShowDanmakuSettingBtn}"  ToolTipService.ToolTip="弹幕设置" Width="48" Height="48">
+                                        <AppBarButton Style="{ThemeResource AppBarButtonStyle}" x:Name="btn_danmakusetting" Visibility="{TemplateBinding ShowDanmakuSettingBtn}"  ToolTipService.ToolTip="弹幕设置" Width="48" Height="48">
                                             <AppBarButton.Icon>
                                                 <BitmapIcon UriSource="ms-appx:///Assets/PlayerAssets/ic_player_danmaku_setting.png"></BitmapIcon>
                                             </AppBarButton.Icon>
                                         </AppBarButton>
-                                        <AppBarButton  ToolTipService.ToolTip="更多选项" Flyout="{TemplateBinding MoreMenuFlyout}" Width="48" Height="48">
+                                        <AppBarButton Style="{ThemeResource AppBarButtonStyle}" ToolTipService.ToolTip="更多选项" Flyout="{TemplateBinding MoreMenuFlyout}" Width="48" Height="48">
                                             <AppBarButton.Icon>
                                                 <BitmapIcon UriSource="ms-appx:///Assets/PlayerAssets/ic_player_setting.png"></BitmapIcon>
                                             </AppBarButton.Icon>
-
                                         </AppBarButton>
                                     </StackPanel>
                                 </Grid>

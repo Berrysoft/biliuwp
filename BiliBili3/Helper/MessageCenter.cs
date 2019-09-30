@@ -67,7 +67,7 @@ namespace BiliBili3
 
         public static event NavigateHandel InfoNavigateToEvent;
         public static event NavigateHandel PlayNavigateToEvent;
-        public static event NavigateHandel MianNavigateToEvent;
+        public static event NavigateHandel MainNavigateToEvent;
         public static event NavigateHandel HomeNavigateToEvent;
         public static event NavigateHandel BgNavigateToEvent;
         public async static void SendNavigateTo(NavigateMode mode, Type page, params object[] par)
@@ -76,14 +76,14 @@ namespace BiliBili3
             switch (mode)
             {
                 case NavigateMode.Main:
-                    MianNavigateToEvent(page, par);
+                    MainNavigateToEvent?.Invoke(page, par);
                     break;
                 case NavigateMode.Info:
                     if (page.FullName.Contains("WebPage") && await HandelUrl(par[0].ToString()))
                     {
                         return;
                     }
-                    InfoNavigateToEvent(page, par);
+                    InfoNavigateToEvent?.Invoke(page, par);
                     break;
                 case NavigateMode.Play:
                     if (!page.FullName.Contains("MusicMiniPlayerPage"))
@@ -93,17 +93,17 @@ namespace BiliBili3
                     //&&SettingHelper.IsPc()
                     if (page == typeof(LiveRoomPage))
                     {
-                        PlayNavigateToEvent(typeof(LiveRoomPC), par);
+                        PlayNavigateToEvent?.Invoke(typeof(LiveRoomPC), par);
                         return;
                     }
 
-                    PlayNavigateToEvent(page, par);
+                    PlayNavigateToEvent?.Invoke(page, par);
                     break;
                 case NavigateMode.Home:
-                    HomeNavigateToEvent(page, par);
+                    HomeNavigateToEvent?.Invoke(page, par);
                     break;
                 case NavigateMode.Bg:
-                    BgNavigateToEvent(page, par);
+                    BgNavigateToEvent?.Invoke(page, par);
                     break;
                 default:
                     break;
