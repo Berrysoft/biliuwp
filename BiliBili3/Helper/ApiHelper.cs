@@ -1,133 +1,69 @@
-﻿using BiliBili3.Class;
-using BiliBili3.Controls;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BiliBili3.Class;
 using BiliBili3.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Windows.Security.Cryptography;
-using Windows.Security.Cryptography.Core;
-using Windows.Storage;
-using Windows.Storage.Streams;
-using Windows.UI.Xaml.Controls;
-using Windows.Web.Http;
-using Windows.Web.Http.Filters;
-using System.Xml.Linq;
-using BiliBili3.Helper;
-using System.Diagnostics;
 
 namespace BiliBili3
 {
-    enum LoginStatus
-    {
-        Succeed,
-        Failure,
-        Error
-    }
-    public class ApiHelper
+    public static class ApiHelper
     {
         //九幽反馈
         public const string JyAppkey = @"afaaf76fbe62a275d4dc309d6151d3c3";
-        public static ApiKeyInfo AndroidKey = new ApiKeyInfo("1d8b6e7d45233436", "560c52ccd288fed045859ed18bffd973");
-        public static ApiKeyInfo AndroidVideoKey = new ApiKeyInfo("iVGUTjsxvpLeuDCf", "aHRmhWMLkdeMuILqORnYZocwMBpMEOdt");
-        public static ApiKeyInfo WebVideoKey = new ApiKeyInfo("84956560bc028eb7", "94aba54af9065f71de72f5508f1cd42e");
-        public static ApiKeyInfo VideoKey = new ApiKeyInfo("", "1c15888dc316e05a15fdd0a02ed6584f");
-        public static ApiKeyInfo IosKey = new ApiKeyInfo("4ebafd7c4951b366", "8cb98205e9b2ad3669aad0fce12a4c13");
-
+        public static readonly ApiKeyInfo AndroidKey = new ApiKeyInfo("1d8b6e7d45233436", "560c52ccd288fed045859ed18bffd973");
+        public static readonly ApiKeyInfo AndroidVideoKey = new ApiKeyInfo("iVGUTjsxvpLeuDCf", "aHRmhWMLkdeMuILqORnYZocwMBpMEOdt");
+        public static readonly ApiKeyInfo WebVideoKey = new ApiKeyInfo("84956560bc028eb7", "94aba54af9065f71de72f5508f1cd42e");
+        public static readonly ApiKeyInfo VideoKey = new ApiKeyInfo("", "1c15888dc316e05a15fdd0a02ed6584f");
+        public static readonly ApiKeyInfo IosKey = new ApiKeyInfo("4ebafd7c4951b366", "8cb98205e9b2ad3669aad0fce12a4c13");
 
         public const string build = "5442100";
 
         private static string _access_key;
-        public static string access_key
+        public static string AccessKey
         {
             get
             {
-                if (_access_key == "")
+                if (string.IsNullOrEmpty(_access_key))
                 {
                     return SettingHelper.AccessKey;
                 }
                 else
                 {
                     return _access_key;
-                };
+                }
             }
-            set { _access_key = value; }
+            set => _access_key = value;
         }
-        //public static List<string> followList;
-
 
         public static string GetSign(string url, ApiKeyInfo apiKeyInfo = null)
         {
             if (apiKeyInfo == null)
             {
-                apiKeyInfo = ApiHelper.AndroidKey;
+                apiKeyInfo = AndroidKey;
             }
             string result;
             string str = url.Substring(url.IndexOf("?", 4) + 1);
-            List<string> list = str.Split('&').ToList();
-            list.Sort();
+            var list = str.Split('&');
+            Array.Sort(list);
             StringBuilder stringBuilder = new StringBuilder();
-            foreach (string str1 in list)
-            {
-                stringBuilder.Append((stringBuilder.Length > 0 ? "&" : string.Empty));
-                stringBuilder.Append(str1);
-            }
+            stringBuilder.AppendJoin('&', list);
             stringBuilder.Append(apiKeyInfo.Secret);
             result = MD5.GetMd5String(stringBuilder.ToString()).ToLower();
             return result;
         }
-        public static string GetSignWithUrl(string url, ApiKeyInfo apiKeyInfo)
+
+        public static string GetSignWithUrl(string url, ApiKeyInfo apiKeyInfo = null)
         {
-            string result;
-            string str = url.Substring(url.IndexOf("?", 4) + 1);
-            List<string> list = str.Split('&').ToList();
-            list.Sort();
-            StringBuilder stringBuilder = new StringBuilder();
-            foreach (string str1 in list)
-            {
-                stringBuilder.Append((stringBuilder.Length > 0 ? "&" : string.Empty));
-                stringBuilder.Append(str1);
-            }
-            stringBuilder.Append(apiKeyInfo.Secret);
-            result = MD5.GetMd5String(stringBuilder.ToString()).ToLower();
-            return url += "&sign=" + result;
+            return url + "&sign=" + GetSign(url, apiKeyInfo);
         }
 
-        public static string GetMd5String(string result)
-        {
-            //可以选择MD5 Sha1 Sha256 Sha384 Sha512
-            string strAlgName = HashAlgorithmNames.Md5;
+        public static long TimeStamp => Convert.ToInt64((DateTime.Now - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalSeconds);
 
-            // 创建一个 HashAlgorithmProvider 对象
-            HashAlgorithmProvider objAlgProv = HashAlgorithmProvider.OpenAlgorithm(strAlgName);
-
-            // 创建一个可重用的CryptographicHash对象           
-            CryptographicHash objHash = objAlgProv.CreateHash();
-
-            IBuffer buffMsg1 = CryptographicBuffer.ConvertStringToBinary(result, BinaryStringEncoding.Utf16BE);
-            objHash.Append(buffMsg1);
-            IBuffer buffHash1 = objHash.GetValueAndReset();
-            string strHash1 = CryptographicBuffer.EncodeToHexString(buffHash1);
-            return strHash1;
-        }
-
-
-
-        public static long GetTimeSpan
-        {
-            get { return Convert.ToInt64((DateTime.Now - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalSeconds); }
-        }
-        public static long GetTimeSpan_2
-        {
-            get { return Convert.ToInt64((DateTime.Now - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalMilliseconds); }
-        }
+        public static long TimeStamp2 => Convert.ToInt64((DateTime.Now - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalMilliseconds);
 
         public static List<EmojiModel> emojis;
         public static List<FaceModel> emoji;
@@ -139,31 +75,28 @@ namespace BiliBili3
                 string results = await WebClientClass.GetResults(new Uri(url));
                 FaceModel model = JsonConvert.DeserializeObject<FaceModel>(results);
                 emoji = model.data;
-                emojis = new List<EmojiModel>();
-                model.data.ForEach(x => x.emojis.ForEach(y => emojis.Add(y)));
+                emojis = emoji.SelectMany(x => x.emojis).ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
-
         }
-
 
         public static List<RegionModel> regions;
         public static async Task SetRegionsAsync()
         {
             try
             {
-                string url = string.Format("https://app.bilibili.com/x/v2/region/index?appkey={0}&build={2}&mobi_app=android&platform=android&ts={1}", ApiHelper.AndroidKey.Appkey, GetTimeSpan, ApiHelper.build);
-                url += "&sign=" + ApiHelper.GetSign(url);
+                string url = string.Format("https://app.bilibili.com/x/v2/region/index?appkey={0}&build={2}&mobi_app=android&platform=android&ts={1}", ApiHelper.AndroidKey.Appkey, TimeStamp, ApiHelper.build);
+                url = GetSignWithUrl(url);
 
                 string results = await WebClientClass.GetResults(new Uri(url));
                 RegionModel model = JsonConvert.DeserializeObject<RegionModel>(results);
-                if (model.code == 0)
+                if (model.Code == 0)
                 {
-                    model.data.RemoveAll(x => (x.name == "会员购" || x.name == "游戏中心") || x.logo == "");
-
-                    regions = model.data;
+                    model.Data.RemoveAll(x => x.Name == "会员购" || x.Name == "游戏中心" || string.IsNullOrEmpty(x.Logo));
+                    regions = model.Data;
                 }
             }
             catch (Exception ex)
@@ -184,35 +117,13 @@ namespace BiliBili3
             {
                 return "0";
             }
-
         }
 
         public static bool IsLogin()
         {
-            if (SettingHelper.AccessKey != "")
-            {
-                return true;
-            }
-            else
-            {
-
-                return false;
-            }
+            return !string.IsNullOrEmpty(SettingHelper.AccessKey);
         }
-        public static string GetCookies()
-        {
-            HttpBaseProtocolFilter hb = new HttpBaseProtocolFilter();
-            HttpCookieCollection cookieCollection = hb.CookieManager.GetCookies(new Uri("http://bilibili.com/"));
-            string cookie = "";
-            foreach (HttpCookie item in cookieCollection)
-            {
-                cookie += item.Name + "=" + item.Value + ";";
-            }
-            return cookie;
-        }
-
     }
-
 
     public class ApiKeyInfo
     {
@@ -225,25 +136,22 @@ namespace BiliBili3
         public string Secret { get; set; }
     }
 
-
     public class RegionModel
     {
-        public int code { get; set; }
-        public string message { get; set; }
-        public List<RegionModel> data { get; set; }
+        [JsonProperty("code")]
+        public int Code { get; set; }
+        [JsonProperty("data")]
+        public List<RegionModel> Data { get; set; }
 
-        public int tid { get; set; }
-        public int reid { get; set; }
-        public string name { get; set; }
-        public string logo { get; set; }
-        public string _goto { get; set; }
-        public string param { get; set; }
-        public string uri { get; set; }
-        public int type { get; set; }
-        public List<RegionModel> children { get; set; }
-        public int is_bangumi { get; set; }
-
-
+        [JsonProperty("tid")]
+        public int Tid { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        [JsonProperty("logo")]
+        public string Logo { get; set; }
+        [JsonProperty("uri")]
+        public string Uri { get; set; }
+        [JsonProperty("children")]
+        public List<RegionModel> Children { get; set; }
     }
-
 }

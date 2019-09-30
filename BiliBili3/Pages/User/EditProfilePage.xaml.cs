@@ -58,7 +58,7 @@ namespace BiliBili3.Pages
             {
                 pr_Load.Visibility = Visibility.Visible;
                 string Uid = ApiHelper.GetUserId();
-                string results = await WebClientClass.GetResults(new Uri("https://space.bilibili.com/ajax/member/MyInfo?_=" + ApiHelper.GetTimeSpan_2));
+                string results = await WebClientClass.GetResults(new Uri("https://space.bilibili.com/ajax/member/MyInfo?_=" + ApiHelper.TimeStamp2));
                 UserModel um = JsonConvert.DeserializeObject<UserModel>(results);
                 switch (um.data.sex)
                 {

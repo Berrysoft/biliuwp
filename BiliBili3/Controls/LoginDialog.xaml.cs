@@ -179,7 +179,7 @@ namespace BiliBili3.Controls
         {
             try
             {
-                var m = await WebClientClass.GetBuffer(new Uri("https://passport.bilibili.com/captcha?ts=" + ApiHelper.GetTimeSpan));
+                var m = await WebClientClass.GetBuffer(new Uri("https://passport.bilibili.com/captcha?ts=" + ApiHelper.TimeStamp));
                 var steam = m.AsStream();
                 var img = new BitmapImage();
                 await img.SetSourceAsync(steam.AsRandomAccessStream());

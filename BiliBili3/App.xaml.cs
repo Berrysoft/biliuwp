@@ -121,7 +121,7 @@ namespace BiliBili3
             if (e.PrelaunchActivated == false)
             {
 
-                ApiHelper.access_key = SettingHelper.AccessKey;
+                ApiHelper.AccessKey = SettingHelper.AccessKey;
                 UserManage.access_key = SettingHelper.AccessKey;
                 var par = new StartModel() { StartType = StartTypes.None };
                 if (e.Arguments.Length != 0)

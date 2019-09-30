@@ -1648,8 +1648,8 @@ namespace BiliBili3.Pages
             List<PartModel> l = new List<PartModel>();
             // defu_Order = "default";
 
-            top_txt_Header.Text = parts.name;
-            Part_Id = parts.tid;
+            top_txt_Header.Text = parts.Name;
+            Part_Id = parts.Tid;
 
             PartModel p0 = new PartModel()
             {
@@ -1675,19 +1675,19 @@ namespace BiliBili3.Pages
             l.Add(p0);
 
 
-            foreach (var item in parts.children)
+            foreach (var item in parts.Children)
             {
                 PartModel p1 = new PartModel()
                 {
                     fontWeight = FontWeights.Normal,
-                    HanderText = item.name,
+                    HanderText = item.Name,
                     isHome = false,
                     orderBy = PartOrderBy.senddate,
-                    PartId = item.tid,
+                    PartId = item.Tid,
                     PageNum = 1,
                     ShowTags = Visibility.Collapsed,
-                    TagsList = await GetTags(item.tid),
-                    VideoList = await GetVideos(item.tid, defu_Order, 1, "")
+                    TagsList = await GetTags(item.Tid),
+                    VideoList = await GetVideos(item.Tid, defu_Order, 1, "")
                 };
                 if (p1.TagsList != null && p1.TagsList.Count != 0)
                 {

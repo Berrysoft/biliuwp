@@ -229,7 +229,7 @@ namespace BiliBili3.Pages
                 object a = (cb_part.SelectedItem as ComboBoxItem).Tag;
                 pr_Loading.Visibility = Visibility.Visible;
                 string uri = string.Format("https://app.bilibili.com/x/v2/search/type?appkey={0}&build=5250000&highlight=0&keyword={1}&mobi_app=android&order=totalrank&platform=android&pn={2}&ps=20&ts={3}&type=2&user_type=0"
-                  ,ApiHelper.AndroidKey.Appkey, keyword, pageNum_Up,ApiHelper.GetTimeSpan);
+                  ,ApiHelper.AndroidKey.Appkey, keyword, pageNum_Up,ApiHelper.TimeStamp);
                 string sign = ApiHelper.GetSign(uri);
                 uri += "&sign=" + sign;
 
@@ -334,7 +334,7 @@ namespace BiliBili3.Pages
                 MovieLoading = true;
                 object a = (cb_part.SelectedItem as ComboBoxItem).Tag;
                 pr_Loading.Visibility = Visibility.Visible;
-                string uri = "http://app.bilibili.com/x/v2/search/type?keyword=" + keyword + "&pn=" + pageNum_Movie + "&ps=20&type=8&access_key=" + ApiHelper.access_key + "&appkey=" + ApiHelper.AndroidKey.Appkey + "&build=433000&mobi_app=android&platform=android";
+                string uri = "http://app.bilibili.com/x/v2/search/type?keyword=" + keyword + "&pn=" + pageNum_Movie + "&ps=20&type=8&access_key=" + ApiHelper.AccessKey + "&appkey=" + ApiHelper.AndroidKey.Appkey + "&build=433000&mobi_app=android&platform=android";
                 //string sign = ApiHelper.GetSign(uri);
                 uri += "&sign=" + ApiHelper.GetSign(uri);
                 string results = await WebClientClass.GetResults(new Uri(uri));
@@ -396,7 +396,7 @@ namespace BiliBili3.Pages
                 ArticleLoading = true;
                 object a = (cb_part.SelectedItem as ComboBoxItem).Tag;
                 pr_Loading.Visibility = Visibility.Visible;
-                string uri = "http://app.bilibili.com/x/v2/search/type?keyword=" + keyword + "&pn=" + pageNum_Article + "&ps=20&type=6&access_key=" + ApiHelper.access_key + "&appkey=" + ApiHelper.AndroidKey.Appkey + "&build=433000&mobi_app=android&platform=android";
+                string uri = "http://app.bilibili.com/x/v2/search/type?keyword=" + keyword + "&pn=" + pageNum_Article + "&ps=20&type=6&access_key=" + ApiHelper.AccessKey + "&appkey=" + ApiHelper.AndroidKey.Appkey + "&build=433000&mobi_app=android&platform=android";
                 //string sign = ApiHelper.GetSign(uri);
                 uri += "&sign=" + ApiHelper.GetSign(uri);
                 string results = await WebClientClass.GetResults(new Uri(uri));

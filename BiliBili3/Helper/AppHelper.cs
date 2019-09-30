@@ -1,87 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft;
-using Newtonsoft.Json;
-using Windows.Storage;
-using Windows.UI.Xaml.Controls;
-
-namespace BiliBili3.Helper
+﻿namespace BiliBili3.Helper
 {
-    public class AppHelper
+    public static class AppHelper
     {
-        public async void GetDeveloperMessage()
-        {
-            try
-            {
-                var results = await WebClientClass.GetResultsUTF8Encode(new Uri("http://pic.iliili.cn/bilimessage.json?rnd=" + ApiHelper.GetTimeSpan_2));
-                DeveloperMessageModel messageModel = JsonConvert.DeserializeObject<DeveloperMessageModel>(results);
-
-                if (Get_FirstShowMessage(messageModel.messageId) && messageModel.enddate > DateTime.Now)
-                {
-                    var cd = new ContentDialog();
-                    StackPanel stackPanel = new StackPanel();
-                    //TextBlock title = new TextBlock() {
-                    //    Text= messageModel.title,
-                    //    TextWrapping= Windows.UI.Xaml.TextWrapping.Wrap,
-                    //    IsTextSelectionEnabled = true
-                    //};
-                    //stackPanel.Children.Add(title);
-                    cd.Title = messageModel.title;
-                    TextBlock content = new TextBlock()
-                    {
-                        Text = messageModel.message,
-                        TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap,
-                        IsTextSelectionEnabled = true
-                    };
-                    stackPanel.Children.Add(content);
-                    cd.Content = stackPanel;
-                    cd.PrimaryButtonText = "不再显示";
-                    cd.SecondaryButtonText = "知道了";
-
-                    cd.PrimaryButtonClick += new Windows.Foundation.TypedEventHandler<ContentDialog, ContentDialogButtonClickEventArgs>((sender, e) =>
-                    {
-                        Set_FirstShowMessage(messageModel.messageId, false);
-                    });
-                    await cd.ShowAsync();
-                }
-
-            }
-            catch (Exception)
-            {
-
-            }
-
-        }
-
-        static ApplicationDataContainer container;
-        public static bool Get_FirstShowMessage(string code)
-        {
-            container = ApplicationData.Current.LocalSettings;
-            if (container.Values["FirstShowMessage" + code] != null)
-            {
-                return (bool)container.Values["FirstShowMessage" + code];
-            }
-            else
-            {
-                Set_FirstShowMessage(code, true);
-                return true;
-            }
-        }
-
-        public static void Set_FirstShowMessage(string code, bool value)
-        {
-            container = ApplicationData.Current.LocalSettings;
-            container.Values["FirstShowMessage" + code] = value;
-        }
-
         public static string GetLastVersionStr()
         {
             return verStr.Split('/')[0];
         }
-        public static string verStr = $@"Ver {SettingHelper.GetVersion()}
+
+        public static readonly string verStr = $@"Ver {SettingHelper.GetVersion()}
 01、整理代码
 02、删除广告
 
@@ -307,17 +233,5 @@ namespace BiliBili3.Helper
 /Ver 3.1.2.0  2017-2-17
 3.0版本发布
 ";
-
-
     }
-
-    public class DeveloperMessageModel
-    {
-        public string title { get; set; }
-        public string messageId { get; set; }
-        public string message { get; set; }
-        public DateTime startdate { get; set; }
-        public DateTime enddate { get; set; }
-    }
-
 }

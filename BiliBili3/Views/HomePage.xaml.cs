@@ -123,59 +123,59 @@ namespace BiliBili3.Views
         private void ls_Part_ItemClick(object sender, ItemClickEventArgs e)
         {
             var item = e.ClickedItem as RegionModel;
-            if (item.name == "放映厅")
+            if (item.Name == "放映厅")
             {
                 MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(WebPage), "https://www.bilibili.com/cinema/");
                 return;
             }
-            if (item.name == "相簿")
+            if (item.Name == "相簿")
             {
                 MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(AlbumPage));
                 return;
             }
-            if (item.name == "音频")
+            if (item.Name == "音频")
             {
                 MessageCenter.SendNavigateTo(NavigateMode.Home, typeof(MusicHomePage));
                 return;
             }
-            if (item.name == "小视频")
+            if (item.Name == "小视频")
             {
                 MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(LiveVideoPage));
                 return;
             }
-            if (item.name == "专栏")
+            if (item.Name == "专栏")
             {
                 MessageCenter.SendNavigateTo(NavigateMode.Home, typeof(ArticlePage));
                 return;
             }
-            if (item.name == "直播")
+            if (item.Name == "直播")
             {
                 MessageCenter.SendNavigateTo(NavigateMode.Home, typeof(LiveV2Page));
                 return;
             }
-            if (item.name.Contains( "排行榜"))
+            if (item.Name.Contains( "排行榜"))
             {
                 MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(RankPage));
                 return;
             }
-            if (item.name== "话题中心")
+            if (item.Name== "话题中心")
             {
                 MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(TopicPage));
                 return;
             }
-            if (item.name == "活动中心")
+            if (item.Name == "活动中心")
             {
                 MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(ActivityPage));
                 return;
             }
-            if (item.name == "漫画")
+            if (item.Name == "漫画")
             {
                 MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(WebPage), "https://manga.bilibili.com");
                 return;
             }
-            if (item.uri!=null&&item.uri.Contains("https://"))
+            if (item.Uri!=null&&item.Uri.Contains("https://"))
             {
-                MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(WebPage), item.uri);
+                MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(WebPage), item.Uri);
             }
             else
             {

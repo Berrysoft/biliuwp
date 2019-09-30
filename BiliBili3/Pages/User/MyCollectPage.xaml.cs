@@ -249,7 +249,7 @@ namespace BiliBili3.Pages
 
                     string content = string.Format(
                         "access_key={0}&aid={2}&appkey={1}&build=520001&fid={3}&mobi_app=android&platform=android&re_src=90&ts={4}",
-                        ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, item.aid, fid, ApiHelper.GetTimeSpan_2
+                        ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, item.aid, fid, ApiHelper.TimeStamp2
                         );
                     content += "&sign=" + ApiHelper.GetSign(content);
                     string result = await WebClientClass.PostResults(ReUri,

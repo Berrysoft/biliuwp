@@ -97,7 +97,7 @@ namespace BiliBili3.Pages
         {
             try
             {
-                string url = string.Format("http://message.bilibili.com/api/msg/query.double.room.do?access_key={0}&actionKey=appkey&appkey={1}&build=422000&data_type=1&mobi_app=android&platform=android&mid={2}&ts={3}000", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, mid, ApiHelper.GetTimeSpan);
+                string url = string.Format("http://message.bilibili.com/api/msg/query.double.room.do?access_key={0}&actionKey=appkey&appkey={1}&build=422000&data_type=1&mobi_app=android&platform=android&mid={2}&ts={3}000", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, mid, ApiHelper.TimeStamp);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 CreateRoomModel m = JsonConvert.DeserializeObject<CreateRoomModel>(results);
@@ -135,7 +135,7 @@ namespace BiliBili3.Pages
         {
             try
             {
-                string url = string.Format("http://message.bilibili.com/api/msg/query.msg.list.do?access_key={0}&actionKey=appkey&appkey={1}&build=422000&data_type=1&mobi_app=android&platform=android&rid={2}&ts={3}000", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, rid, ApiHelper.GetTimeSpan);
+                string url = string.Format("http://message.bilibili.com/api/msg/query.msg.list.do?access_key={0}&actionKey=appkey&appkey={1}&build=422000&data_type=1&mobi_app=android&platform=android&rid={2}&ts={3}000", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, rid, ApiHelper.TimeStamp);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 ChatModel m = JsonConvert.DeserializeObject<ChatModel>(results);
@@ -203,7 +203,7 @@ namespace BiliBili3.Pages
                     ApiHelper.GetUserId(),
                     rid, 
                     Uri.EscapeDataString(txt_Content.Text),
-                    ApiHelper.GetTimeSpan,
+                    ApiHelper.TimeStamp,
                     captcha_key));
                 JObject o = JObject.Parse(results);
                 //ChatModel m = JsonConvert.DeserializeObject<ChatModel>(results);

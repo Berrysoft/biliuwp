@@ -414,7 +414,7 @@ namespace BiliBili3.Pages
                 ROUND = false;
                 pr_Load.Visibility = Visibility.Visible;
                 cd.Visibility = Visibility.Collapsed;
-                string url = string.Format("http://live.bilibili.com/AppRoom/index?_device=android&access_key={0}&appkey={1}&build=434000&buld=434000&jumpFrom=24000&mobi_app=android&platform=android&room_id={2}&scale=xxhdpi", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, _roomid);
+                string url = string.Format("http://live.bilibili.com/AppRoom/index?_device=android&access_key={0}&appkey={1}&build=434000&buld=434000&jumpFrom=24000&mobi_app=android&platform=android&room_id={2}&scale=xxhdpi", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, _roomid);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 LiveInfoModel m = JsonConvert.DeserializeObject<LiveInfoModel>(results);
@@ -542,7 +542,7 @@ namespace BiliBili3.Pages
                 //sc.ChangeView(null, sc.ExtentHeight, null);
                 //http://live.bilibili.com/AppRoom/msg?_device=android&_hwid=68fc5d795c256cd1&appkey=c1b107428d337928&build=414000&platform=android&room_id=23058&sign=4bf8088300d9f4c90b62264c4a87585d
 
-                string url = string.Format("http://live.bilibili.com/AppRoom/msg?_device=wp&appkey={0}&build=5250000&access_key={1}&platform=android&room_id={2}&ts={3}", ApiHelper.AndroidKey.Appkey, ApiHelper.access_key, _roomid, ApiHelper.GetTimeSpan);
+                string url = string.Format("http://live.bilibili.com/AppRoom/msg?_device=wp&appkey={0}&build=5250000&access_key={1}&platform=android&room_id={2}&ts={3}", ApiHelper.AndroidKey.Appkey, ApiHelper.AccessKey, _roomid, ApiHelper.TimeStamp);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 Model models = JsonConvert.DeserializeObject<Model>(results);
@@ -841,7 +841,7 @@ namespace BiliBili3.Pages
             {
                 pr_Load.Visibility = Visibility.Visible;
                 pr_Load.Visibility = Visibility.Visible;
-                string url = string.Format("http://live.bilibili.com/live/getRoundPlayVideo?_device=android&access_key={0}&appkey={1}&build=433000&mobi_app=android&platform=android&room_id={2}", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, _roomid);
+                string url = string.Format("http://live.bilibili.com/live/getRoundPlayVideo?_device=android&access_key={0}&appkey={1}&build=433000&mobi_app=android&platform=android&room_id={2}", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, _roomid);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 JObject obj = JObject.Parse(results);
@@ -903,11 +903,11 @@ namespace BiliBili3.Pages
                 string url;
                 if (txt_guanzhu.Text == "关注")
                 {
-                    url = string.Format("https://account.bilibili.com/api/friend/attention/add?access_key={0}&appkey={1}&build=433000&mid={2}&platform=wp", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, (Video_UP.DataContext as LiveInfoModel).mid);
+                    url = string.Format("https://account.bilibili.com/api/friend/attention/add?access_key={0}&appkey={1}&build=433000&mid={2}&platform=wp", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, (Video_UP.DataContext as LiveInfoModel).mid);
                 }
                 else
                 {
-                    url = string.Format("https://account.bilibili.com/api/friend/attention/del?access_key={0}&appkey={1}&build=433000&mid={2}&platform=wp", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, (Video_UP.DataContext as LiveInfoModel).mid);
+                    url = string.Format("https://account.bilibili.com/api/friend/attention/del?access_key={0}&appkey={1}&build=433000&mid={2}&platform=wp", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, (Video_UP.DataContext as LiveInfoModel).mid);
                 }
 
                 url += "sign=" + ApiHelper.GetSign(url);
@@ -1078,7 +1078,7 @@ namespace BiliBili3.Pages
                 pr_Load.Visibility = Visibility.Visible;
                 list_Gift_Top.Items.Clear();
 
-                string url = string.Format("http://live.bilibili.com/AppRoom/getGiftTop?_device=wp&appkey={0}&build=5250000&access_key={1}&platform=android&room_id={2}&ts={3}", ApiHelper.AndroidKey.Appkey, ApiHelper.access_key, room_id, ApiHelper.GetTimeSpan);
+                string url = string.Format("http://live.bilibili.com/AppRoom/getGiftTop?_device=wp&appkey={0}&build=5250000&access_key={1}&platform=android&room_id={2}&ts={3}", ApiHelper.AndroidKey.Appkey, ApiHelper.AccessKey, room_id, ApiHelper.TimeStamp);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 LiveRankModel model = JsonConvert.DeserializeObject<LiveRankModel>(results);
@@ -1131,7 +1131,7 @@ namespace BiliBili3.Pages
             try
             {
                 list_Fans_Top.Items.Clear();
-                string url = string.Format("http://live.bilibili.com/AppRoom/medalRankList?_device=wp&appkey={0}&build=5250000&access_key={1}&platform=android&room_id={2}&ts={3}", ApiHelper.AndroidKey.Appkey, ApiHelper.access_key, room_id, ApiHelper.GetTimeSpan);
+                string url = string.Format("http://live.bilibili.com/AppRoom/medalRankList?_device=wp&appkey={0}&build=5250000&access_key={1}&platform=android&room_id={2}&ts={3}", ApiHelper.AndroidKey.Appkey, ApiHelper.AccessKey, room_id, ApiHelper.TimeStamp);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 LiveRankModel model = JsonConvert.DeserializeObject<LiveRankModel>(results);
@@ -1329,9 +1329,9 @@ namespace BiliBili3.Pages
                 // return;
                 pr_Load.Visibility = Visibility.Visible;
 
-                string url = string.Format("http://live.bilibili.com/AppBag/send?access_key={0}&appkey={1}&build=522000&mobi_app=android&platform=android", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey);
+                string url = string.Format("http://live.bilibili.com/AppBag/send?access_key={0}&appkey={1}&build=522000&mobi_app=android&platform=android", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey);
                 url += "&sign=" + ApiHelper.GetSign(url);
-                string par = string.Format("giftId={0}&num={1}&ruid={2}&roomid={3}&timestamp={4}&bag_id={5}&rnd={6}&", giftId, Num, (Video_UP.DataContext as LiveInfoModel).mid, _roomid, ApiHelper.GetTimeSpan_2, bag_id, "5772223" + new Random().Next(10, 99));
+                string par = string.Format("giftId={0}&num={1}&ruid={2}&roomid={3}&timestamp={4}&bag_id={5}&rnd={6}&", giftId, Num, (Video_UP.DataContext as LiveInfoModel).mid, _roomid, ApiHelper.TimeStamp2, bag_id, "5772223" + new Random().Next(10, 99));
                 string results = await WebClientClass.PostResults(new Uri(url), par);
                 JObject m = JObject.Parse(results);
                 if ((int)m["code"] == 0)
@@ -1497,7 +1497,7 @@ namespace BiliBili3.Pages
                 }
                 pr_Load.Visibility = Visibility.Visible;
 
-                string url = string.Format("http://api.live.bilibili.com/user/getuserinfo?ts={0}", ApiHelper.GetTimeSpan_2);
+                string url = string.Format("http://api.live.bilibili.com/user/getuserinfo?ts={0}", ApiHelper.TimeStamp2);
                 //url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 LiveCenterModel1 m = JsonConvert.DeserializeObject<LiveCenterModel1>(results);

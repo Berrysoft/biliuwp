@@ -175,7 +175,7 @@ namespace BiliBili3.Models
         {
             get
             {
-                if (ApiHelper.access_key.Length == 0)
+                if (ApiHelper.AccessKey.Length == 0)
                 {
                     return "尚未登录";
                 }

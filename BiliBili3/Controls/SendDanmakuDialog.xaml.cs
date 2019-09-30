@@ -54,7 +54,7 @@ namespace BiliBili3.Controls
             }
             try
             {
-                var url = $"https://api.bilibili.com/x/v2/dm/post?access_key={ApiHelper.access_key}&aid={aid}&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&mobi_app=android&oid={cid}&platform=android&ts={ApiHelper.GetTimeSpan}";
+                var url = $"https://api.bilibili.com/x/v2/dm/post?access_key={ApiHelper.AccessKey}&aid={aid}&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&mobi_app=android&oid={cid}&platform=android&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
 
                 Uri ReUri = new Uri(url);
@@ -67,7 +67,7 @@ namespace BiliBili3.Controls
                 {
                     modeInt = 5;
                 }
-                string data = $"pool=0&rnd={ApiHelper.GetTimeSpan}&oid={cid}&fontsize=25&msg={Uri.EscapeDataString(Send_text_Comment.Text)}&mode={modeInt}&progress={position}&color={ ((ComboBoxItem)Send_cb_Color.SelectedItem).Tag}&plat=2&screen_state=0&from=861&type=1";
+                string data = $"pool=0&rnd={ApiHelper.TimeStamp}&oid={cid}&fontsize=25&msg={Uri.EscapeDataString(Send_text_Comment.Text)}&mode={modeInt}&progress={position}&color={ ((ComboBoxItem)Send_cb_Color.SelectedItem).Tag}&plat=2&screen_state=0&from=861&type=1";
                 //string data = string.Format("playTime={0}&pool=0&color={1}&screen_state=1&rnd={2}&from=0&type=json&msg={3}&cid={4}&fontsize=25&mode={5}&mid={6}",
                 //    position,
                 //    ((ComboBoxItem)Send_cb_Color.SelectedItem).Tag,

@@ -68,7 +68,7 @@ namespace BiliBili3.Modules
         {
             try
             {
-                string url = $"https://api.live.bilibili.com/gift/v3/live/gift_config?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://api.live.bilibili.com/gift/v3/live/gift_config?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
@@ -122,7 +122,7 @@ namespace BiliBili3.Modules
                     allGifts = all.data;
                 }
                 ObservableCollection<AllGiftsModel> roomGifts = new ObservableCollection<AllGiftsModel>();
-                string url = $"https://api.live.bilibili.com/gift/v3/live/room_gift_list?access_key={ApiHelper.access_key}&actionkey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&area_v2_id={area_v2_id}&area_v2_parent_id={area_v2_parent_id}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&roomid={roomid}&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://api.live.bilibili.com/gift/v3/live/room_gift_list?access_key={ApiHelper.AccessKey}&actionkey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&area_v2_id={area_v2_id}&area_v2_parent_id={area_v2_parent_id}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&roomid={roomid}&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
@@ -190,7 +190,7 @@ namespace BiliBili3.Modules
                     allGifts = all.data;
                 }
 
-                string url = $"https://api.live.bilibili.com/gift/v2/gift/bag_list?access_key={ApiHelper.access_key}&actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://api.live.bilibili.com/gift/v2/gift/bag_list?access_key={ApiHelper.AccessKey}&actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
 
                 var results = await WebClientClass.GetResults(new Uri(url));
@@ -243,7 +243,7 @@ namespace BiliBili3.Modules
         {
             try
             {
-                string url = $"https://api.live.bilibili.com/room/v1/room/get_info?access_key={ApiHelper.access_key}&actionkey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&from=room&id={roomid}&mobi_app=android&platform=android&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://api.live.bilibili.com/room/v1/room/get_info?access_key={ApiHelper.AccessKey}&actionkey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&from=room&id={roomid}&mobi_app=android&platform=android&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
@@ -286,7 +286,7 @@ namespace BiliBili3.Modules
         {
             try
             {
-                string url = $"https://api.live.bilibili.com/live_user/v1/card/card_up?access_key={ApiHelper.access_key}&actionkey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&ts={ApiHelper.GetTimeSpan}&uid={userid}";
+                string url = $"https://api.live.bilibili.com/live_user/v1/card/card_up?access_key={ApiHelper.AccessKey}&actionkey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&ts={ApiHelper.TimeStamp}&uid={userid}";
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
@@ -361,7 +361,7 @@ namespace BiliBili3.Modules
         {
             try
             {
-                string url = $"https://api.live.bilibili.com/live/getRoundPlayVideo?room_id={roomid}&&appkey={ApiHelper.AndroidKey.Appkey}type=flv&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://api.live.bilibili.com/live/getRoundPlayVideo?room_id={roomid}&&appkey={ApiHelper.AndroidKey.Appkey}type=flv&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
@@ -511,9 +511,9 @@ namespace BiliBili3.Modules
                     }
                 }
 
-                string sendText = $"cid={roomid}&mid={ApiHelper.GetUserId()}&msg={text}&rnd={ApiHelper.GetTimeSpan}&mode=1&pool=0&type=json&color=16777215&fontsize=25&playTime=0.0";
+                string sendText = $"cid={roomid}&mid={ApiHelper.GetUserId()}&msg={text}&rnd={ApiHelper.TimeStamp}&mode=1&pool=0&type=json&color=16777215&fontsize=25&playTime=0.0";
 
-                var url = $" https://api.live.bilibili.com/api/sendmsg?access_key={ApiHelper.access_key}&actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&ts={ApiHelper.GetTimeSpan}";
+                var url = $" https://api.live.bilibili.com/api/sendmsg?access_key={ApiHelper.AccessKey}&actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string result = await WebClientClass.PostResults(new Uri(url), sendText);
                 JObject jb = JObject.Parse(result);
@@ -568,7 +568,7 @@ namespace BiliBili3.Modules
             }
             try
             {
-                string url = $"https://api.live.bilibili.com/mobile/freeSilverCurrentTask?access_key={ApiHelper.access_key}&actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://api.live.bilibili.com/mobile/freeSilverCurrentTask?access_key={ApiHelper.AccessKey}&actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = JObject.Parse(results);
@@ -613,7 +613,7 @@ namespace BiliBili3.Modules
             }
             try
             {
-                string url = $"https://api.live.bilibili.com/mobile/freeSilverAward?access_key={ApiHelper.access_key}&actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android";
+                string url = $"https://api.live.bilibili.com/mobile/freeSilverAward?access_key={ApiHelper.AccessKey}&actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android";
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = JObject.Parse(results);
@@ -654,7 +654,7 @@ namespace BiliBili3.Modules
             try
             {
 
-                string url = $"https://api.live.bilibili.com/AppRoom/getGiftTop?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&room_id={roomid}&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://api.live.bilibili.com/AppRoom/getGiftTop?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&room_id={roomid}&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
 
                 var results = await WebClientClass.GetResults(new Uri(url));
@@ -697,7 +697,7 @@ namespace BiliBili3.Modules
             try
             {
 
-                string url = $"https://api.live.bilibili.com/AppRoom/medalRankList?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&room_id={roomid}&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://api.live.bilibili.com/AppRoom/medalRankList?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&room_id={roomid}&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
 
                 var results = await WebClientClass.GetResults(new Uri(url));
@@ -748,7 +748,7 @@ namespace BiliBili3.Modules
             try
             {
 
-                string url = $"https://api.live.bilibili.com/AppRoom/opTop?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&room_id={roomid}&scale=hdpi&ts={ApiHelper.GetTimeSpan}&type={type}";
+                string url = $"https://api.live.bilibili.com/AppRoom/opTop?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&room_id={roomid}&scale=hdpi&ts={ApiHelper.TimeStamp}&type={type}";
                 url += "&sign=" + ApiHelper.GetSign(url);
 
                 var results = await WebClientClass.GetResults(new Uri(url));
@@ -791,7 +791,7 @@ namespace BiliBili3.Modules
             try
             {
 
-                string url = $"https://api.live.bilibili.com/AppRoom/guardRank?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&page=1&page_size=30&platform=android&ruid={uid}&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://api.live.bilibili.com/AppRoom/guardRank?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&page=1&page_size=30&platform=android&ruid={uid}&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
 
                 var results = await WebClientClass.GetResults(new Uri(url));
@@ -837,7 +837,7 @@ namespace BiliBili3.Modules
             try
             {
 
-                string url = $"https://api.live.bilibili.com/activity/v1/Common/mobileRoomInfo?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&area_v2_id={area_v2_id}&area_v2_parent_id={area_v2_parent_id}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&roomid={roomid}&ruid={ruid}&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://api.live.bilibili.com/activity/v1/Common/mobileRoomInfo?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&area_v2_id={area_v2_id}&area_v2_parent_id={area_v2_parent_id}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&roomid={roomid}&ruid={ruid}&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
 
                 var results = await WebClientClass.GetResults(new Uri(url));
@@ -922,10 +922,10 @@ namespace BiliBili3.Modules
         {
             try
             {
-                string url = $"https://api.live.bilibili.com/gift/v2/live/bag_send?access_key={ApiHelper.access_key}&actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://api.live.bilibili.com/gift/v2/live/bag_send?access_key={ApiHelper.AccessKey}&actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
 
-                string data = $"uid={uid}&ruid={ruid}&gift_id={gift_id}&gift_num={gift_num}&bag_id={bag_id}&biz_id={roomid}&rnd={ApiHelper.GetTimeSpan}&biz_code=live";
+                string data = $"uid={uid}&ruid={ruid}&gift_id={gift_id}&gift_num={gift_num}&bag_id={bag_id}&biz_id={roomid}&rnd={ApiHelper.TimeStamp}&biz_code=live";
 
                 var results = await WebClientClass.PostResultsUtf8(new Uri(url), data);
                 var json = results.ToDynamicJObject();
@@ -975,7 +975,7 @@ namespace BiliBili3.Modules
             try
             {
                 string url = $"https://api.live.bilibili.com/gift/v2/live/send";
-                string data = $"access_key={ApiHelper.access_key}&actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&biz_code=live&biz_id={roomid}&build={ApiHelper.build}&coin_type={coin_type}&device=android&gift_id={gift_id}&gift_num={gift_num}&mobi_app=android&platform=android&price={price}&rnd={ApiHelper.GetTimeSpan}&ruid={ruid}&ts={ApiHelper.GetTimeSpan}&uid={uid}";
+                string data = $"access_key={ApiHelper.AccessKey}&actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&biz_code=live&biz_id={roomid}&build={ApiHelper.build}&coin_type={coin_type}&device=android&gift_id={gift_id}&gift_num={gift_num}&mobi_app=android&platform=android&price={price}&rnd={ApiHelper.TimeStamp}&ruid={ruid}&ts={ApiHelper.TimeStamp}&uid={uid}";
                 data += "&sign=" + ApiHelper.GetSign(data);
 
                 var results = await WebClientClass.PostResultsUtf8(new Uri(url), data);

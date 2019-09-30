@@ -109,7 +109,7 @@ namespace BiliBili3.Pages
                 isMovie = false;
                 tag.Children.Clear();
                 pr_Load.Visibility = Visibility.Visible;
-                string uri = $"https://app.bilibili.com/x/v2/view?access_key={ ApiHelper.access_key }&aid={ _aid }&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&mobi_app=android&plat=0&platform=android&ts={ApiHelper.GetTimeSpan}";
+                string uri = $"https://app.bilibili.com/x/v2/view?access_key={ ApiHelper.AccessKey }&aid={ _aid }&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&mobi_app=android&plat=0&platform=android&ts={ApiHelper.TimeStamp}";
                 uri += "&sign=" + ApiHelper.GetSign(uri);
                 string results = await WebClientClass.GetResults(new Uri(uri));
 
@@ -117,7 +117,7 @@ namespace BiliBili3.Pages
 
                 if (m.code == -404 || m.code == -403)
                 {
-                    string re2 = await WebClientClass.GetResults(new Uri("https://www.biliplus.com/api/view?id=" + _aid + "&access_key=" + ApiHelper.access_key));
+                    string re2 = await WebClientClass.GetResults(new Uri("https://www.biliplus.com/api/view?id=" + _aid + "&access_key=" + ApiHelper.AccessKey));
 
                     JObject obj = JObject.Parse(re2);
                     if (obj["code"] == null)
@@ -255,7 +255,7 @@ namespace BiliBili3.Pages
                     }
                     if (m.data.pages != null && m.data.pages.Count != 0)
                     {
-                        var qualitys = await download.GetVideoQualitys(_aid, m.data.pages[0].cid.ToString(), ApiHelper.access_key, ApiHelper.GetUserId());
+                        var qualitys = await download.GetVideoQualitys(_aid, m.data.pages[0].cid.ToString(), ApiHelper.AccessKey, ApiHelper.GetUserId());
                         cb_Qu.ItemsSource = qualitys.data;
                         if (qualitys.data.Count != 0)
                         {
@@ -450,7 +450,7 @@ namespace BiliBili3.Pages
 
                     string content = string.Format(
                         "access_key={0}&act=1&appkey={1}&build=45000&fid={2}&mobi_app=android&platform=android&re_src=90&ts={3}",
-                        ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, (Video_UP.DataContext as VideoInfoModels).owner.mid, ApiHelper.GetTimeSpan_2
+                        ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, (Video_UP.DataContext as VideoInfoModels).owner.mid, ApiHelper.TimeStamp2
                         );
                     content += "&sign=" + ApiHelper.GetSign(content);
                     string result = await WebClientClass.PostResults(ReUri,
@@ -493,7 +493,7 @@ namespace BiliBili3.Pages
 
                     string content = string.Format(
                         "access_key={0}&act=2&appkey={1}&build=45000&fid={2}&mobi_app=android&platform=android&re_src=90&ts={3}",
-                        ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, (Video_UP.DataContext as VideoInfoModels).owner.mid, ApiHelper.GetTimeSpan_2
+                        ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, (Video_UP.DataContext as VideoInfoModels).owner.mid, ApiHelper.TimeStamp2
                         );
                     content += "&sign=" + ApiHelper.GetSign(content);
                     string result = await WebClientClass.PostResults(ReUri,
@@ -550,7 +550,7 @@ namespace BiliBili3.Pages
                 {
                     WebClientClass wc = new WebClientClass();
                     Uri ReUri = new Uri("https://app.bilibili.com/x/v2/view/coin/add");
-                    string QuStr = string.Format("access_key={0}&aid={1}&appkey={2}&build=540000&from=7&mid={3}&platform=android&&multiply={4}&ts={5}", ApiHelper.access_key, _aid, ApiHelper.AndroidKey.Appkey, ApiHelper.GetUserId(), num, ApiHelper.GetTimeSpan);
+                    string QuStr = string.Format("access_key={0}&aid={1}&appkey={2}&build=540000&from=7&mid={3}&platform=android&&multiply={4}&ts={5}", ApiHelper.AccessKey, _aid, ApiHelper.AndroidKey.Appkey, ApiHelper.GetUserId(), num, ApiHelper.TimeStamp);
                     QuStr += "&sign=" + ApiHelper.GetSign(QuStr);
                     string result = await WebClientClass.PostResults(ReUri, QuStr);
                     JObject jObject = JObject.Parse(result);
@@ -675,7 +675,7 @@ namespace BiliBili3.Pages
 
                     string content = string.Format(
                         "access_key={0}&aid={2}&appkey={1}&build=520001&fid={3}&mobi_app=android&platform=android&re_src=90&ts={4}",
-                        ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, _aid, ((FavboxModel)e.ClickedItem).fid, ApiHelper.GetTimeSpan_2
+                        ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, _aid, ((FavboxModel)e.ClickedItem).fid, ApiHelper.TimeStamp2
                         );
                     content += "&sign=" + ApiHelper.GetSign(content);
                     string result = await WebClientClass.PostResults(ReUri,
@@ -778,7 +778,7 @@ namespace BiliBili3.Pages
                 if (item.IsDowned == Visibility.Collapsed)
                 {
                     var m = item;
-                    var downloadUrl = await download.GetVideoDownloadUrl(_aid, item.cid.ToString(), cb_Qu.SelectedItem as QualityInfo, ApiHelper.access_key, ApiHelper.GetUserId());
+                    var downloadUrl = await download.GetVideoDownloadUrl(_aid, item.cid.ToString(), cb_Qu.SelectedItem as QualityInfo, ApiHelper.AccessKey, ApiHelper.GetUserId());
                     if (!downloadUrl.success)
                     {
                         await new MessageDialog($"{m.page} {m.part}读取下载地址失败,已跳过").ShowAsync();
@@ -1225,7 +1225,7 @@ namespace BiliBili3.Pages
             }
             try
             {
-                var body = $"access_key={ApiHelper.access_key}&aid={_aid}&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&platform=android&ts={ApiHelper.GetTimeSpan}";
+                var body = $"access_key={ApiHelper.AccessKey}&aid={_aid}&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&platform=android&ts={ApiHelper.TimeStamp}";
                 body += "&sign=" + ApiHelper.GetSign(body);
                 var results = await WebClientClass.PostResults(new Uri("https://app.bilibili.com/x/v2/view/like/triple"), body);
                 var obj = JObject.Parse(results);
@@ -1255,7 +1255,7 @@ namespace BiliBili3.Pages
             }
             try
             {
-                var body = $"access_key={ApiHelper.access_key}&aid={_aid}&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&platform=android&dislike=0&like=0&ts={ApiHelper.GetTimeSpan}";
+                var body = $"access_key={ApiHelper.AccessKey}&aid={_aid}&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&platform=android&dislike=0&like=0&ts={ApiHelper.TimeStamp}";
                 body += "&sign=" + ApiHelper.GetSign(body);
                 var results = await WebClientClass.PostResults(new Uri("https://app.bilibili.com/x/v2/view/like"), body);
                 var obj = JObject.Parse(results);

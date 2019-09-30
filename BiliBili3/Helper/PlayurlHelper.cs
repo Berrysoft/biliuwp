@@ -149,7 +149,7 @@ namespace BiliBili3.Helper
                 List<string> urls = new List<string>();
                 var playList = new SYEngine.Playlist(SYEngine.PlaylistTypes.NetworkHttp);
                 string url2 = string.Format(
-                    "https://bangumi.bilibili.com/player/web_api/v2/playurl?cid={1}&appkey={0}&otype=json&type=&quality={2}&module=bangumi&season_type={4}&qn={2}&ts={3}", ApiHelper.WebVideoKey.Appkey, model.Mid, qn, ApiHelper.GetTimeSpan_2, model.season_type);
+                    "https://bangumi.bilibili.com/player/web_api/v2/playurl?cid={1}&appkey={0}&otype=json&type=&quality={2}&module=bangumi&season_type={4}&qn={2}&ts={3}", ApiHelper.WebVideoKey.Appkey, model.Mid, qn, ApiHelper.TimeStamp2, model.season_type);
                 url2 += "&sign=" + ApiHelper.GetSign(url2, ApiHelper.WebVideoKey);
                 var re = await WebClientClass.GetResultsUTF8Encode(new Uri(url2));
                 FlvPlyaerUrlModel m = JsonConvert.DeserializeObject<FlvPlyaerUrlModel>(re);
@@ -188,7 +188,7 @@ namespace BiliBili3.Helper
                 List<string> urls = new List<string>();
                 var playList = new SYEngine.Playlist(SYEngine.PlaylistTypes.NetworkHttp);
                 string url2 = string.Format(
-                    "https://bangumi.bilibili.com/player/web_api/v2/playurl?cid={1}&appkey={0}&otype=json&type=&quality={2}&module=bangumi&season_type={4}&qn={2}&ts={3}&fourk=1&fnver=0&fnval=16", ApiHelper.WebVideoKey.Appkey, model.Mid, qn, ApiHelper.GetTimeSpan_2, model.season_type);
+                    "https://bangumi.bilibili.com/player/web_api/v2/playurl?cid={1}&appkey={0}&otype=json&type=&quality={2}&module=bangumi&season_type={4}&qn={2}&ts={3}&fourk=1&fnver=0&fnval=16", ApiHelper.WebVideoKey.Appkey, model.Mid, qn, ApiHelper.TimeStamp2, model.season_type);
                 url2 += "&sign=" + ApiHelper.GetSign(url2, ApiHelper.WebVideoKey);
                 var re = await WebClientClass.GetResultsUTF8Encode(new Uri(url2));
                 var obj = JObject.Parse(re);
@@ -241,7 +241,7 @@ namespace BiliBili3.Helper
                 List<string> urls = new List<string>();
                 var playList = new SYEngine.Playlist(SYEngine.PlaylistTypes.NetworkHttp);
                 string url2 = string.Format(
-                    $"https://api.bilibili.com/pgc/player/web/playurl?avid={ model.Aid}&cid={model.Mid}&qn={qn}&type=&otype=json&ep_id={model.episode_id}&&module=bangumi&access_key={ApiHelper.access_key}");
+                    $"https://api.bilibili.com/pgc/player/web/playurl?avid={ model.Aid}&cid={model.Mid}&qn={qn}&type=&otype=json&ep_id={model.episode_id}&&module=bangumi&access_key={ApiHelper.AccessKey}");
                 //url2 += "&sign=" + ApiHelper.GetSign_VIDEO(url2);
                 var re = await WebClientClass.GetResultsUTF8Encode(new Uri(url2));
                 JObject obj = JObject.Parse(re);
@@ -282,7 +282,7 @@ namespace BiliBili3.Helper
             {
                 var playList = new SYEngine.Playlist(SYEngine.PlaylistTypes.NetworkHttp);
                 List<string> urls = new List<string>();
-                string rnd = ApiHelper.GetTimeSpan.ToString();
+                string rnd = ApiHelper.TimeStamp.ToString();
                 if (SettingHelper.UseVIP)
                 {
                     rnd = "true" + rnd;
@@ -347,7 +347,7 @@ namespace BiliBili3.Helper
                 {
                     season = $"&module=bangumi&season_type={ season_type}";
                 }
-                string url = "https://www.biliplus.com/BPplayurl.php?cid=" + cid + $"&otype=json&type=&quality={qn}&qn={qn}{season}&access_key={ApiHelper.access_key}";
+                string url = "https://www.biliplus.com/BPplayurl.php?cid=" + cid + $"&otype=json&type=&quality={qn}&qn={qn}{season}&access_key={ApiHelper.AccessKey}";
                 Dictionary<string, string> header = new Dictionary<string, string>();
                 if (!string.IsNullOrEmpty(SettingHelper.BiliplusCookie))
                 {
@@ -428,7 +428,7 @@ namespace BiliBili3.Helper
                 {
                     season = $"&module=bangumi&season_type={season_type}";
                 }
-                string url = "https://www.biliplus.com/BPplayurl.php?cid=" + cid + $"&otype=json&type=&quality={qn}&qn={qn}{season}&access_key={ApiHelper.access_key}&fourk=1&fnver=0&fnval=16";
+                string url = "https://www.biliplus.com/BPplayurl.php?cid=" + cid + $"&otype=json&type=&quality={qn}&qn={qn}{season}&access_key={ApiHelper.AccessKey}&fourk=1&fnver=0&fnval=16";
                 Dictionary<string, string> header = new Dictionary<string, string>();
                 if (SettingHelper.BiliplusCookie != "")
                 {
@@ -748,7 +748,7 @@ namespace BiliBili3.Helper
                 //http://bangumi.bilibili.com/player/web_api/playurl?cid=10506396&module=movie&player=1&quality=4&ts=1475587467&sign=12b256ad5510d558d07ddf5c4430cd56
                 // string url = string.Format("http://bangumi.bilibili.com/player/web_api/playurl?cid={0}&module=movie&player=1&quality=4&ts={1}&appkey={2}", mid,ApiHelper.GetTimeSpen,ApiHelper._appkey_DONTNOT);
 
-                string url = string.Format("http://api.tv.sohu.com/v4/video/info/{0}.json?api_key=1820c56b9d16bbe3381766192e134811&uid=ad99774cfadfe5ecf12457ec5085359a&poid=1&plat=12&sver=3.7.0&partner=419&sysver=10.0.10586.318&ts={1}&verify=43026f88247fcbe0c56411624bd1531e&passport=&aid={2}&program_id=", str[1], ApiHelper.GetTimeSpan_2, str[0]);
+                string url = string.Format("http://api.tv.sohu.com/v4/video/info/{0}.json?api_key=1820c56b9d16bbe3381766192e134811&uid=ad99774cfadfe5ecf12457ec5085359a&poid=1&plat=12&sver=3.7.0&partner=419&sysver=10.0.10586.318&ts={1}&verify=43026f88247fcbe0c56411624bd1531e&passport=&aid={2}&program_id=", str[1], ApiHelper.TimeStamp2, str[0]);
 
                 string results = await WebClientClass.GetResults(new Uri(url));
                 SohuModel model = JsonConvert.DeserializeObject<SohuModel>(results);
@@ -909,7 +909,7 @@ namespace BiliBili3.Helper
                 List<string> urls = new List<string>();
 
                 string url2 = string.Format(
-                    "https://bangumi.bilibili.com/player/web_api/v2/playurl?cid={1}&appkey={0}&otype=json&type=&quality={2}&module=bangumi&season_type={4}&qn={2}&ts={3}", ApiHelper.WebVideoKey.Appkey, model.Mid, qn, ApiHelper.GetTimeSpan_2, model.season_type);
+                    "https://bangumi.bilibili.com/player/web_api/v2/playurl?cid={1}&appkey={0}&otype=json&type=&quality={2}&module=bangumi&season_type={4}&qn={2}&ts={3}", ApiHelper.WebVideoKey.Appkey, model.Mid, qn, ApiHelper.TimeStamp2, model.season_type);
                 url2 += "&sign=" + ApiHelper.GetSign(url2, ApiHelper.WebVideoKey);
                 var re = await WebClientClass.GetResultsUTF8Encode(new Uri(url2));
                 FlvPlyaerUrlModel m = JsonConvert.DeserializeObject<FlvPlyaerUrlModel>(re);
@@ -939,7 +939,7 @@ namespace BiliBili3.Helper
                     }
                     else
                     {
-                        var re3 = await WebClientClass.GetResults(new Uri(string.Format("https://moe.nsapps.cn/api/v1/BiliAnimeUrl?animeid={0}&cid={1}&epid={2}&rnd={3}", model.banId, model.Mid, model.banInfo.episode_id, ApiHelper.GetTimeSpan)));
+                        var re3 = await WebClientClass.GetResults(new Uri(string.Format("https://moe.nsapps.cn/api/v1/BiliAnimeUrl?animeid={0}&cid={1}&epid={2}&rnd={3}", model.banId, model.Mid, model.banInfo.episode_id, ApiHelper.TimeStamp)));
                         JObject obj = JObject.Parse(re3);
                         if (Convert.ToInt32(obj["code"].ToString()) == 0)
                         {

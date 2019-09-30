@@ -116,7 +116,7 @@ namespace BiliBili3.Pages
             {
 
                 pr_Load.Visibility = Visibility.Visible;
-                string uri = string.Format("https://api.bilibili.com/pgc/view/app/season?access_key={0}&appkey={1}&build=5341000&platform=android&season_id={2}&ts={3}", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, _banId, ApiHelper.GetTimeSpan);
+                string uri = string.Format("https://api.bilibili.com/pgc/view/app/season?access_key={0}&appkey={1}&build=5341000&platform=android&season_id={2}&ts={3}", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, _banId, ApiHelper.TimeStamp);
                 uri += "&sign=" + ApiHelper.GetSign(uri);
                 string results = await WebClientClass.GetResultsUTF8Encode(new Uri(uri));
 
@@ -205,7 +205,7 @@ namespace BiliBili3.Pages
                         if (model.result.episodes.Count != 0)
                         {
 
-                            var q = await download.GetSeasonQualitys(model.result.episodes[0].av_id.ToString(), model.result.episodes[0].danmaku.ToString(), model.result.episodes[0].season_type, ApiHelper.access_key, ApiHelper.GetUserId());
+                            var q = await download.GetSeasonQualitys(model.result.episodes[0].av_id.ToString(), model.result.episodes[0].danmaku.ToString(), model.result.episodes[0].season_type, ApiHelper.AccessKey, ApiHelper.GetUserId());
                             cb_Qu.ItemsSource = q.data;
                             cb_Qu.SelectedIndex = 0;
                         }
@@ -398,7 +398,7 @@ namespace BiliBili3.Pages
         {
             try
             {
-                string url = string.Format("https://bangumi.bilibili.com/media/api/detail?appkey={0}&build=5250000&media_id={1}&platform=android&ts={2}", ApiHelper.AndroidKey.Appkey, mediaId, ApiHelper.GetTimeSpan);
+                string url = string.Format("https://bangumi.bilibili.com/media/api/detail?appkey={0}&build=5250000&media_id={1}&platform=android&ts={2}", ApiHelper.AndroidKey.Appkey, mediaId, ApiHelper.TimeStamp);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 BangumiDetailModel bangumiDetailModel = JsonConvert.DeserializeObject<BangumiDetailModel>(results);
@@ -466,11 +466,11 @@ namespace BiliBili3.Pages
                 string url = string.Empty;
                 if (cb_Cb.SelectedIndex == 0)
                 {
-                    url = string.Format("http://bangumi.bilibili.com/sponsor/rank/get_sponsor_week_list?access_key={0}&appkey={1}&build=418000&mobi_app=android&page=1&pagesize=25&platform=android&season_id={2}&ts={3}", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, _banId, ApiHelper.GetTimeSpan);
+                    url = string.Format("http://bangumi.bilibili.com/sponsor/rank/get_sponsor_week_list?access_key={0}&appkey={1}&build=418000&mobi_app=android&page=1&pagesize=25&platform=android&season_id={2}&ts={3}", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, _banId, ApiHelper.TimeStamp);
                 }
                 else
                 {
-                    url = string.Format("http://bangumi.bilibili.com/sponsor/rank/get_sponsor_total?access_key={0}&appkey={1}&build=418000&mobi_app=android&page=1&pagesize=25&platform=android&season_id={2}&ts={3}", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, _banId, ApiHelper.GetTimeSpan);
+                    url = string.Format("http://bangumi.bilibili.com/sponsor/rank/get_sponsor_total?access_key={0}&appkey={1}&build=418000&mobi_app=android&page=1&pagesize=25&platform=android&season_id={2}&ts={3}", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, _banId, ApiHelper.TimeStamp);
                 }
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResultsUTF8Encode(new Uri(url));
@@ -690,7 +690,7 @@ namespace BiliBili3.Pages
             try
             {
                 int stype = (this.DataContext as BangumiDataModel).season_type;
-                var url = string.Format("https://bangumi.bilibili.com/follow/api/season/follow?access_key={0}&appkey={1}&build=5250000&mobi_app=android&platform=android&season_id={2}&season_type={3}&ts={4}", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, _banId, stype, ApiHelper.GetTimeSpan);
+                var url = string.Format("https://bangumi.bilibili.com/follow/api/season/follow?access_key={0}&appkey={1}&build=5250000&mobi_app=android&platform=android&season_id={2}&season_type={3}&ts={4}", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, _banId, stype, ApiHelper.TimeStamp);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
 
@@ -730,7 +730,7 @@ namespace BiliBili3.Pages
             try
             {
                 int stype = (this.DataContext as BangumiDataModel).season_type;
-                var url = string.Format("https://bangumi.bilibili.com/follow/api/season/unfollow?access_key={0}&appkey={1}&build=5250000&mobi_app=android&platform=android&season_id={2}&season_type={3}&ts={4}", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, _banId, stype, ApiHelper.GetTimeSpan);
+                var url = string.Format("https://bangumi.bilibili.com/follow/api/season/unfollow?access_key={0}&appkey={1}&build=5250000&mobi_app=android&platform=android&season_id={2}&season_type={3}&ts={4}", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, _banId, stype, ApiHelper.TimeStamp);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 JObject json = JObject.Parse(results);
@@ -778,7 +778,7 @@ namespace BiliBili3.Pages
             {
                 if (item.IsDowned == Visibility.Collapsed)
                 {
-                    var downloadUrl = await download.GetSeasonDownloadUrl(item.av_id.ToString(), item.danmaku.ToString(), _banId.ToInt32(), item.season_type, cb_Qu.SelectedItem as QualityInfo, ApiHelper.access_key, ApiHelper.GetUserId());
+                    var downloadUrl = await download.GetSeasonDownloadUrl(item.av_id.ToString(), item.danmaku.ToString(), _banId.ToInt32(), item.season_type, cb_Qu.SelectedItem as QualityInfo, ApiHelper.AccessKey, ApiHelper.GetUserId());
                     if (!downloadUrl.success)
                     {
                         await new MessageDialog($"{item.index} {item.index_title}下载失败:{downloadUrl.message}").ShowAsync();

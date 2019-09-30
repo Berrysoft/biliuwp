@@ -23,7 +23,7 @@ namespace BiliBili3.Modules
         {
             try
             {
-                string url = $"https://api.bilibili.com/pgc/player/api/playurl?aid={ aid}&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&cid={cid}&fnval=0&fnver=0&fourk=1{ ((access_key == "") ? "" : $"&access_key={access_key}&mid={mid}")}&mobi_app=android&module=bangumi&npcybs=0&otype=json&platform=android&qn=0&season_type={season_type}&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://api.bilibili.com/pgc/player/api/playurl?aid={ aid}&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&cid={cid}&fnval=0&fnver=0&fourk=1{ ((access_key == "") ? "" : $"&access_key={access_key}&mid={mid}")}&mobi_app=android&module=bangumi&npcybs=0&otype=json&platform=android&qn=0&season_type={season_type}&ts={ApiHelper.TimeStamp}";
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = JsonConvert.DeserializeObject<SeasonUrlInfo>(results);
@@ -87,7 +87,7 @@ namespace BiliBili3.Modules
         {
             try
             {
-                string url = $"https://www.biliplus.com/BPplayurl.php?avid={ aid}&cid={cid}&qn=0&type=&otype=json&module=bangumi{ ((access_key == "") ? "" : $"&access_key={access_key}&mid={mid}")}&season_type={season_type}&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://www.biliplus.com/BPplayurl.php?avid={ aid}&cid={cid}&qn=0&type=&otype=json&module=bangumi{ ((access_key == "") ? "" : $"&access_key={access_key}&mid={mid}")}&season_type={season_type}&ts={ApiHelper.TimeStamp}";
                
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = JsonConvert.DeserializeObject<SeasonUrlInfo>(results);
@@ -183,7 +183,7 @@ namespace BiliBili3.Modules
         {
             try
             {
-                var url = $"https://api.bilibili.com/pgc/player/api/playurl?access_key={ access_key}&aid={aid}&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&cid={cid}&fnval=0&fnver=0&fourk=1&mid={mid}&mobi_app=android&module=bangumi&npcybs=0&otype=json&platform=android&qn={quality.Qn}&season_type={season_type}&ts={ApiHelper.GetTimeSpan}";
+                var url = $"https://api.bilibili.com/pgc/player/api/playurl?access_key={ access_key}&aid={aid}&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&cid={cid}&fnval=0&fnver=0&fourk=1&mid={mid}&mobi_app=android&module=bangumi&npcybs=0&otype=json&platform=android&qn={quality.Qn}&season_type={season_type}&ts={ApiHelper.TimeStamp}";
                 //string url = $"https://api.bilibili.com/pgc/player/api/playurl?aid={ aid}&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&cid={cid}&fnval=0&fnver=0&fourk=1{ ((access_key == "") ? "" : $"&access_key={access_key}&mid={mid}")}&mobi_app=android&module=bangumi&npcybs=1&otype=json&platform=android&qn={quality.Qn}&season_type={season_type}&ts={ApiHelper.GetTimeSpan}";
                 url += "&sign=" + ApiHelper.GetSign(url);
                 var results = await WebClientClass.GetResults(new Uri(url));
@@ -240,7 +240,7 @@ namespace BiliBili3.Modules
         {
             try
             {
-                string url = $"https://moe.nsapps.cn/api/v1/BiliAnimeUrl?animeid={season_id}&cid={cid}&epid=&rnd={ApiHelper.GetTimeSpan}";
+                string url = $"https://moe.nsapps.cn/api/v1/BiliAnimeUrl?animeid={season_id}&cid={cid}&epid=&rnd={ApiHelper.TimeStamp}";
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
                 if (model.Code == 0)
@@ -296,7 +296,7 @@ namespace BiliBili3.Modules
         {
             try
             {
-                string url = $"https://www.biliplus.com/BPplayurl.php?avid={ aid}&cid={cid}&qn={quality.Qn}&type=&otype=json&module=bangumi{ ((access_key == "") ? "" : $"&access_key={access_key}&mid={mid}")}&season_type={season_type}&ts={ApiHelper.GetTimeSpan}";
+                string url = $"https://www.biliplus.com/BPplayurl.php?avid={ aid}&cid={cid}&qn={quality.Qn}&type=&otype=json&module=bangumi{ ((access_key == "") ? "" : $"&access_key={access_key}&mid={mid}")}&season_type={season_type}&ts={ApiHelper.TimeStamp}";
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = JsonConvert.DeserializeObject<SeasonUrlInfo>(results);
                 if (model.code == 0)
@@ -362,7 +362,7 @@ namespace BiliBili3.Modules
 
             try
             {
-                string url = ApiHelper.GetSignWithUrl($"https://app.bilibili.com/x/playurl?npcybs=0&mobi_app=android&fnval=0&fnver=0&platform=android&fourk=1&build={ ApiHelper.build }&actionkey=appkey&appkey={ApiHelper.AndroidVideoKey.Appkey }&otype=json&qn=0&device=android&aid={aid}&cid={cid}&force_host=0&ts={ApiHelper.GetTimeSpan_2}{ ((access_key == "") ? "" : $"&access_key={access_key}&mid={mid}")}", ApiHelper.AndroidVideoKey);
+                string url = ApiHelper.GetSignWithUrl($"https://app.bilibili.com/x/playurl?npcybs=0&mobi_app=android&fnval=0&fnver=0&platform=android&fourk=1&build={ ApiHelper.build }&actionkey=appkey&appkey={ApiHelper.AndroidVideoKey.Appkey }&otype=json&qn=0&device=android&aid={aid}&cid={cid}&force_host=0&ts={ApiHelper.TimeStamp2}{ ((access_key == "") ? "" : $"&access_key={access_key}&mid={mid}")}", ApiHelper.AndroidVideoKey);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = JsonConvert.DeserializeObject<VideoUrlInfo>(results);
                 if (model.code == 0)
@@ -446,7 +446,7 @@ namespace BiliBili3.Modules
         {
             try
             {
-                string url = ApiHelper.GetSignWithUrl($"https://app.bilibili.com/x/playurl?npcybs=1&mobi_app=android&fnval=0&fnver=0&platform=android&fourk=1&build={ ApiHelper.build }&actionkey=appkey&appkey={ApiHelper.AndroidVideoKey.Appkey }&otype=json&qn={quality.Qn}&device=android&aid={aid}&cid={cid}&force_host=0&ts={ApiHelper.GetTimeSpan_2}{ ((access_key == "") ? "" : $"&access_key={access_key}&mid={mid}")}", ApiHelper.AndroidVideoKey);
+                string url = ApiHelper.GetSignWithUrl($"https://app.bilibili.com/x/playurl?npcybs=1&mobi_app=android&fnval=0&fnver=0&platform=android&fourk=1&build={ ApiHelper.build }&actionkey=appkey&appkey={ApiHelper.AndroidVideoKey.Appkey }&otype=json&qn={quality.Qn}&device=android&aid={aid}&cid={cid}&force_host=0&ts={ApiHelper.TimeStamp2}{ ((access_key == "") ? "" : $"&access_key={access_key}&mid={mid}")}", ApiHelper.AndroidVideoKey);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = JsonConvert.DeserializeObject<VideoUrlInfo>(results);
                 if (model.code == 0)

@@ -47,6 +47,7 @@ namespace BiliBili3
         User,
         HandelUri
     }
+
     public class StartModel
     {
         public StartTypes StartType { get; set; }
@@ -105,7 +106,6 @@ namespace BiliBili3
                 isSetMusic = false;
             });
         }
-
 
         private async void MusicHelper_DisplayEvent(object sender, Visibility e)
         {
@@ -280,36 +280,30 @@ namespace BiliBili3
                     default:
                         break;
                 }
-
             }
-
 
             if (SettingHelper.First)
             {
                 TextBlock tx = new TextBlock()
                 {
-                    Text = string.Format(@"{0}", AppHelper.GetLastVersionStr()),
+                    Text = AppHelper.GetLastVersionStr(),
                     IsTextSelectionEnabled = true,
                     TextWrapping = TextWrapping.Wrap
                 };
                 await new ContentDialog() { Content = tx, PrimaryButtonText = "知道了" }.ShowAsync();
 
-
                 SettingHelper.First = false;
             }
-
-
-            new AppHelper().GetDeveloperMessage();
 
             account = new Account();
             //检查登录状态
             if (!string.IsNullOrEmpty(SettingHelper.AccessKey))
             {
-                if ((await account.CheckLoginState(ApiHelper.access_key)).success)
+                if ((await account.CheckLoginState(ApiHelper.AccessKey)).success)
                 {
 
                     MessageCenter_Logined();
-                    await account.SSO(ApiHelper.access_key);
+                    await account.SSO(ApiHelper.AccessKey);
                 }
                 else
                 {
@@ -366,7 +360,6 @@ namespace BiliBili3
                     {
                         img_bg.MaxHeight = double.PositiveInfinity;
                     }
-
 
                     var st = await file.OpenReadAsync();
                     BitmapImage bit = new BitmapImage();
@@ -434,15 +427,9 @@ namespace BiliBili3
             glassVisual.StartAnimation("Size", bindSizeAnimation);
         }
 
-
         private void MessageCenter_BgNavigateToEvent(Type page, params object[] par)
         {
             bg_Frame.Navigate(page, par);
-        }
-
-        private void Storyboard_Completed(object sender, object e)
-        {
-            row_bottom.Height = new GridLength(0);
         }
 
         private async void MessageCenter_Logined()
@@ -519,7 +506,6 @@ namespace BiliBili3
 
         private void ChangeTheme()
         {
-
             switch (SettingHelper.Rigth)
             {
                 case 1:
@@ -542,16 +528,12 @@ namespace BiliBili3
                     break;
             }
 
-
-
-
             string ThemeName = SettingHelper.Theme;
             ResourceDictionary newDictionary = new ResourceDictionary();
             switch (ThemeName)
             {
                 case "Dark":
                     RequestedTheme = ElementTheme.Dark;
-
                     break;
                 case "Red":
                 case "Blue":
@@ -582,25 +564,11 @@ namespace BiliBili3
 
         private async void Timer_Tick(object sender, object e)
         {
-            //if (ApiHelper.IsLogin())
-            //{
-            if (await HasMessage())
+            var hasMessage = await HasMessage();
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    //menu_bor_HasMessage
-
-                    bor_TZ.Visibility = Visibility.Visible;
-                });
-            }
-            else
-            {
-
-                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    bor_TZ.Visibility = Visibility.Collapsed;
-                });
-            }
+                bor_TZ.Visibility = hasMessage ? Visibility.Visible : Visibility.Collapsed;
+            });
         }
 
         private async Task<bool> HasMessage()
@@ -612,7 +580,7 @@ namespace BiliBili3
                     return false;
                 }
                 // http://message.bilibili.com/api/msg/query.room.list.do?access_key=a36a84cc8ef4ea2f92c416951c859a25&actionKey=appkey&appkey=c1b107428d337928&build=414000&page_size=100&platform=android&ts=1461404884000&sign=5e212e424761aa497a75b0fb7fbde775
-                string url = string.Format("http://message.bilibili.com/api/notify/query.notify.count.do?_device=wp&_ulv=10000&access_key={0}&actionKey=appkey&appkey={1}&build=5250000&platform=android&ts={2}", ApiHelper.access_key, ApiHelper.AndroidKey.Appkey, ApiHelper.GetTimeSpan);
+                string url = string.Format("http://message.bilibili.com/api/notify/query.notify.count.do?_device=wp&_ulv=10000&access_key={0}&actionKey=appkey&appkey={1}&build=5250000&platform=android&ts={2}", ApiHelper.AccessKey, ApiHelper.AndroidKey.Appkey, ApiHelper.TimeStamp);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 MessageModel model = JsonConvert.DeserializeObject<MessageModel>(results);
@@ -620,14 +588,7 @@ namespace BiliBili3
                 if (model.code == 0)
                 {
                     MessageModel list = JsonConvert.DeserializeObject<MessageModel>(model.data.ToString());
-                    if (list.reply_me != 0 || list.chat_me != 0 || list.notify_me != 0 || list.praise_me != 0 || list.at_me != 0)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return list.reply_me != 0 || list.chat_me != 0 || list.notify_me != 0 || list.praise_me != 0 || list.at_me != 0;
                 }
                 else
                 {
@@ -743,7 +704,6 @@ namespace BiliBili3
             return null;
         }
         #endregion
-
 
         private static string GetTagString(string tag)
         {
@@ -987,7 +947,7 @@ namespace BiliBili3
             {
                 try
                 {
-                    var url = new Uri($"https://www.biliplus.com/login?act=savekey&mid={UserManage.Uid}&access_key={ApiHelper.access_key}&expire=");
+                    var url = new Uri($"https://www.biliplus.com/login?act=savekey&mid={UserManage.Uid}&access_key={ApiHelper.AccessKey}&expire=");
                     using (HttpClient httpClient = new HttpClient())
                     {
                         var rq = await httpClient.GetAsync(url);
@@ -1000,7 +960,7 @@ namespace BiliBili3
                             var value = match.Groups[2].Value;
                             if (key != "expires" && key != "Max-Age" && key != "path" && key != "domain")
                             {
-                                stringBuilder.Append(match.Groups[0].Value.Replace("HttpOnly, ", ""));
+                                stringBuilder.Append(match.Groups[0].Value.Replace("HttpOnly, ", string.Empty));
                             }
                         }
                     }
@@ -1011,7 +971,6 @@ namespace BiliBili3
                     Debug.WriteLine(ex);
                     throw;
                 }
-
             }
             else
             {
@@ -1023,7 +982,6 @@ namespace BiliBili3
         {
             MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(FollowSeasonPage), Modules.SeasonType.cinema);
             fy.Hide();
-
         }
 
         private void btn_ClearMedia_Click(object sender, RoutedEventArgs e)

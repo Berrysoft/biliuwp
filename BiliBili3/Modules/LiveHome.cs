@@ -74,7 +74,7 @@ namespace BiliBili3.Modules
             try
             {
                 Loading = true;
-                string url =ApiHelper.GetSignWithUrl( $"https://api.live.bilibili.com/xlive/app-interface/v2/index/getAllList?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&qn=0&rec_page=1&relation_page=1&scale=xxhdpi&ts={ApiHelper.GetTimeSpan}",ApiHelper.AndroidKey);
+                string url =ApiHelper.GetSignWithUrl( $"https://api.live.bilibili.com/xlive/app-interface/v2/index/getAllList?actionKey=appkey&appkey={ApiHelper.AndroidKey.Appkey}&build={ApiHelper.build}&device=android&mobi_app=android&platform=android&qn=0&rec_page=1&relation_page=1&scale=xxhdpi&ts={ApiHelper.TimeStamp}",ApiHelper.AndroidKey);
                 var results = await WebClientClass.GetResults(new Uri(url));
                 var model = results.ToDynamicJObject();
                 if (model.Code == 0)

@@ -23,7 +23,7 @@ namespace BiliBili3
             {
                 if (url.AbsoluteUri.Contains("23moe"))
                 {
-                    var ts = ApiHelper.GetTimeSpan.ToString();
+                    var ts = ApiHelper.TimeStamp.ToString();
                     EasClientDeviceInformation deviceInfo = new EasClientDeviceInformation();
                     hc.DefaultRequestHeaders.Add("client", "bilibili-uwp");
                     hc.DefaultRequestHeaders.Add("ts", ts);

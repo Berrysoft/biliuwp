@@ -61,7 +61,7 @@ namespace BiliBili3.Pages
                 IsLoading = true;
                 btn_More_Video.Visibility = Visibility.Collapsed;
                 pr_Load.Visibility = Visibility.Visible;
-                string url = string.Format("http://api.bilibili.com/event/getlist?appkey={0}&build=422000&mobi_app=android&page={1}&pagesize=20&platform=android&ts={2}", ApiHelper.AndroidKey.Appkey, page, ApiHelper.GetTimeSpan);
+                string url = string.Format("http://api.bilibili.com/event/getlist?appkey={0}&build=422000&mobi_app=android&page={1}&pagesize=20&platform=android&ts={2}", ApiHelper.AndroidKey.Appkey, page, ApiHelper.TimeStamp);
                 url += "&sign=" + ApiHelper.GetSign(url);
                 string results = await WebClientClass.GetResults(new Uri(url));
                 ActivityModel m = Newtonsoft.Json.JsonConvert.DeserializeObject<ActivityModel>(results);

@@ -128,19 +128,19 @@ namespace BiliBili3.Pages
                 switch (cb_draw.SelectedIndex)
                 {
                     case 0:
-                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _drawPage, ApiHelper.GetTimeSpan);
+                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _drawPage, ApiHelper.TimeStamp);
                         break;
                     case 1:
                         url = "http://api.vc.bilibili.com/link_draw/v2/doc/list?appkey={0}&category={3}&page_num={1}&page_size=20&platform=android&type=hot&ts={2}";
-                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _drawPage, ApiHelper.GetTimeSpan, "illustration");
+                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _drawPage, ApiHelper.TimeStamp, "illustration");
                         break;
                     case 2:
                         url = "http://api.vc.bilibili.com/link_draw/v2/doc/list?appkey={0}&category={3}&page_num={1}&page_size=20&platform=android&type=hot&ts={2}";
-                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _drawPage, ApiHelper.GetTimeSpan, "comic");
+                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _drawPage, ApiHelper.TimeStamp, "comic");
                         break;
                     case 3:
                         url = "http://api.vc.bilibili.com/link_draw/v2/doc/list?appkey={0}&category={3}&page_num={1}&page_size=20&platform=android&type=hot&ts={2}";
-                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _drawPage, ApiHelper.GetTimeSpan, "draw");
+                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _drawPage, ApiHelper.TimeStamp, "draw");
                         break;
                     default:
                         break;
@@ -211,15 +211,15 @@ namespace BiliBili3.Pages
                 switch (cb_draw.SelectedIndex)
                 {
                     case 0:
-                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _cosPage, ApiHelper.GetTimeSpan);
+                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _cosPage, ApiHelper.TimeStamp);
                         break;
                     case 1:
                         url = "http://api.vc.bilibili.com/link_draw/v2/Photo/list?appkey={0}&category={3}&page_num={1}&page_size=20&platform=android&type=hot&ts={2}";
-                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _cosPage, ApiHelper.GetTimeSpan, "cos");
+                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _cosPage, ApiHelper.TimeStamp, "cos");
                         break;
                     case 2:
                         url = "http://api.vc.bilibili.com/link_draw/v2/Photo/list?appkey={0}&category={3}&page_num={1}&page_size=20&platform=android&type=hot&ts={2}";
-                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _cosPage, ApiHelper.GetTimeSpan, "sifu");
+                        url = string.Format(url, ApiHelper.AndroidKey.Appkey, _cosPage, ApiHelper.TimeStamp, "sifu");
                         break;
                     default:
                         break;
