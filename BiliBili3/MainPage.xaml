@@ -7,7 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     SizeChanged="Page_SizeChanged"
     mc:Ignorable="d">
-
     <Page.Resources>
         <Style x:Name="mediaTransportControls" TargetType="MediaTransportControls">
             <Setter Property="IsTabStop" Value="False" />
@@ -835,265 +834,162 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-      
+
         <Image  x:Name="img_bg" Grid.ColumnSpan="2"></Image>
         <Canvas x:Name="GlassHost" Grid.ColumnSpan="2"/>
         <Grid x:Name="grid_o" BorderThickness="0 0 1 0" BorderBrush="{ThemeResource Bili-ForeColor}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="48"/>
-                <RowDefinition/>
-                <RowDefinition Height="auto" x:Name="row_bottom"/>
-            </Grid.RowDefinitions>
-            <Grid x:Name="grid_Top" Background="{ThemeResource Bili-ForeColor}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <AppBarToggleButton x:Name="btn_OpenMenu" Style="{StaticResource OpenMenuButton}" Foreground="White" Width="48" Height="48"  >
-                    <AppBarToggleButton.Icon>
-                        <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Glyph="&#xe649;" />
-                    </AppBarToggleButton.Icon>
+            <NavigationView x:Name="sp_View" Grid.RowSpan="3" Grid.Column="0" MaxWidth="550" OpenPaneLength="220" ItemInvoked="sp_View_ItemInvoked" PaneDisplayMode="LeftCompact" Background="{ThemeResource Bili-ForeColor-Dark}">
+                <NavigationView.MenuItems>
+                    <NavigationViewItem Content="首页" Tag="NewFeed">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#x3435;" Foreground="White"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                    <NavigationViewItem Content="频道" Tag="Home">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xE62A;" Foreground="White"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                    <NavigationViewItem Content="直播" Tag="Live">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xE648;" Foreground="White"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                    <NavigationViewItem Content="番剧" Tag="Bangumi">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xe662;" Foreground="White"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                    <NavigationViewItem Content="动态" Tag="Attention">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xe637;" Foreground="White"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                    <NavigationViewItem Content="发现" Tag="Find">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xe62c;" Foreground="White"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                </NavigationView.MenuItems>
+                <NavigationView.PaneFooter>
+                    <NavigationViewItem Content="稍后再看" Tag="SeeAfter">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xe633;" Foreground="White"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                </NavigationView.PaneFooter>
+                <Grid x:Name="grid_Top" Grid.Row="0" Grid.Column="1" Background="{ThemeResource Bili-ForeColor}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="txt_Header" Grid.Column="0" Margin="10 0" VerticalAlignment="Center" Foreground="White">首页</TextBlock>
+                    <Button x:Name="btn_Down"  Click="btn_Down_Click" Grid.Column="1" Foreground="White" Width="48" Height="48" Background="#00000000">
+                        <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Glyph="&#xe610;" FontSize="20" />
+                    </Button>
 
-                </AppBarToggleButton>
-                <TextBlock x:Name="txt_Header" Grid.Column="1" Margin="10 0" VerticalAlignment="Center" Foreground="White">首页</TextBlock>
-                <Button x:Name="btn_Down"  Click="btn_Down_Click" Grid.Column="2" Foreground="White" Width="48" Height="48" Background="#00000000">
-                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Glyph="&#xe610;" FontSize="20" />
-                </Button>
+                    <Button x:Name="btn_User" Grid.Column="3"  Foreground="White" Width="48" Height="48" Background="#00000000">
+                        <Grid >
+                            <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Glyph="&#xe6c9;" FontSize="20"/>
+                            <Ellipse  Visibility="{Binding ElementName=bor_TZ,Path=Visibility,Mode=OneWay}" Fill="Red"  Width="5" Height="5" HorizontalAlignment="Right" VerticalAlignment="Top" />
+                        </Grid>
 
-                <Button x:Name="btn_User" Grid.Column="4"  Foreground="White" Width="48" Height="48" Background="#00000000">
-                    <Grid >
-                        <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Glyph="&#xe6c9;" FontSize="20"/>
-                        <Ellipse  Visibility="{Binding ElementName=bor_TZ,Path=Visibility,Mode=OneWay}" Fill="Red"  Width="5" Height="5" HorizontalAlignment="Right" VerticalAlignment="Top" />
-                    </Grid>
+                        <Button.Flyout>
+                            <Flyout x:Name="fy">
+                                <StackPanel x:Name="gv_user">
+                                    <Button x:Name="btn_Login" HorizontalAlignment="Stretch" Click="btn_Login_Click" Background="#00000000" >
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid>
+                                                <Ellipse Height="36" Width="36">
+                                                    <Ellipse.Fill>
+                                                        <ImageBrush Stretch="Fill" ImageSource="Assets/avatar/NoAvatar.png"/>
+                                                    </Ellipse.Fill>
+                                                </Ellipse>
 
-                    <Button.Flyout>
-                        <Flyout x:Name="fy">
-                            <StackPanel x:Name="gv_user">
-                                <Button x:Name="btn_Login" HorizontalAlignment="Stretch" Click="btn_Login_Click" Background="#00000000" >
-                                    <StackPanel Orientation="Horizontal">
+                                            </Grid>
+
+                                            <TextBlock VerticalAlignment="Center" Margin="5 0">请登录</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button x:Name="btn_UserInfo" Click="btn_UserInfo_Click" Visibility="Collapsed" HorizontalAlignment="Stretch" Background="#00000000" >
+                                        <StackPanel Orientation="Horizontal" MinWidth="100">
+                                            <Grid>
+                                                <Ellipse Height="36" Width="36">
+                                                    <Ellipse.Fill>
+                                                        <ImageBrush Stretch="Fill" ImageSource="{Binding face}"/>
+                                                    </Ellipse.Fill>
+                                                </Ellipse>
+                                                <Image Source="Assets/Icon/ic_vip_v_22.png" x:Name="img_VIP" Visibility="Collapsed" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
+                                            </Grid>
+
+                                            <TextBlock VerticalAlignment="Center" Margin="5 0" Text="{Binding name}"></TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                    <StackPanel x:Name="gv_User" Visibility="Collapsed">
+                                        <MenuFlyoutItem x:Name="dtzz" Visibility="Collapsed" Click="dtzz_Click">答题转正</MenuFlyoutItem>
+                                        <MenuFlyoutSeparator Background="#19000000"/>
+                                        <MenuFlyoutItem x:Name="btn_user_myvip" Click="btn_user_myvip_Click">我的大会员</MenuFlyoutItem>
+                                        <MenuFlyoutItem x:Name="btn_user_mywallet" Click="btn_user_mywallet_Click">我的钱包</MenuFlyoutItem>
+                                        <MenuFlyoutItem x:Name="btn_user_Qr" Click="btn_user_Qr_Click">二维码名片</MenuFlyoutItem>
+                                        <MenuFlyoutSeparator Background="#19000000"/>
                                         <Grid>
-                                            <Ellipse Height="36" Width="36">
-                                                <Ellipse.Fill>
-                                                    <ImageBrush Stretch="Fill" ImageSource="Assets/avatar/NoAvatar.png"/>
-                                                </Ellipse.Fill>
-                                            </Ellipse>
-
+                                            <MenuFlyoutItem x:Name="btn_user_mymessage" Click="btn_user_mymessage_Click">消息中心</MenuFlyoutItem>
+                                            <Ellipse x:Name="bor_TZ"  Visibility="Collapsed" Fill="Red"  Width="5" Height="5" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="30 10"/>
                                         </Grid>
 
-                                        <TextBlock VerticalAlignment="Center" Margin="5 0">请登录</TextBlock>
+                                        <MenuFlyoutItem x:Name="btn_user_myGuanzhu" Click="btn_user_myGuanzhu_Click">关注的人</MenuFlyoutItem>
+                                        <MenuFlyoutItem x:Name="btn_user_mycollect" Click="btn_user_mycollect_Click">视频收藏</MenuFlyoutItem>
+                                        <MenuFlyoutItem x:Name="btn_user_moviecollect" Click="btn_user_moviecollect_Click">影视收藏</MenuFlyoutItem>
+                                        <MenuFlyoutItem x:Name="btn_user_mychistory" Click="btn_user_mychistory_Click">历史记录</MenuFlyoutItem>
+                                        <MenuFlyoutItem x:Name="btn_user_toView" Click="btn_user_toView_Click">稍后再看</MenuFlyoutItem>
+                                        <MenuFlyoutSeparator Background="#19000000"/>
+                                        <MenuFlyoutItem x:Name="btn_LogOut" Click="btn_LogOut_Click">退出登录</MenuFlyoutItem>
                                     </StackPanel>
-                                </Button>
-                                <Button x:Name="btn_UserInfo" Click="btn_UserInfo_Click" Visibility="Collapsed" HorizontalAlignment="Stretch" Background="#00000000" >
-                                    <StackPanel Orientation="Horizontal" MinWidth="100">
-                                        <Grid>
-                                            <Ellipse Height="36" Width="36">
-                                                <Ellipse.Fill>
-                                                    <ImageBrush Stretch="Fill" ImageSource="{Binding face}"/>
-                                                </Ellipse.Fill>
-                                            </Ellipse>
-                                            <Image Source="Assets/Icon/ic_vip_v_22.png" x:Name="img_VIP" Visibility="Collapsed" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
-                                        </Grid>
 
-                                        <TextBlock VerticalAlignment="Center" Margin="5 0" Text="{Binding name}"></TextBlock>
-                                    </StackPanel>
-                                </Button>
-                                <StackPanel x:Name="gv_User" Visibility="Collapsed">
-                                    <MenuFlyoutItem x:Name="dtzz" Visibility="Collapsed" Click="dtzz_Click">答题转正</MenuFlyoutItem>
-                                    <MenuFlyoutSeparator Background="#19000000"/>
-                                    <MenuFlyoutItem x:Name="btn_user_myvip" Click="btn_user_myvip_Click">我的大会员</MenuFlyoutItem>
-                                    <MenuFlyoutItem x:Name="btn_user_mywallet" Click="btn_user_mywallet_Click">我的钱包</MenuFlyoutItem>
-                                    <MenuFlyoutItem x:Name="btn_user_Qr" Click="btn_user_Qr_Click">二维码名片</MenuFlyoutItem>
-                                    <MenuFlyoutSeparator Background="#19000000"/>
-                                    <Grid>
-                                        <MenuFlyoutItem x:Name="btn_user_mymessage" Click="btn_user_mymessage_Click">消息中心</MenuFlyoutItem>
-                                        <Ellipse x:Name="bor_TZ"  Visibility="Collapsed" Fill="Red"  Width="5" Height="5" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="30 10"/>
-                                    </Grid>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
 
-                                    <MenuFlyoutItem x:Name="btn_user_myGuanzhu" Click="btn_user_myGuanzhu_Click">关注的人</MenuFlyoutItem>
-                                    <MenuFlyoutItem x:Name="btn_user_mycollect" Click="btn_user_mycollect_Click">视频收藏</MenuFlyoutItem>
-                                    <MenuFlyoutItem x:Name="btn_user_moviecollect" Click="btn_user_moviecollect_Click">影视收藏</MenuFlyoutItem>
-                                    <MenuFlyoutItem x:Name="btn_user_mychistory" Click="btn_user_mychistory_Click">历史记录</MenuFlyoutItem>
-                                    <MenuFlyoutItem x:Name="btn_user_toView" Click="btn_user_toView_Click">稍后再看</MenuFlyoutItem>
-                                    <MenuFlyoutSeparator Background="#19000000"/>
-                                    <MenuFlyoutItem x:Name="btn_LogOut" Click="btn_LogOut_Click">退出登录</MenuFlyoutItem>
-                                </StackPanel>
+                    <Button x:Name="btn_Qr" Click="btn_Qr_Click" Grid.Column="4"  Foreground="White" Width="48" Height="48" Background="#00000000">
+                        <FontIcon FontFamily="ms-appx:///Assets/logo.ttf#iconfont" Glyph="&#xe6fa;" FontSize="18"/>
+                    </Button>
+                    <Button x:Name="btn_Search" Click="btn_Search_Click" Grid.Column="5"  Foreground="White" Width="48" Height="48" Background="#00000000">
+                        <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Glyph="&#xe60a;" FontSize="20"/>
+                    </Button>
 
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-
-                <Button x:Name="btn_Qr" Click="btn_Qr_Click" Grid.Column="5"  Foreground="White" Width="48" Height="48" Background="#00000000">
-                    <FontIcon FontFamily="ms-appx:///Assets/logo.ttf#iconfont" Glyph="&#xe6fa;" FontSize="18"/>
-                </Button>
-                <Button x:Name="btn_Search" Click="btn_Search_Click" Grid.Column="6"  Foreground="White" Width="48" Height="48" Background="#00000000">
-                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Glyph="&#xe60a;" FontSize="20"/>
-                </Button>
-            </Grid>
-            <SplitView x:Name="sp_View" Grid.Row="1"  IsPaneOpen="{Binding ElementName=btn_OpenMenu,Path=IsChecked,Mode=TwoWay}" OpenPaneLength="220" PaneBackground="{ThemeResource Bili-ForeColor-Dark}" DisplayMode="CompactOverlay">
-                <SplitView.Pane>
-                    <Grid>
-                        <ListView x:Name="menu_List" Foreground="White" SelectionChanged="menu_List_SelectionChanged">
-                            <ListViewItem Style="{StaticResource SelectItem}" Height="48" >
-                                <StackPanel Orientation="Horizontal">
-                                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" VerticalAlignment="Center" FontSize="18" Margin="4 0" Glyph="&#x3435;" Foreground="White"/>
-                                    <TextBlock Text="首页" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem  Style="{StaticResource SelectItem}" Height="48" >
-                                <StackPanel Orientation="Horizontal">
-                                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xE62A;" Foreground="White"/>
-                                    <TextBlock Text="频道" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem  Style="{StaticResource SelectItem}" Height="48" >
-                                <StackPanel Orientation="Horizontal">
-                                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xe648;" Foreground="White"/>
-                                    <TextBlock Text="直播" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem  Style="{StaticResource SelectItem}" Height="48" >
-                                <StackPanel Orientation="Horizontal">
-                                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" VerticalAlignment="Center" Margin="4 0" Glyph="&#xe662;" Foreground="White"/>
-                                    <TextBlock Text="番剧" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
-                                </StackPanel>
-                            </ListViewItem>
-
-                           
-                            <ListViewItem  Style="{StaticResource SelectItem}" Height="48" >
-                                <StackPanel Orientation="Horizontal">
-                                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xe637;" Foreground="White"/>
-                                    <TextBlock Text="动态" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
-                                </StackPanel>
-                            </ListViewItem>
-
-
-                            <ListViewItem  Style="{StaticResource SelectItem}"  Height="48" >
-                                <StackPanel Orientation="Horizontal">
-                                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Glyph="&#xe62c;"  FontSize="18" Margin="4 0" Foreground="White"/>
-                                    <TextBlock Text="发现" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
-                                </StackPanel>
-                            </ListViewItem>
-                        </ListView>
-                        <ListView VerticalAlignment="Bottom" ItemClick="ListView_ItemClick" IsItemClickEnabled="True" SelectionMode="None">
-                            <ListViewItem Visibility="Collapsed" Style="{StaticResource SelectItem}" Height="48" >
-                                <StackPanel Orientation="Horizontal" Tag="Test">
-                                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xe633;" Foreground="White"/>
-                                 
-                                    <TextBlock Text="测试" VerticalAlignment="Center" Margin="18 -2 18 0" Foreground="White" />
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem  Style="{StaticResource SelectItem}" Height="48" >
-                                <StackPanel Orientation="Horizontal" Tag="ToView">
-                                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xe633;" Foreground="White"/>
-                                    <TextBlock Text="稍后再看" VerticalAlignment="Center" Margin="18 -2 18 0" Foreground="White" />
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem  Style="{StaticResource SelectItem}" Height="48" >
-                                <StackPanel Orientation="Horizontal" Tag="Setting">
-                                    <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" FontSize="18" Margin="4 0" Glyph="&#xE658;" Foreground="White"/>
-                                    <TextBlock Text="应用设置" VerticalAlignment="Center" Margin="18,2" Foreground="White" />
-                                </StackPanel>
-                            </ListViewItem>
-                        </ListView>
-                    </Grid>
-                </SplitView.Pane>
-                <Grid>
-
-                    <Frame x:Name="main_frame" Navigated="main_frame_Navigated" >
+                    <Frame x:Name="main_frame" Grid.Row="1" Grid.ColumnSpan="6">
                         <Frame.ContentTransitions >
                             <TransitionCollection>
                                 <PopupThemeTransition/>
                             </TransitionCollection>
                         </Frame.ContentTransitions>
                     </Frame>
-
-                    <Border x:Name="bor_SS" 
-					ManipulationMode="TranslateX" 
-					ManipulationCompleted="Border_ManipulationCompleted" 
-					ManipulationDelta="Border_ManipulationDelta"
-					Width="20" Opacity="0" Background="White" HorizontalAlignment="Left"/>
                 </Grid>
-            </SplitView>
-            <Border x:Name="bor_Width" Width="56" VerticalAlignment="Top"></Border>
-            <GridView SelectionChanged="bottom_SelectionChanged" Grid.Row="2" x:Name="bottom" ScrollViewer.VerticalScrollBarVisibility="Disabled" Padding="0"  Height="56" BorderThickness="0 1 0 0" Visibility="Visible" Background="{ThemeResource Main-Background}" >
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
-                <GridView.BorderBrush>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#7FC7C7C7"/>
-                        <GradientStop Color="#7FFFFFFF" Offset="0.027"/>
-                    </LinearGradientBrush>
-                </GridView.BorderBrush>
-                <GridViewItem  HorizontalContentAlignment="Stretch"  Height="52"   Foreground="{ThemeResource Main-ForeColor-No}" Style="{StaticResource GridViewItemStyle1}">
-                    <Border Width="{Binding ElementName=bor_Width,Path=Width}" >
-                        <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Margin="0 4" FontSize="22"  VerticalAlignment="Center"  Glyph="&#xf012b;" />
-                    </Border>
-
-                </GridViewItem>
-                
-                <GridViewItem  HorizontalContentAlignment="Stretch"  Height="52"  Foreground="{ThemeResource Main-ForeColor-No}" Style="{StaticResource GridViewItemStyle1}">
-                    <Border Width="{Binding ElementName=bor_Width,Path=Width}">
-                        <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Margin="0 4" FontSize="22"  VerticalAlignment="Center"  Glyph="&#xE62A;" />
-                    </Border>
-
-                </GridViewItem>
-                <GridViewItem  HorizontalContentAlignment="Stretch"  Height="52"  Foreground="{ThemeResource Main-ForeColor-No}" Style="{StaticResource GridViewItemStyle1}">
-                    <Border Width="{Binding ElementName=bor_Width,Path=Width}">
-                        <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Margin="0 4" FontSize="22"  VerticalAlignment="Center"  Glyph="&#xe648;" />
-                    </Border>
-
-                </GridViewItem>
-                <GridViewItem  HorizontalContentAlignment="Stretch"  Height="52"  Foreground="{ThemeResource Main-ForeColor-No}" Style="{StaticResource GridViewItemStyle1}">
-                    <Border Width="{Binding ElementName=bor_Width,Path=Width}">
-                        <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Margin="0 4" FontSize="22"  VerticalAlignment="Center"  Glyph="&#xe662;" />
-                    </Border>
-
-                </GridViewItem>
-                <GridViewItem  HorizontalContentAlignment="Stretch"  Height="52"  Foreground="{ThemeResource Main-ForeColor-No}" Style="{StaticResource GridViewItemStyle1}">
-                    <Border Width="{Binding ElementName=bor_Width,Path=Width}">
-                        <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Margin="0 4" FontSize="22"  VerticalAlignment="Center"  Glyph="&#xe637;" />
-                    </Border>
-
-                </GridViewItem>
-                <GridViewItem HorizontalContentAlignment="Stretch"  Height="52"  Foreground="{ThemeResource Main-ForeColor-No}" Style="{StaticResource GridViewItemStyle1}">
-                    <Border  Width="{Binding ElementName=bor_Width,Path=Width}">
-                        <FontIcon FontFamily="ms-appx:///Assets/iconfont.ttf#iconfont" Margin="0 4" FontSize="22"  VerticalAlignment="Center"  Glyph="&#xe62c;" />
-                    </Border>
-
-                </GridViewItem>
-            </GridView>
+            </NavigationView>
         </Grid>
         <Grid x:Name="bg" Visibility="Visible" Grid.Column="1">
-
-            <Frame x:Name="bg_Frame" Margin="0 -48 0 0">
-
-            </Frame>
-
-
-          
-
+            <Frame x:Name="bg_Frame" Margin="0 -48 0 0"/>
         </Grid>
-       
-        <Frame x:Name="frame"  Grid.RowSpan="2"  Visibility="Collapsed"  Navigated="frame_Navigated">
+
+        <Frame x:Name="frame" Grid.RowSpan="2"  Visibility="Collapsed"  Navigated="frame_Navigated">
             <Frame.ContentTransitions >
                 <TransitionCollection>
                     <EdgeUIThemeTransition Edge="Right"/>
                 </TransitionCollection>
             </Frame.ContentTransitions>
         </Frame>
-       
-            <StackPanel x:Name="music" Visibility="Visible"  Opacity="0.7" Background="{ThemeResource Bili-ForeColor}" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="12 64">
 
+        <StackPanel x:Name="music" Visibility="Visible"  Opacity="0.7" Background="{ThemeResource Bili-ForeColor}" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="12 64">
             <Grid   HorizontalAlignment="Right">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -1106,21 +1002,18 @@
                 <Button  BorderThickness="0" Click="Button_Click" Padding="0"  Grid.RowSpan="2"  Background="#00000000">
                     <Image x:Name="music_img" Height="48" Width="48" Stretch="UniformToFill" ></Image>
                     <Button.Flyout>
-                     
-                            <Flyout >
-                                <StackPanel  Width="320">
-                                    <TextBlock Margin="4" x:Name="txt_musicInfo" TextWrapping="Wrap"></TextBlock>
-                                    <MediaPlayerElement x:Name="musicplayer"  AreTransportControlsEnabled="True">
-                                        <MediaPlayerElement.TransportControls>
-                                            <MediaTransportControls  Style="{StaticResource mediaTransportControls}" IsFullWindowButtonVisible="False" IsSeekEnabled="True"  IsZoomButtonVisible="False" IsZoomEnabled="False" IsPreviousTrackButtonVisible="True" IsNextTrackButtonVisible="True">
+                        <Flyout >
+                            <StackPanel  Width="320">
+                                <TextBlock Margin="4" x:Name="txt_musicInfo" TextWrapping="Wrap"></TextBlock>
+                                <MediaPlayerElement x:Name="musicplayer"  AreTransportControlsEnabled="True">
+                                    <MediaPlayerElement.TransportControls>
+                                        <MediaTransportControls  Style="{StaticResource mediaTransportControls}" IsFullWindowButtonVisible="False" IsSeekEnabled="True"  IsZoomButtonVisible="False" IsZoomEnabled="False" IsPreviousTrackButtonVisible="True" IsNextTrackButtonVisible="True">
 
-                                            </MediaTransportControls>
-                                        </MediaPlayerElement.TransportControls>
-                                    </MediaPlayerElement>
-                                </StackPanel>
-
-                            </Flyout>
-                       
+                                        </MediaTransportControls>
+                                    </MediaPlayerElement.TransportControls>
+                                </MediaPlayerElement>
+                            </StackPanel>
+                        </Flyout>
                     </Button.Flyout>
                 </Button>
                 <StackPanel Grid.Column="1"  Grid.Row="1" Orientation="Horizontal" Height="48">
@@ -1149,8 +1042,6 @@
                                                 </StackPanel>
                                             </HyperlinkButton>
                                         </Grid>
-                                       
-                                        
                                     </ListView.Header>
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
@@ -1194,11 +1085,6 @@
                     </Border>
                 </HyperlinkButton>
             </StackPanel>
-           
         </Grid>
-        
-
     </Grid>
-
-
 </Page>

@@ -189,7 +189,6 @@ namespace BiliBili3
         DispatcherTimer timer;
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            sp_View.DisplayMode = SplitViewDisplayMode.CompactOverlay;
             ChangeTheme();
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 5);
@@ -205,10 +204,11 @@ namespace BiliBili3
             MessageCenter.ChangeBg += MessageCenter_ChangeBg;
             MessageCenter_ChangeBg();
             main_frame.Visibility = Visibility.Visible;
-            menu_List.SelectedIndex = 0;
-            Can_Nav = false;
-            bottom.SelectedIndex = 0;
-            Can_Nav = true;
+            NavigateTagList("NewFeed");
+            sp_View.SelectedItem = sp_View.MenuItems[0];
+            //Can_Nav = false;
+            //bottom.SelectedIndex = 0;
+            //Can_Nav = true;
             frame.Visibility = Visibility.Visible;
             frame.Navigate(typeof(BlankPage));
 
@@ -555,7 +555,7 @@ namespace BiliBili3
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = ((SolidColorBrush)grid_Top.Background).Color;
             titleBar.ForegroundColor = Color.FromArgb(255, 254, 254, 254);//Colors.White纯白用不了。。。
-            titleBar.ButtonHoverBackgroundColor = ((SolidColorBrush)sp_View.PaneBackground).Color;
+            titleBar.ButtonHoverBackgroundColor = ((SolidColorBrush)sp_View.Background).Color;
             titleBar.ButtonBackgroundColor = ((SolidColorBrush)grid_Top.Background).Color;
             titleBar.ButtonForegroundColor = Color.FromArgb(255, 254, 254, 254);
             titleBar.InactiveBackgroundColor = ((SolidColorBrush)grid_Top.Background).Color;
@@ -601,109 +601,6 @@ namespace BiliBili3
                 //Utils.ShowMessageToast("读取通知失败", 3000);
             }
         }
-
-        //侧滑来源http://www.cnblogs.com/hebeiDGL/p/4775377.html
-        #region  从屏幕左侧边缘滑动屏幕时，打开 SplitView 菜单
-
-        // SplitView 控件模板中，Pane部分的 Grid
-        Grid PaneRoot;
-
-        //  引用 SplitView 控件中， 保存从 Pane “关闭” 到“打开”的 VisualTransition
-        //  也就是 <VisualTransition From="Closed" To="OpenOverlayLeft"> 这个 
-        VisualTransition from_ClosedToOpenOverlayLeft_Transition;
-
-        private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
-        {
-            e.Handled = true;
-
-            // 仅当 SplitView 处于 Overlay 模式时（窗口宽度最小时）
-            if (sp_View.DisplayMode == SplitViewDisplayMode.Overlay)
-            {
-                if (PaneRoot == null)
-                {
-                    // 找到 SplitView 控件中，模板的父容器
-                    Grid grid = FindVisualChild<Grid>(sp_View);
-
-                    PaneRoot = grid.FindName("PaneRoot") as Grid;
-
-                    if (from_ClosedToOpenOverlayLeft_Transition == null)
-                    {
-                        // 获取 SplitView 模板中“视觉状态集合”
-                        IList<VisualStateGroup> stateGroup = VisualStateManager.GetVisualStateGroups(grid);
-
-                        //  获取 VisualTransition 对象的集合。
-                        IList<VisualTransition> transitions = stateGroup[0].Transitions;
-
-                        // 找到 SplitView.IsPaneOpen 设置为 true 时，播放的 transition
-                        from_ClosedToOpenOverlayLeft_Transition = transitions?.Where(train => train.From == "Closed" && train.To == "OpenOverlayLeft").First();
-                    }
-                }
-
-
-                // 默认为 Collapsed，所以先显示它
-                PaneRoot.Visibility = Visibility.Visible;
-
-                // 当在 Border 上向右滑动，并且滑动的总距离需要小于 Panel 的默认宽度。否则会脱离左侧窗口，继续向右拖动
-                if (e.Cumulative.Translation.X >= 0 && e.Cumulative.Translation.X < sp_View.OpenPaneLength)
-                {
-                    CompositeTransform ct = PaneRoot.RenderTransform as CompositeTransform;
-                    ct.TranslateX = (e.Cumulative.Translation.X - sp_View.OpenPaneLength);
-                }
-            }
-        }
-
-        private void Border_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        {
-            e.Handled = true;
-
-            // 仅当 SplitView 处于 Overlay 模式时（窗口宽度最小时）
-            if (sp_View.DisplayMode == SplitViewDisplayMode.Overlay && PaneRoot != null)
-            {
-                // 因为当 IsPaneOpen 为 true 时，会通过 VisualStateManager 把 PaneRoot.Visibility  设置为
-                // Visibility.Visible，所以这里把它改为 Visibility.Collapsed，以回到初始状态
-                PaneRoot.Visibility = Visibility.Collapsed;
-
-                // 恢复初始状态 
-                CompositeTransform ct = PaneRoot.RenderTransform as CompositeTransform;
-
-
-                // 如果大于 MySplitView.OpenPaneLength 宽度的 1/2 ，则显示，否则隐藏
-                if ((sp_View.OpenPaneLength + ct.TranslateX) > sp_View.OpenPaneLength / 2)
-                {
-                    sp_View.IsPaneOpen = true;
-
-                    // 因为上面设置 IsPaneOpen = true 会再次播放向右滑动的动画，所以这里使用 SkipToFill()
-                    // 方法，直接跳到动画结束状态
-                    from_ClosedToOpenOverlayLeft_Transition?.Storyboard?.SkipToFill();
-
-                }
-
-                ct.TranslateX = 0;
-            }
-        }
-
-
-        public static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
-        {
-            int count = Windows.UI.Xaml.Media.VisualTreeHelper.GetChildrenCount(obj);
-            for (int i = 0; i < count; i++)
-            {
-                DependencyObject child = Windows.UI.Xaml.Media.VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is T)
-                {
-                    return (T)child;
-                }
-                else
-                {
-                    T childOfChild = FindVisualChild<T>(child);
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
-
-            return null;
-        }
-        #endregion
 
         private static string GetTagString(string tag)
         {
@@ -763,65 +660,64 @@ namespace BiliBili3
             }
         }
 
-        private static readonly string[] tagList = { "首页", "频道", "直播", "番剧", "动态", "发现", "设置" };
-        private static readonly Type[] tagPageList = { typeof(NewFeedPage), typeof(HomePage), typeof(LiveV2Page), typeof(BangumiPage), typeof(AttentionPage), typeof(FindPage) };
-
-        private int GetTagListIndex(string tag)
+        private static readonly Dictionary<string, Type> navigateList = new Dictionary<string, Type>
         {
-            return Array.IndexOf(tagList, tag);
+            ["NewFeed"] = typeof(NewFeedPage),
+            ["Home"] = typeof(HomePage),
+            ["Live"] = typeof(LiveV2Page),
+            ["Bangumi"] = typeof(BangumiPage),
+            ["Attention"] = typeof(AttentionPage),
+            ["Find"] = typeof(FindPage)
+        };
+        //private int GetTagListIndex(string tag)
+        //{
+        //    return Array.IndexOf(tagList, tag);
+        //}
+
+        //private void main_frame_Navigated(object sender, NavigationEventArgs e)
+        //{
+        //    if ((main_frame.Content as Page).Tag == null)
+        //    {
+        //        return;
+        //    }
+        //    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+        //    Can_Nav = false;
+        //    _InBangumi = false;
+        //    var tag = (main_frame.Content as Page)?.Tag?.ToString();
+        //    if (tag != null)
+        //    {
+        //        var index = GetTagListIndex(tag);
+        //        if (index >= 0)
+        //        {
+        //            bottom.SelectedIndex = index;
+        //            menu_List.SelectedIndex = index;
+        //            txt_Header.Text = tag;
+        //        }
+        //        else
+        //        {
+        //            var text = GetTagString(tag);
+        //            if (text != null)
+        //            {
+        //                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+        //                _InBangumi = true;
+        //                txt_Header.Text = text;
+        //            }
+        //        }
+        //    }
+        //    Can_Nav = true;
+        //}
+        //bool Can_Nav = true;
+        private void NavigateTagList(string tag)
+        {
+            if (navigateList.TryGetValue(tag, out Type type))
+            {
+                main_frame.Navigate(type);
+            }
         }
 
-        private void main_frame_Navigated(object sender, NavigationEventArgs e)
+        private void sp_View_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            if ((main_frame.Content as Page).Tag == null)
-            {
-                return;
-            }
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            Can_Nav = false;
-            _InBangumi = false;
-            var tag = (main_frame.Content as Page)?.Tag?.ToString();
-            if (tag != null)
-            {
-                var index = GetTagListIndex(tag);
-                if (index >= 0)
-                {
-                    bottom.SelectedIndex = index;
-                    menu_List.SelectedIndex = index;
-                    txt_Header.Text = tag;
-                }
-                else
-                {
-                    var text = GetTagString(tag);
-                    if (text != null)
-                    {
-                        SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                        _InBangumi = true;
-                        txt_Header.Text = text;
-                    }
-                }
-            }
-            Can_Nav = true;
-        }
-        bool Can_Nav = true;
-        private void NavigateTagList()
-        {
-            if (!Can_Nav)
-            {
-                return;
-            }
-            var index = menu_List.SelectedIndex;
-            if (index < 6)
-            {
-                main_frame.Navigate(tagPageList[index]);
-                txt_Header.Text = tagList[index];
-            }
-            sp_View.IsPaneOpen = false;
-        }
-
-        private void menu_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            NavigateTagList();
+            NavigateTagList(args.InvokedItemContainer.Tag.ToString());
         }
 
         private void btn_Search_Click(object sender, RoutedEventArgs e)
@@ -847,13 +743,13 @@ namespace BiliBili3
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            bor_Width.Width = (this.ActualWidth / 6) - 2;
+            //bor_Width.Width = (this.ActualWidth / 6) - 2;
         }
 
-        private void bottom_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            NavigateTagList();
-        }
+        //private void bottom_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    NavigateTagList();
+        //}
 
         private void btn_user_myvip_Click(object sender, RoutedEventArgs e)
         {
