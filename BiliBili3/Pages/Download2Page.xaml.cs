@@ -22,6 +22,7 @@ using Windows.Storage;
 using BiliBili3.Controls;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Documents;
+using System.Diagnostics;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -48,7 +49,7 @@ namespace BiliBili3.Pages
             base.OnNavigatedTo(e);
             GetDowned();
             await LoadDowning();
-            
+
             //await Task.Delay(200);
         }
         private IDictionary<string, CancellationTokenSource> cts;
@@ -73,10 +74,14 @@ namespace BiliBili3.Pages
             var ls = await BackgroundDownloader.GetCurrentDownloadsForTransferGroupAsync(DownloadHelper2.group);
             foreach (var item in ls)
             {
-              
+
                 CancellationTokenSource cancellationTokenSource = null;
 
-                var data = SqlHelper.GetDownload(item.Guid.ToString());
+                DownloadGuidClass data;
+                using (var context = SqlHelper.CreateContext())
+                {
+                    data = context.GetDownload(item.Guid.ToString());
+                }
                 if (cts.ContainsKey(data.Cid))
                 {
                     cancellationTokenSource = cts[data.Cid];
@@ -94,7 +99,7 @@ namespace BiliBili3.Pages
                     downloadOperations.Add(item);
                     handelList.Add(Handel(item, cancellationTokenSource));
                 }
-                
+
                 list.Add(new DisplayModel()
                 {
                     cid = data.Cid,
@@ -128,7 +133,7 @@ namespace BiliBili3.Pages
             downCount.Text = downloadDisplayInfos.Count.ToString();
             //list_Downing.ItemsSource = list;
             pr_loading.Visibility = Visibility.Collapsed;
-           
+
             await Task.WhenAll(handelList);
 
         }
@@ -199,12 +204,12 @@ namespace BiliBili3.Pages
                             {
                                 var flag = false;
                                 var files = (await item1.GetFilesAsync()).Where(x => x.FileType == ".mp4" || x.FileType == ".flv");
-                                if (files.Count()!=0)
+                                if (files.Count() != 0)
                                 {
                                     //DownloadHelper2.GetFileSize(x.Path).Result
                                     foreach (var subfile in files)
                                     {
-                                        if (await DownloadHelper2.GetFileSize(subfile.Path)==0)
+                                        if (await DownloadHelper2.GetFileSize(subfile.Path) == 0)
                                         {
                                             flag = true;
                                             break;
@@ -239,13 +244,13 @@ namespace BiliBili3.Pages
                                 //    if (item2.FileType == ".mp4" || item2.FileType == ".flv")
 
                                 //        check.Add(await DownloadHelper2.GetFileSize(item2.Path) == 0);
-  
+
                                 //    }
                                 //}
                                 //if (!check.Contains(false))
                                 //{
-                                    
-                               // }
+
+                                // }
 
                             }
                         }
@@ -314,7 +319,7 @@ namespace BiliBili3.Pages
             catch (Exception ex)
             {
 
-                if (ex.Message.Contains("0x80072EF1") || ex.Message.Contains("0x80070002")||ex.Message.Contains("0x80004004"))
+                if (ex.Message.Contains("0x80072EF1") || ex.Message.Contains("0x80070002") || ex.Message.Contains("0x80004004"))
                 {
                     return;
                 }
@@ -461,16 +466,18 @@ namespace BiliBili3.Pages
                     //    await Task.Delay(1000);
                     //}
 
-                    var d = SqlHelper.GetDownload(data.guid);
-                    await DownloadHelper2.DeleteFolder(d.Aid, d.Cid, d.Mode);
-
+                    using (var context = SqlHelper.CreateContext())
+                    {
+                        var d = context.GetDownload(data.guid);
+                        await DownloadHelper2.DeleteFolder(d.Aid, d.Cid, d.Mode);
+                    }
                     LoadDowning();
                 }
 
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex);
             }
 
         }
@@ -534,11 +541,11 @@ namespace BiliBili3.Pages
             var data = e.ClickedItem as PartDiaplayModel;
 
             StorageFolder storageFolder = await StorageFolder.GetFolderFromPathAsync(data.path);
-            if ((await storageFolder.GetFilesAsync()).Count(x => x.FileType == ".flv")>1)
+            if ((await storageFolder.GetFilesAsync()).Count(x => x.FileType == ".flv") > 1)
             {
 
                 MessageDialog md = new MessageDialog("该视频由多段FLV文件组成，建议合并后观看\r\n是否要合并文件？");
-                md.Commands.Add(new UICommand("合并"){Id = 0});
+                md.Commands.Add(new UICommand("合并") { Id = 0 });
                 md.Commands.Add(new UICommand("取消") { Id = 1 });
                 if (Convert.ToInt32((await md.ShowAsync()).Id) == 0)
                 {
@@ -629,7 +636,7 @@ namespace BiliBili3.Pages
             await new MessageDialog("该功能还未完成").ShowAsync();
         }
 
-       
+
 
         private void btn_old_Click(object sender, RoutedEventArgs e)
         {
@@ -768,12 +775,12 @@ namespace BiliBili3.Pages
         private async void btn_ToMp4_Click(object sender, RoutedEventArgs e)
         {
             var model = (sender as MenuFlyoutItem).DataContext as PartDiaplayModel;
-            StorageFolder storageFolder =await StorageFolder.GetFolderFromPathAsync(model.path);
+            StorageFolder storageFolder = await StorageFolder.GetFolderFromPathAsync(model.path);
 
-            if ((await storageFolder.GetFilesAsync()).Any(x=>x.FileType==".flv"))
+            if ((await storageFolder.GetFilesAsync()).Any(x => x.FileType == ".flv"))
             {
                 var dialog = DownloadHelper2.videoProcessingDialogs.FirstOrDefault(x => x.ID == model.cid);
-                if (dialog==null)
+                if (dialog == null)
                 {
                     dialog = new VideoProcessingDialog(model.cid, model.title + " " + model.eptitle, storageFolder);
                     DownloadHelper2.videoProcessingDialogs.Add(dialog);

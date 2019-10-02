@@ -1042,14 +1042,17 @@ namespace BiliBili3.Pages
         {
             try
             {
-                var history = SqlHelper.GetComicHistory(_aid);
-                if (history != null)
+                using (var context = SqlHelper.CreateContext())
                 {
-                    SqlHelper.UpdateComicHistory(CompleteHistory(history));
-                }
-                else
-                {
-                    SqlHelper.AddCommicHistory(CompleteHistory(new HistoryClass() { Aid = _aid }));
+                    var history = context.GetComicHistory(_aid);
+                    if (history != null)
+                    {
+                        context.UpdateComicHistory(CompleteHistory(history));
+                    }
+                    else
+                    {
+                        context.AddCommicHistory(CompleteHistory(new HistoryClass() { Aid = _aid }));
+                    }
                 }
             }
             catch (Exception ex)

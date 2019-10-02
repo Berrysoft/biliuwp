@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Windows.Storage;
 
 namespace BiliBili3
 {
     public static class SqlHelper
     {
-        private static readonly SqlContext context = new SqlContext();
+        public static SqlContext CreateContext()
+        {
+            SqlContext context = new SqlContext();
+            context.Database.EnsureCreated();
+            return context;
+        }
 
         #region viewHistory
-        public static List<HistoryClass> GetHistoryList(int mode)
+        public static List<HistoryClass> GetHistoryList(this SqlContext context, int mode)
         {
-            IQueryable<HistoryClass> dbPerson = context.HistoryClass.OrderByDescending(x => x.LookTime);
+            IQueryable<HistoryClass> dbPerson = context.History.OrderByDescending(x => x.LookTime);
             switch (mode)
             {
                 case 0:
@@ -28,66 +31,66 @@ namespace BiliBili3
             return dbPerson.ToList();
         }
 
-        public static bool AddCommicHistory(HistoryClass mo)
+        public static bool AddCommicHistory(this SqlContext context, HistoryClass mo)
         {
-            context.HistoryClass.Add(mo);
+            context.History.Add(mo);
             var count = context.SaveChanges();
             return count == 1;
         }
 
-        public static HistoryClass GetComicHistory(string aid)
+        public static HistoryClass GetComicHistory(this SqlContext context, string aid)
         {
-            return context.HistoryClass.FirstOrDefault(p => p.Aid == aid);
+            return context.History.FirstOrDefault(p => p.Aid == aid);
         }
 
-        public static bool UpdateComicHistory(HistoryClass mo)
+        public static bool UpdateComicHistory(this SqlContext context, HistoryClass mo)
         {
-            context.HistoryClass.Update(mo);
+            context.History.Update(mo);
             var count = context.SaveChanges();
             return count == 1;
         }
 
-        public static void ClearHistory()
+        public static void ClearHistory(this SqlContext context)
         {
             context.Database.ExecuteSqlCommand("DELETE FROM HistoryClass");
         }
         #endregion
 
         #region 观看进度
-        public static ViewPostHelperClass GetViewPost(string id)
+        public static ViewPostHelperClass GetViewPost(this SqlContext context, string id)
         {
-            return context.ViewPostHelperClass.FirstOrDefault(s => s.EpId == id);
+            return context.ViewPost.FirstOrDefault(s => s.EpId == id);
         }
 
-        public static bool AddViewPost(ViewPostHelperClass mo)
+        public static bool AddViewPost(this SqlContext context, ViewPostHelperClass mo)
         {
-            context.ViewPostHelperClass.Add(mo);
+            context.ViewPost.Add(mo);
             var count = context.SaveChanges();
             return count == 1;
         }
 
-        public static bool GetPostIsViewPost(string id)
+        public static bool GetPostIsViewPost(this SqlContext context, string id)
         {
             // 受影响行数。
-            return context.ViewPostHelperClass.Any(p => p.EpId == id);
+            return context.ViewPost.Any(p => p.EpId == id);
         }
 
-        public static bool UpdateViewPost(ViewPostHelperClass mo)
+        public static bool UpdateViewPost(this SqlContext context, ViewPostHelperClass mo)
         {
-            context.ViewPostHelperClass.Update(mo);
+            context.ViewPost.Update(mo);
             var count = context.SaveChanges();
             return count == 1;
         }
         #endregion
 
-        public static DownloadGuidClass GetDownload(string guid)
+        public static DownloadGuidClass GetDownload(this SqlContext context, string guid)
         {
-            return context.DownloadGuidClass.First(x => x.Guid == guid);
+            return context.Download.First(x => x.Guid == guid);
         }
 
-        public static bool InsertDownload(DownloadGuidClass m)
+        public static bool InsertDownload(this SqlContext context, DownloadGuidClass m)
         {
-            context.DownloadGuidClass.Add(m);
+            context.Download.Add(m);
             var count = context.SaveChanges();
             return count == 1;
         }
@@ -95,15 +98,13 @@ namespace BiliBili3
 
     public class SqlContext : DbContext
     {
-        public DbSet<HistoryClass> HistoryClass { get; set; }
-        public DbSet<ViewPostHelperClass> ViewPostHelperClass { get; set; }
-        public DbSet<DownloadGuidClass> DownloadGuidClass { get; set; }
-
-        private static readonly string DbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "RRMJData.db");
+        public DbSet<HistoryClass> History { get; set; }
+        public DbSet<ViewPostHelperClass> ViewPost { get; set; }
+        public DbSet<DownloadGuidClass> Download { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlite($"Filename={DbPath}");
+            options.UseSqlite($"Data Source=RRMJData.db");
         }
     }
 

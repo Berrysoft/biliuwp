@@ -669,11 +669,14 @@ namespace BiliBili3.Pages
             n++;
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                var post = SqlHelper.GetViewPost(playNow.Mid);
-                if (post != null)
+                using (var context = SqlHelper.CreateContext())
                 {
-                    post.Post = (int)mediaElement.Position.TotalSeconds;
-                    SqlHelper.UpdateViewPost(post);
+                    var post = context.GetViewPost(playNow.Mid);
+                    if (post != null)
+                    {
+                        post.Post = (int)mediaElement.Position.TotalSeconds;
+                        context.UpdateViewPost(post);
+                    }
                 }
                 if (n == 10)
                 {
@@ -932,25 +935,24 @@ namespace BiliBili3.Pages
                 HeartBeat(HeartBeatType.Start);
                 MTC.HideLog();
                 MTC.timer2.Start();
-                if (SqlHelper.GetPostIsViewPost(playNow.Mid) && SqlHelper.GetViewPost(playNow.Mid).Post != 0)
+
+                using (var context = SqlHelper.CreateContext())
                 {
-                    TimeSpan ts = new TimeSpan(0, 0, SqlHelper.GetViewPost(playNow.Mid).Post);
-                    LastPost = SqlHelper.GetViewPost(playNow.Mid).Post;
-                    btn_ViewPost.Content = "上次播放到" + ts.Hours.ToString("00") + ":" + ts.Minutes.ToString("00") + ":" + ts.Seconds.ToString("00");
-                    btn_ViewPost.Visibility = Visibility.Visible;
-                    _lastpost_in.Begin();
-                    await Task.Delay(5000);
-                    _lastpost_out.Begin();
-                }
-                else
-                {
-                    if (!SqlHelper.GetPostIsViewPost(playNow.Mid))
+                    if (context.GetPostIsViewPost(playNow.Mid) && context.GetViewPost(playNow.Mid).Post != 0)
                     {
-                        SqlHelper.AddViewPost(new ViewPostHelperClass() { EpId = playNow.Mid, Post = 0, ViewTime = DateTime.Now.ToLocalTime() });
+                        TimeSpan ts = new TimeSpan(0, 0, context.GetViewPost(playNow.Mid).Post);
+                        LastPost = context.GetViewPost(playNow.Mid).Post;
+                        btn_ViewPost.Content = "上次播放到" + ts.Hours.ToString("00") + ":" + ts.Minutes.ToString("00") + ":" + ts.Seconds.ToString("00");
+                        btn_ViewPost.Visibility = Visibility.Visible;
+                        _lastpost_in.Begin();
+                        await Task.Delay(5000);
+                        _lastpost_out.Begin();
+                    }
+                    else if (!context.GetPostIsViewPost(playNow.Mid))
+                    {
+                        context.AddViewPost(new ViewPostHelperClass() { EpId = playNow.Mid, Post = 0, ViewTime = DateTime.Now.ToLocalTime() });
                     }
                 }
-
-
             }
             catch (Exception ex)
             {

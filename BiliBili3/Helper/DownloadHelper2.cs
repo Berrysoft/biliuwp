@@ -123,25 +123,27 @@ namespace BiliBili3.Helper
             {
                 downloadOp.CostPolicy = BackgroundTransferCostPolicy.UnrestrictedOnly;
             }
-            SqlHelper.InsertDownload(new DownloadGuidClass()
+            using (var context = SqlHelper.CreateContext())
             {
-                Guid = downloadOp.Guid.ToString(),
-                Cid = m.cid,
-                Index = index,
-                Aid = (m.downloadMode == DownloadMode.Anime) ? m.sid : m.avid,
-                Eptitle = m.epTitle,
-                Title = m.title,
-                Mode = (m.downloadMode == DownloadMode.Anime) ? "anime" : "video"
-            });
+                context.InsertDownload(new DownloadGuidClass()
+                {
+                    Guid = downloadOp.Guid.ToString(),
+                    Cid = m.cid,
+                    Index = index,
+                    Aid = (m.downloadMode == DownloadMode.Anime) ? m.sid : m.avid,
+                    Eptitle = m.epTitle,
+                    Title = m.title,
+                    Mode = (m.downloadMode == DownloadMode.Anime) ? "anime" : "video"
+                });
+            }
             try
             {
                 await downloadOp.StartAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
-
-
         }
 
         private static async Task DownloadDanmu(string cid, StorageFolder folder)

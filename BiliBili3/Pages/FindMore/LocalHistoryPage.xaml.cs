@@ -38,34 +38,39 @@ namespace BiliBili3.Pages
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.NavigationMode== NavigationMode.New)
+            if (e.NavigationMode == NavigationMode.New)
             {
                 cb_select.SelectedIndex = -1;
                 cb_select.SelectedIndex = 0;
             }
-       
         }
 
         private void cb_select_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cb_select.SelectedIndex==-1)
+            if (cb_select.SelectedIndex == -1)
             {
                 return;
             }
-            var ls = SqlHelper.GetHistoryList(cb_select.SelectedIndex);
-            list.ItemsSource = ls;
+            using (var context = SqlHelper.CreateContext())
+            {
+                var ls = context.GetHistoryList(cb_select.SelectedIndex);
+                list.ItemsSource = ls;
+            }
         }
 
         private void list_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.Frame.Navigate(typeof(VideoViewPage),new object[] { (e.ClickedItem as HistoryClass).Aid});
+            this.Frame.Navigate(typeof(VideoViewPage), new object[] { (e.ClickedItem as HistoryClass).Aid });
         }
 
         private void btn_Clear_Click(object sender, RoutedEventArgs e)
         {
-            SqlHelper.ClearHistory();
-            var ls = SqlHelper.GetHistoryList(cb_select.SelectedIndex);
-            list.ItemsSource = ls;
+            using (var context = SqlHelper.CreateContext())
+            {
+                context.ClearHistory();
+                var ls = context.GetHistoryList(cb_select.SelectedIndex);
+                list.ItemsSource = ls;
+            }
         }
     }
 }

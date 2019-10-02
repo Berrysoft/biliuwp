@@ -278,20 +278,6 @@ namespace BiliBili3.Models
                 }
             }
         }
-        public SolidColorBrush f
-        {
-            get
-            {
-                if (SqlHelper.GetPostIsViewPost(danmaku.ToString()))
-                {
-                    return new SolidColorBrush(Colors.Gray);
-                }
-                else
-                {
-                    return new SolidColorBrush(Colors.White);
-                }
-            }
-        }
     }
 
     public class CBRankModel
