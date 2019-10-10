@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using HtmlAgilityPack;
+using System.Diagnostics;
 
 namespace BiliBili3.Modules
 {
@@ -303,8 +304,8 @@ namespace BiliBili3.Modules
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return null;
-
             }
         }
 
@@ -643,7 +644,7 @@ namespace BiliBili3.Modules
             }
         }
 
-       
+
 
         /// <summary>
         /// 七日榜
@@ -889,6 +890,7 @@ namespace BiliBili3.Modules
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return new ReturnModel<ObservableCollection<RankActivityModel>>()
                 {
                     success = true,
@@ -1748,21 +1750,14 @@ namespace BiliBili3.Modules
             {
                 get
                 {
-                    if (verify_type != null)
+                    switch (verify_type)
                     {
-                        switch (verify_type)
-                        {
-                            case 0:
-                                return "ms-appx:///Assets/MiniIcon/ic_authentication_personal.png";
-                            case 1:
-                                return "ms-appx:///Assets/MiniIcon/ic_authentication_organization.png";
-                            default:
-                                return "ms-appx:///Assets/MiniIcon/transparent.png";
-                        }
-                    }
-                    else
-                    {
-                        return "";
+                        case 0:
+                            return "ms-appx:///Assets/MiniIcon/ic_authentication_personal.png";
+                        case 1:
+                            return "ms-appx:///Assets/MiniIcon/ic_authentication_organization.png";
+                        default:
+                            return "ms-appx:///Assets/MiniIcon/transparent.png";
                     }
                 }
             }
@@ -1803,7 +1798,7 @@ namespace BiliBili3.Modules
             /// Accept_quality
             /// </summary>
             public List<quality_description_item> quality_description { get; set; }
-        
+
             public int current_qn { get; set; }
             /// <summary>
             /// Current_quality
@@ -1843,7 +1838,7 @@ namespace BiliBili3.Modules
 
             public string username
             {
-                get { return nickname+":"; }
+                get { return nickname + ":"; }
             }
 
             /// <summary>

@@ -14,6 +14,7 @@ using Windows.Web.Http.Filters;
 using BiliBili3.Modules.AccountModels;
 using Newtonsoft.Json;
 using Windows.Web.Http;
+using System.Diagnostics;
 
 namespace BiliBili3.Modules
 {
@@ -191,6 +192,7 @@ namespace BiliBili3.Modules
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return new LoginCallbackModel()
                 {
                     status = LoginStatus.Error,
@@ -267,6 +269,7 @@ namespace BiliBili3.Modules
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return new LoginCallbackModel()
                 {
                     status = LoginStatus.Error,
@@ -445,7 +448,7 @@ namespace BiliBili3.Modules
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex);
                 return new ReturnModel()
                 {
                     success = false,

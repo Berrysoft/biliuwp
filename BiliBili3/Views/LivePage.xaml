@@ -8,6 +8,7 @@
      xmlns:c="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Tag="直播"
     SizeChanged="Page_SizeChanged"
@@ -56,7 +57,7 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid >
-        <RefreshContainer RefreshRequested="PullToRefreshBox_RefreshInvoked">
+        <muxc:RefreshContainer RefreshRequested="PullToRefreshBox_RefreshInvoked">
             <ScrollViewer x:Name="sv"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel>
                     <Border x:Name="ViewBox2_num" Background="Gray" Width="200"></Border>
@@ -147,7 +148,7 @@
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>
-        </RefreshContainer>
+        </muxc:RefreshContainer>
 
         <AppBarButton  x:Name="b_btn_Refresh" Click="b_btn_Refresh_Click" Width="48" Height="48" Margin="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Icon="Refresh" Background="{ThemeResource Bili-ForeColor}" Opacity="0.6" Foreground="White"></AppBarButton>
        

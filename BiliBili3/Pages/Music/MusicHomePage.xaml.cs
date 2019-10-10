@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using muxc = Microsoft.UI.Xaml.Controls;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -89,7 +90,7 @@ namespace BiliBili3.Pages.Music
             MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(WebPage), data.schema);
         }
 
-        private void PullToRefreshBox_RefreshInvoked(RefreshContainer sender, RefreshRequestedEventArgs args)
+        private void PullToRefreshBox_RefreshInvoked(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args)
         {
             var deferral = args.GetDeferral();
             try

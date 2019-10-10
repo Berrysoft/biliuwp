@@ -8,6 +8,7 @@
     mc:Ignorable="d"
          xmlns:c="using:Microsoft.Toolkit.Uwp.UI.Controls"
      xmlns:pr="using:PullToRefresh.UWP"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Tag="Music"
     >
     <Page.Resources>
@@ -60,7 +61,7 @@
         </DataTemplate>
     </Page.Resources>
     <Grid >
-        <RefreshContainer RefreshRequested="PullToRefreshBox_RefreshInvoked">
+        <muxc:RefreshContainer RefreshRequested="PullToRefreshBox_RefreshInvoked">
             <ScrollViewer x:Name="sv" Style="{StaticResource ScrollViewerStyle1}"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel>
                     <Border x:Name="ViewBox_num" Background="Gray" Width="100"></Border>
@@ -288,7 +289,7 @@
                    
                 </StackPanel>
             </ScrollViewer>
-        </RefreshContainer>
+        </muxc:RefreshContainer>
         <AppBarButton x:Name="b_btn_Refresh" Grid.RowSpan="3" Click="b_btn_Refresh_Click" Width="48" Height="48" Margin="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Icon="Refresh" Background="{ThemeResource Bili-ForeColor}" Opacity="0.6" Foreground="White"></AppBarButton>
         <ProgressBar x:Name="pr_load" Visibility="Collapsed" VerticalAlignment="Top" Background="#00000000" IsIndeterminate="True"></ProgressBar>
     </Grid>

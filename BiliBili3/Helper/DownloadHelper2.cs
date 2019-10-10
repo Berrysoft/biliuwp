@@ -179,8 +179,8 @@ namespace BiliBili3.Helper
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 await new MessageDialog(cid + "更新失败").ShowAsync();
-                //return null;
             }
         }
 
@@ -424,7 +424,7 @@ namespace BiliBili3.Helper
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex);
             }
         }
 
@@ -533,6 +533,7 @@ namespace BiliBili3.Helper
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 await new MessageDialog("无法读取已经下载完成的视频").ShowAsync();
             }
 

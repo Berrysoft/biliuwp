@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -24,6 +25,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using muxc = Microsoft.UI.Xaml.Controls;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -99,7 +101,7 @@ namespace BiliBili3.Controls
             }
         }
 
-        private void PullToRefreshBox_RefreshInvoked(RefreshContainer sender, RefreshRequestedEventArgs args)
+        private void PullToRefreshBox_RefreshInvoked(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args)
         {
             var deferral = args.GetDeferral();
             try
@@ -957,7 +959,7 @@ namespace BiliBili3.Views
                 }
                 catch (Exception ex)
                 {
-
+                    Debug.WriteLine(ex);
                     return new TextBlock()
                     {
                         Text = dynamic,

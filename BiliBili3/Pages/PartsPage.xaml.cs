@@ -21,7 +21,7 @@ using Newtonsoft.Json.Linq;
 using Windows.UI.Popups;
 using System.Text;
 using System.Text.RegularExpressions;
-
+using muxc = Microsoft.UI.Xaml.Controls;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
 
@@ -2090,7 +2090,7 @@ namespace BiliBili3.Pages
             //this.Frame.Navigate(typeof(WebViewPage), m.link);
         }
 
-        private async void PullToRefreshBox_RefreshInvoked(RefreshContainer sender, RefreshRequestedEventArgs args)
+        private async void PullToRefreshBox_RefreshInvoked(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args)
         {
             var deferral = args.GetDeferral();
             try

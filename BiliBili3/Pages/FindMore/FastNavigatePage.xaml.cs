@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -36,32 +37,30 @@ namespace BiliBili3.Pages
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            gridAd.Visibility = Visibility.Collapsed;
-        }
         private void autoSug_Box_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             txt_auto_Find.Text = args.SelectedItem as string;
         }
 
-        public async Task<ObservableCollection<String>> GetSugges(string text)
+        public async Task<ObservableCollection<string>> GetSugges(string text)
         {
             try
             {
                 string results = await WebClientClass.GetResults(new Uri("http://s.search.bilibili.com/main/suggest?suggest_type=accurate&sub_type=tag&main_ver=v1&term=" + text));
                 JObject json = JObject.Parse(results);
-                // json["result"]["tag"].ToString();
-                List<SuggesModel> list = JsonConvert.DeserializeObject<List<SuggesModel>>(json["result"]["tag"].ToString());
-                ObservableCollection<String> suggestions = new ObservableCollection<string>();
-                foreach (SuggesModel item in list)
+                if (json["result"].Type == JTokenType.Object)
                 {
-                    suggestions.Add(item.value);
+                    List<SuggesModel> list = JsonConvert.DeserializeObject<List<SuggesModel>>(json["result"]["tag"].ToString());
+                    return new ObservableCollection<string>(list.Select(item => item.value));
                 }
-                return suggestions;
+                else
+                {
+                    return new ObservableCollection<string>();
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return new ObservableCollection<string>();
             }
 
@@ -94,163 +93,99 @@ namespace BiliBili3.Pages
 
         }
 
-        private void GridView_ItemClick(object sender, ItemClickEventArgs e)
+        private void GridView_ItemClick(object sender, RoutedEventArgs e)
         {
             if (!ApiHelper.IsLogin())
             {
                 Utils.ShowMessageToast("请先登录", 3000);
                 return;
             }
-            StackPanel info = e.ClickedItem as StackPanel;
-            if (info == null)
+            if (e.OriginalSource is FrameworkElement info)
             {
-                return;
-            }
-            switch (info.Tag.ToString())
-            {
-                case "yh":
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(UserInfoPage));
-                    break;
-                case "dt":
-                    MessageCenter.SendNavigateTo(NavigateMode.Home, typeof(AttentionPage));
-                    break;
-                case "sc":
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(MyCollectPage));
-                    break;
-                case "ls":
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(MyHistroryPage));
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void GridView_ItemClick_1(object sender, ItemClickEventArgs e)
-        {
-            StackPanel info = e.ClickedItem as StackPanel;
-            if (info == null)
-            {
-                return;
-            }
-            switch (info.Tag.ToString())
-            {
-                case "fs":
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(TimelinePage));
-                    break;
-                case "sy":
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(BanTagPage));
-                    break;
-                case "rank":
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(RankPage));
-                    break;
-                case "part":
-                    MessageCenter.SendNavigateTo(NavigateMode.Home, typeof(HomePage));
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void GridView_ItemClick_2(object sender, ItemClickEventArgs e)
-        {
-            StackPanel info = e.ClickedItem as StackPanel;
-            if (info == null)
-            {
-                return;
-            }
-            switch (info.Tag.ToString())
-            {
-                case "tj":
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(LiveAllPage));
-                    //MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(TimelinePage));
-                    break;
-                case "live":
-                    // Utils.ShowMessageToast("开发中...", 3000);
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(LivePartPage));
-                    break;
-                case "mini":
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(LiveVideoPage));
-                    break;
-                case "alive":
-                    if (!ApiHelper.IsLogin())
-                    {
-                        Utils.ShowMessageToast("请先登录", 3000);
-                        return;
-                    }
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(LiveFeedPage));
-                    break;
-                default:
-                    break;
-            }
-
-        }
-
-        private void GridView_ItemClick_3(object sender, ItemClickEventArgs e)
-        {
-            StackPanel info = e.ClickedItem as StackPanel;
-            if (info == null)
-            {
-                return;
-            }
-            switch (info.Tag.ToString())
-            {
-                case "ht":
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(TopicPage));
-                    //MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(TimelinePage));
-                    break;
-                case "hd":
-                    // Utils.ShowMessageToast("开发中...", 3000);
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(ActivityPage));
-                    break;
-                case "sq":
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), new Random().Next(10000, 4999999).ToString());
-                    break;
-                case "setting":
-                    MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(SettingPage));
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private async void BtnCloseAd_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void AdControl_AdRefreshed(object sender, RoutedEventArgs e)
-        {
-            btnCloseAd.Visibility = Visibility.Visible;
-        }
-        bool clickAd = false;
-        private void ADWebView_NewWindowRequested(WebView sender, WebViewNewWindowRequestedEventArgs args)
-        {
-            clickAd = true;
-            //Utils.ShowMessageToast("点击了广告");
-            System.Diagnostics.Debug.WriteLine("点击了广告");
-        }
-
-        public static T MyFindListBoxChildOfType<T>(DependencyObject root) where T : class
-        {
-            var MyQueue = new Queue<DependencyObject>();
-            MyQueue.Enqueue(root);
-            while (MyQueue.Count > 0)
-            {
-                DependencyObject current = MyQueue.Dequeue();
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(current); i++)
+                switch (info.Tag.ToString())
                 {
-                    var child = VisualTreeHelper.GetChild(current, i);
-                    var typedChild = child as T;
-                    if (typedChild != null)
-                    {
-                        return typedChild;
-                    }
-                    MyQueue.Enqueue(child);
+                    case "yh":
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(UserInfoPage));
+                        break;
+                    case "dt":
+                        MessageCenter.SendNavigateTo(NavigateMode.Home, typeof(AttentionPage));
+                        break;
+                    case "sc":
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(MyCollectPage));
+                        break;
+                    case "ls":
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(MyHistroryPage));
+                        break;
+                    case "fs":
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(TimelinePage));
+                        break;
+                    case "sy":
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(BanTagPage));
+                        break;
+                    case "rank":
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(RankPage));
+                        break;
+                    case "part":
+                        MessageCenter.SendNavigateTo(NavigateMode.Home, typeof(HomePage));
+                        break;
+                    case "tj":
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(LiveAllPage));
+                        //MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(TimelinePage));
+                        break;
+                    case "live":
+                        // Utils.ShowMessageToast("开发中...", 3000);
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(LivePartPage));
+                        break;
+                    case "mini":
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(LiveVideoPage));
+                        break;
+                    case "alive":
+                        if (!ApiHelper.IsLogin())
+                        {
+                            Utils.ShowMessageToast("请先登录", 3000);
+                            return;
+                        }
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(LiveFeedPage));
+                        break;
+                    case "ht":
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(TopicPage));
+                        //MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(TimelinePage));
+                        break;
+                    case "hd":
+                        // Utils.ShowMessageToast("开发中...", 3000);
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(ActivityPage));
+                        break;
+                    case "sq":
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), new Random().Next(10000, 4999999).ToString());
+                        break;
+                    case "setting":
+                        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(SettingPage));
+                        break;
+                    default:
+                        break;
                 }
             }
-            return null;
         }
 
+        //public static T MyFindListBoxChildOfType<T>(DependencyObject root) where T : class
+        //{
+        //    var MyQueue = new Queue<DependencyObject>();
+        //    MyQueue.Enqueue(root);
+        //    while (MyQueue.Count > 0)
+        //    {
+        //        DependencyObject current = MyQueue.Dequeue();
+        //        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(current); i++)
+        //        {
+        //            var child = VisualTreeHelper.GetChild(current, i);
+        //            var typedChild = child as T;
+        //            if (typedChild != null)
+        //            {
+        //                return typedChild;
+        //            }
+        //            MyQueue.Enqueue(child);
+        //        }
+        //    }
+        //    return null;
+        //}
     }
-
 }

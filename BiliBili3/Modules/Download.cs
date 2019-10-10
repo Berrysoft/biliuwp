@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,6 +75,7 @@ namespace BiliBili3.Modules
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return new ReturnModel<List<QualityInfo>>()
                 {
                     success = true,
@@ -127,6 +129,7 @@ namespace BiliBili3.Modules
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return new ReturnModel<List<QualityInfo>>()
                 {
                     success = true,
@@ -285,6 +288,7 @@ namespace BiliBili3.Modules
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return new ReturnModel<List<DownloadUrlInfo>>()
                 {
                     success = false,
@@ -340,6 +344,7 @@ namespace BiliBili3.Modules
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return new ReturnModel<List<DownloadUrlInfo>>()
                 {
                     success = false,
@@ -413,6 +418,7 @@ namespace BiliBili3.Modules
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return new ReturnModel<List<QualityInfo>>()
                 {
                     success = true,
@@ -477,10 +483,10 @@ namespace BiliBili3.Modules
                 {
                     return null;
                 }
-
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return null;
             }
         }

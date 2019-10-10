@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 using Newtonsoft.Json;
 using BiliBili3.Pages;
 using System.Text.RegularExpressions;
+using muxc = Microsoft.UI.Xaml.Controls;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
 
@@ -221,7 +222,7 @@ namespace BiliBili3.Views
             }
         }
 
-        private void PullToRefreshBox_RefreshInvoked(RefreshContainer sender, RefreshRequestedEventArgs args)
+        private void PullToRefreshBox_RefreshInvoked(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args)
         {
             var deferral = args.GetDeferral();
             try

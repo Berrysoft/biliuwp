@@ -266,6 +266,7 @@ namespace BiliBili3.Pages
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 await new MessageDialog("无法读取已经下载完成的视频").ShowAsync();
             }
             list_Downed.ItemsSource = list;
@@ -362,6 +363,7 @@ namespace BiliBili3.Pages
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
 
         }
@@ -720,7 +722,7 @@ namespace BiliBili3.Pages
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex);
             }
 
         }

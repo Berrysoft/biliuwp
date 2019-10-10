@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -40,8 +41,7 @@ namespace BiliBili3.Controls
             this.Unloaded += NotifyPopup_Unloaded;
 
         }
-       
-        IRandomAccessStream _bitimg;
+
         private void NotifyPopup_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -49,21 +49,23 @@ namespace BiliBili3.Controls
 
             Window.Current.SizeChanged += Current_SizeChanged; ;
         }
-        private void LoadImage(List<string> img,int index)
+        private void LoadImage(List<string> img, int index)
         {
             List<ImageModel> ls = new List<ImageModel>();
 
             foreach (var item in img)
             {
-                Image image = new Image() {
-                    Source=new BitmapImage(new Uri(item.Replace("@300w_300h_1e_1c.jpg", "").Replace("@300w.jpg",""))),
-                    HorizontalAlignment= HorizontalAlignment.Center,
-                    VerticalAlignment= VerticalAlignment.Center
+                Image image = new Image()
+                {
+                    Source = new BitmapImage(new Uri(item.Replace("@300w_300h_1e_1c.jpg", "").Replace("@300w.jpg", ""))),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
                 };
-            
-                ls.Add(new ImageModel() {
-                     url=item,
-                    image=image
+
+                ls.Add(new ImageModel()
+                {
+                    url = item,
+                    image = image
                 });
             }
 
@@ -88,7 +90,7 @@ namespace BiliBili3.Controls
         }
 
 
-        public ImagePreview(List<string> url,int index) : this()
+        public ImagePreview(List<string> url, int index) : this()
         {
             this._ImgUrl = url;
             _index = index;
@@ -123,8 +125,8 @@ namespace BiliBili3.Controls
         }
 
 
-    
-     
+
+
         private void sv1_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Hide();
@@ -158,7 +160,7 @@ namespace BiliBili3.Controls
             }
             catch (Exception ex)
             {
-               
+                Debug.WriteLine(ex);
                 Utils.ShowMessageToast("保存失败");
             }
         }
@@ -174,7 +176,7 @@ namespace BiliBili3.Controls
                 Rotation = 90 * RotateNum
             };
 
-            var imageViews=(imgs.SelectedItem as ImageModel).image;
+            var imageViews = (imgs.SelectedItem as ImageModel).image;
 
             imageViews.RenderTransformOrigin = new Point(0.5, 0.5);
             imageViews.RenderTransform = compositeTransform;
@@ -184,8 +186,8 @@ namespace BiliBili3.Controls
         private void btn_ZoomIn_Click(object sender, RoutedEventArgs e)
         {
             ZoomFactor += (float)0.2;
-          
-           //sv1.ChangeView(null, null, ZoomFactor);
+
+            //sv1.ChangeView(null, null, ZoomFactor);
         }
 
         private void ZoomOut_Click(object sender, RoutedEventArgs e)
@@ -198,7 +200,7 @@ namespace BiliBili3.Controls
         {
             DataPackage dataPackage = new DataPackage();
             RandomAccessStreamReference randomAccessStreamReference =
-                RandomAccessStreamReference.CreateFromStream(_bitimg);
+                RandomAccessStreamReference.CreateFromStream(null);
             dataPackage.SetBitmap(randomAccessStreamReference);
 
             Clipboard.SetContent(dataPackage);
@@ -215,7 +217,7 @@ namespace BiliBili3.Controls
 
         private void imgs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           
+
             txt_Count.Text = (imgs.SelectedIndex + 1) + "/" + imgs.Items.Count;
         }
     }

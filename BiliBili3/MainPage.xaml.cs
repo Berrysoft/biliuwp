@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BiliBili3.Controls;
 using BiliBili3.Helper;
@@ -27,7 +25,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using Windows.Web.Http;
+using muxc = Microsoft.UI.Xaml.Controls;
 
 namespace BiliBili3
 {
@@ -514,26 +512,7 @@ namespace BiliBili3
                     break;
             }
 
-            string ThemeName = SettingHelper.Theme;
-            ResourceDictionary newDictionary = new ResourceDictionary();
-            switch (ThemeName)
-            {
-                case "Dark":
-                    RequestedTheme = ElementTheme.Dark;
-                    break;
-                case "Red":
-                case "Blue":
-                case "Green":
-                case "Pink":
-                case "Purple":
-                case "Yellow":
-                case "EMT":
-                    newDictionary.Source = new Uri($"ms-appx:///Theme/{ThemeName}Theme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    RequestedTheme = ElementTheme.Light;
-                    break;
-            }
+            MessageCenter.ChangeTheme(this);
             ChangeTitlebarColor();
         }
         private void ChangeTitlebarColor()
@@ -631,7 +610,7 @@ namespace BiliBili3
             }
         }
 
-        private void sp_View_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        private void sp_View_ItemInvoked(muxc.NavigationView sender, muxc.NavigationViewItemInvokedEventArgs args)
         {
             if (args.IsSettingsInvoked)
             {

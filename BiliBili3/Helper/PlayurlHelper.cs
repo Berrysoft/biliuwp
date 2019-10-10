@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using SYEngine;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -177,7 +178,7 @@ namespace BiliBili3.Helper
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex);
                 return null;
             }
         }
@@ -230,7 +231,7 @@ namespace BiliBili3.Helper
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex);
                 return null;
             }
         }
@@ -691,6 +692,7 @@ namespace BiliBili3.Helper
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return null;
             }
         }
@@ -887,7 +889,7 @@ namespace BiliBili3.Helper
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex);
                 return new List<QualityModel>() {
                      new QualityModel(){description="流畅", qn=32},
                      new QualityModel(){description="清晰",qn=64},

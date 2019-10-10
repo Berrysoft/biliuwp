@@ -7,6 +7,7 @@
        xmlns:pr="using:PullToRefresh.UWP"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Tag="Jp"
     SizeChanged="Page_SizeChanged"
@@ -31,7 +32,7 @@
         </DataTemplate>
     </Page.Resources>
     <Grid >
-        <RefreshContainer RefreshRequested="PullToRefreshBox_RefreshInvoked">
+        <muxc:RefreshContainer RefreshRequested="PullToRefreshBox_RefreshInvoked">
             <ScrollViewer Style="{StaticResource ScrollViewerStyle1}" x:Name="sv" ViewChanged="sv_ViewChanged" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel>
                     <Border x:Name="ViewBox2_num" Background="Gray" Width="200"></Border>
@@ -149,7 +150,7 @@
                     <ListView x:Name="list_ban_jp_foot" ItemClick="list_ban_jp_foot_ItemClick" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Center"  ItemTemplate="{StaticResource FootItemTemplate}"  ItemContainerStyle="{StaticResource  ListViewItemStyle}" Margin="10 0" SelectionMode="None" IsItemClickEnabled="True"></ListView>
                 </StackPanel>
             </ScrollViewer>
-        </RefreshContainer>
+        </muxc:RefreshContainer>
        
         <AppBarButton x:Name="b_btn_Refresh" Click="b_btn_Refresh_Click" Width="48" Height="48" Margin="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Icon="Refresh" Background="{ThemeResource Bili-ForeColor}" Opacity="0.6" Foreground="White"></AppBarButton>
      

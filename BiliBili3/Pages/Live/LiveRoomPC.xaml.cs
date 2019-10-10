@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using NSDanmaku.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -361,7 +362,7 @@ namespace BiliBili3.Pages.Live
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex);
             }
 
         }
@@ -1142,6 +1143,7 @@ namespace BiliBili3.Pages.Live
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
         }
         /// <summary>

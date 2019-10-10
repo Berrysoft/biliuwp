@@ -368,7 +368,7 @@ namespace BiliBili3
 
         }
 
-        private static void ChangeTheme(Frame f)
+        public static void ChangeTheme(FrameworkElement f)
         {
             string ThemeName = SettingHelper.Theme;
             ResourceDictionary newDictionary = new ResourceDictionary();
@@ -376,66 +376,22 @@ namespace BiliBili3
             {
                 case "Dark":
                     f.RequestedTheme = ElementTheme.Dark;
-
                     break;
                 case "Red":
-
-                    newDictionary.Source = new Uri("ms-appx:///Theme/RedTheme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-
-                    f.RequestedTheme = ElementTheme.Dark;
-                    f.RequestedTheme = ElementTheme.Light;
-                    break;
                 case "Blue":
-
-                    newDictionary.Source = new Uri("ms-appx:///Theme/BlueTheme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    f.RequestedTheme = ElementTheme.Dark;
-                    f.RequestedTheme = ElementTheme.Light;
-                    break;
                 case "Green":
-                    newDictionary.Source = new Uri("ms-appx:///Theme/GreenTheme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    f.RequestedTheme = ElementTheme.Dark;
-                    f.RequestedTheme = ElementTheme.Light;
-                    break;
                 case "Pink":
-                    newDictionary.Source = new Uri("ms-appx:///Theme/PinkTheme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    f.RequestedTheme = ElementTheme.Dark;
-                    f.RequestedTheme = ElementTheme.Light;
-                    break;
                 case "Purple":
-                    newDictionary.Source = new Uri("ms-appx:///Theme/PurpleTheme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    f.RequestedTheme = ElementTheme.Dark;
-                    f.RequestedTheme = ElementTheme.Light;
-                    break;
                 case "Yellow":
-                    newDictionary.Source = new Uri("ms-appx:///Theme/YellowTheme.xaml", UriKind.RelativeOrAbsolute);
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    f.RequestedTheme = ElementTheme.Dark;
-                    f.RequestedTheme = ElementTheme.Light;
-                    break;
                 case "EMT":
-                    newDictionary.Source = new Uri("ms-appx:///Theme/EMTTheme.xaml", UriKind.RelativeOrAbsolute);
-
-                    Application.Current.Resources.MergedDictionaries.Clear();
-                    Application.Current.Resources.MergedDictionaries.Add(newDictionary);
-                    // img_Hello.Source = new BitmapImage(new Uri("ms-appx:///Assets/Logo/EMT.png"));
-                    f.RequestedTheme = ElementTheme.Dark;
+                    newDictionary.Source = new Uri($"ms-appx:///Theme/{ThemeName}Theme.xaml", UriKind.RelativeOrAbsolute);
+                    var dics = Application.Current.Resources.MergedDictionaries;
+                    if (dics.Count > 1)
+                        dics.RemoveAt(dics.Count - 1);
+                    dics.Add(newDictionary);
                     f.RequestedTheme = ElementTheme.Light;
                     break;
             }
-            //tuic.To = this.ActualWidth;
-            //storyboardPopOut.Begin();
-            //ChangeTitbarColor();
         }
         private static void ChangeTitbarColor(ApplicationView v)
         {

@@ -27,7 +27,7 @@ namespace BiliBili3.Controls
             this.InitializeComponent();
           
         }
-        public  void ShowAsync(string vid)
+        public void ShowAsync(string vid)
         {
             this.ShowAsync();
             LoadMiniVideo(vid);

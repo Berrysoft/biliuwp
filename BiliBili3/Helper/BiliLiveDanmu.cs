@@ -271,7 +271,7 @@ namespace BiliBili3.Helper
                 }
                 catch (Exception ex)
                 {
-
+                    Debug.WriteLine(ex);
                 }
 
                 await Task.Delay(delay);

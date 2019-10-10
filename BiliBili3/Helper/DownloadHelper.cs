@@ -662,8 +662,7 @@ namespace BiliBili3.Helper
                                     }
                                     catch (Exception ex)
                                     {
-
-
+                                        Debug.WriteLine(ex);
                                     }
 
                                 }
@@ -671,10 +670,9 @@ namespace BiliBili3.Helper
                         }
                         catch (Exception ex)
                         {
-
-
+                            Debug.WriteLine(ex);
                         }
-                       
+
                         dm.videos = ll;
                         if (dm.videos.Count!=0)
                         {
@@ -685,10 +683,10 @@ namespace BiliBili3.Helper
                 }
                 catch (Exception ex)
                 {
-
+                    Debug.WriteLine(ex);
                 }
-               
-                
+
+
                 return ls;
 
             }

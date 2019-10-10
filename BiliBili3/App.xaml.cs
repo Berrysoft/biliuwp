@@ -258,7 +258,7 @@ namespace BiliBili3
                             IsTextSelectionEnabled = true
                         };
                         contentDialog.Content = textBlock;
-                        contentDialog.ShowAsync();
+                        await contentDialog.ShowAsync();
                     }
                 }
                 else
@@ -272,126 +272,7 @@ namespace BiliBili3
 
                     rootFrame.Navigate(typeof(SplashPage), par);
                     Window.Current.Activate();
-
-
                 }
-
-                //if (live.Length != 0)
-                //{
-                //    par.StartType = StartTypes.Live;
-                //    par.Par1 = live;
-                //    if (rootFrame!=null)
-                //    {
-                //        MessageCenter.SendNavigateTo(NavigateMode.Play, typeof(LiveRoomPage), live);
-                //        return;
-                //    }
-
-                //}
-                //if (video.Length != 0)
-                //{
-                //    par.StartType = StartTypes.Video;
-                //    par.Par1 = video;
-                //    if (rootFrame != null)
-                //    {
-                //        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), video);
-                //        return;
-                //    }
-
-                //}
-                //if (video2.Length != 0)
-                //{
-                //    par.StartType = StartTypes.Video;
-                //    par.Par1 = video2;
-                //    if (rootFrame != null)
-                //    {
-                //        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(VideoViewPage), video2);
-                //        return;
-                //    }
-
-                //}
-                //if (minivideo.Length != 0)
-                //{
-                //    par.StartType = StartTypes.MiniVideo;
-                //    par.Par1 = minivideo;
-                //    if (rootFrame != null)
-                //    {
-                //        MessageCenter.ShowMiniVideo(minivideo);
-                //        return;
-                //    }
-
-                //}
-                //if (bangumi.Length != 0)
-                //{
-                //    par.StartType = StartTypes.Bangumi;
-                //    par.Par1 = bangumi;
-                //    if (rootFrame != null)
-                //    {
-                //        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(BanInfoPage), bangumi);
-                //        return;
-                //    }
-
-                //}
-                //if (album.Length != 0)
-                //{
-                //    par.StartType = StartTypes.Album;
-                //    par.Par1 = album;
-                //    if (rootFrame != null)
-                //    {
-                //        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(DynamicInfoPage), album);
-                //        return;
-                //    }
-
-                //}
-                //if (music.Length != 0)
-                //{
-                //    par.StartType = StartTypes.Music;
-                //    par.Par1 = music;
-                //    if (rootFrame != null)
-                //    {
-                //        MessageCenter.SendNavigateTo(NavigateMode.Play, typeof(MusicInfoPage), music);
-                //        return;
-                //    }
-
-                //}
-                //if (musicmenu.Length != 0)
-                //{
-                //    par.StartType = StartTypes.Music;
-                //    par.Par1 = music;
-                //    if (rootFrame != null)
-                //    {
-                //        MessageCenter.SendNavigateTo(NavigateMode.Play, typeof(MusicInfoPage), music);
-                //        return;
-                //    }
-
-                //}
-
-                //if (article.Length != 0)
-                //{
-                //    par.StartType = StartTypes.Article;
-                //    par.Par1 = "https://www.bilibili.com/read/app/" + article;
-                //    if (rootFrame != null)
-                //    {
-                //        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(ArticleContentPage), "https://www.bilibili.com/read/app/" + article);
-                //        return;
-                //    }
-
-                //}
-                //if (author.Length != 0)
-                //{
-                //    par.StartType = StartTypes.User;
-                //    par.Par1 = author;
-                //    if (rootFrame != null)
-                //    {
-                //        MessageCenter.SendNavigateTo(NavigateMode.Info, typeof(UserInfoPage), author);
-                //        return;
-                //    }
-
-                //}
-
-
-
-
-
             }
         }
 

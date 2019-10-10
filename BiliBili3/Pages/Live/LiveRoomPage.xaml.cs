@@ -40,6 +40,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage.AccessCache;
 using BiliBili3.Modules;
 using BiliBili3.Modules.LiveModels;
+using System.Diagnostics;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
 
@@ -1051,6 +1052,7 @@ namespace BiliBili3.Pages
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
 
         }
