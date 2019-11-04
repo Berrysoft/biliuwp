@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Windows.Storage;
 
 namespace BiliBili3
 {
@@ -52,7 +55,7 @@ namespace BiliBili3
 
         public static void ClearHistory(this SqlContext context)
         {
-            context.Database.ExecuteSqlCommand("DELETE FROM HistoryClass");
+            context.Database.ExecuteSqlRaw("DELETE FROM HistoryClass");
         }
         #endregion
 
@@ -104,7 +107,9 @@ namespace BiliBili3
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlite($"Data Source=RRMJData.db");
+            var builder = new SqlConnectionStringBuilder();
+            builder.DataSource = Path.Combine(ApplicationData.Current.LocalFolder.Path, "RRMJData.db");
+            options.UseSqlite(builder.ToString());
         }
     }
 
