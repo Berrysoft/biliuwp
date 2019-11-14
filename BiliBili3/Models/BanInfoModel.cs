@@ -45,13 +45,13 @@ namespace BiliBili3.Models
 
         public int Num { get; set; }
         public List<tagsModel> tags { get; set; }
-       
-       public newest_epModel newest_ep { get; set; }
+
+        public newest_epModel newest_ep { get; set; }
 
         public List<actorModel> actor { get; set; }
         public string role { get; set; }
-       public List<episodesModel> episodes { get; set; }
-       
+        public List<episodesModel> episodes { get; set; }
+
         public int media_id { get; set; }
 
         public int total_count { get; set; }
@@ -122,7 +122,7 @@ namespace BiliBili3.Models
             get
             {
                 string a = "";
-                if (actor != null&&actor.Count!=0)
+                if (actor != null && actor.Count != 0)
                 {
                     actor.ForEach(x => a += x.role + " : " + x.actor + "\r\n");
                 }
@@ -174,18 +174,20 @@ namespace BiliBili3.Models
         public int aid { get; set; }
         public int cid { get; set; }
         public int ep_id { get; set; }
-     
+
         public int page { get; set; }
 
         private string _av_id;
-        public string av_id {
+        public string av_id
+        {
             get
             {
-                if (aid!=0)
+                if (aid != 0)
                 {
                     return aid.ToString();
                 }
-                else{
+                else
+                {
                     return _av_id;
                 }
             }
@@ -247,14 +249,14 @@ namespace BiliBili3.Models
         public string title { get; set; }
         public int episode_status { get; set; }
         public int section_type { get; set; }
-     
+
         public int season_type { get; set; } = 1;
         public string badge { get; set; }
         public Visibility IsBadge
         {
             get
             {
-                if (badge!=null&&badge.Length!=0)
+                if (badge != null && badge.Length != 0)
                 {
                     return Visibility.Visible;
                 }
@@ -275,6 +277,23 @@ namespace BiliBili3.Models
                 else
                 {
                     return Visibility.Collapsed;
+                }
+            }
+        }
+        public SolidColorBrush f
+        {
+            get
+            {
+                using (var context = SqlHelper.CreateContext())
+                {
+                    if (context.GetPostIsViewPost(danmaku.ToString()))
+                    {
+                        return new SolidColorBrush(Colors.Gray);
+                    }
+                    else
+                    {
+                        return new SolidColorBrush(Colors.White);
+                    }
                 }
             }
         }
